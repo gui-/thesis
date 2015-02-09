@@ -1,10 +1,15 @@
-\documentclass{./llncs2e/llncs}
+\documentclass[runningheads,a4paper]{./llncs2e/llncs}
 \usepackage{graphicx}
+\usepackage{listings}
 \usepackage{fixltx2e}
 \usepackage{mathtools}
-\usepackage[nolist,nohyperlinks]{acronym}
+\usepackage{url}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage[nolist,nohyperlinks,smaller]{acronym}
 % Maintain images and tables within their respective sections
 \usepackage[section]{placeins}
+
+\setcounter{secnumdepth}{3} %enumarates until the third level of subsection
 
 % 
 % Change the margins
@@ -12,11 +17,24 @@
 % \usepackage[margin=2.9cm]{geometry}
 
 \begin{document}
-\title{Your Thesis title}
 
-\subtitle{Your Thesis subtitle}
-\author{your name, your email}
-\institute{your University}
+% ------------------------------------------------------
+% MASTER THESIS PROJECT
+% ------------------------------------------------------
+\title{An Interactive Development Environment for Generative Design}
+% ------------------------------------------------------
+% AUTHOR
+% ------------------------------------------------------
+\author{Guilherme Ferreira \\ \texttt{guilherme.ferreira@tecnico.ulisboa.pt}}
+% ------------------------------------------------------
+% RUNNING PAGE TITLE
+% ------------------------------------------------------
+\authorrunning{An Interactive Development Environment for Generative Design}
+% ------------------------------------------------------
+% INSTITUTION
+% ------------------------------------------------------
+\institute{Instituto Superior T\'ecnico \\
+Universidade de Lisboa}
 
 \maketitle
 
@@ -28,18 +46,17 @@
 \input{sections/6-architecture.tex}
 \input{sections/7-evaluation.tex}
 \input{sections/8-conclusions.tex}
+\input{sections/9-acronyms.tex}
 \newpage
 \appendix
-\input{sections/9-appendix.tex}
-
-
+\input{sections/10-appendix.tex}
 
 % 
 % Bibliography
 % 
 \bibliographystyle{plain} 
 
-% replace example.bib with your .bib
+% the .bib file
 \bibliography{reference.bib} 
 
 \end{document}
