@@ -4,17 +4,17 @@
 % Related work
 % 
 
-\section{Related Work (~17pgs)}
+\section{Related Work (17pgs)}
 \label{sec:rw}
 
-There are several tools offered by the current \ac{ide}s. We focus on the development tools which help programmers to write code, one can also highlight other aspects, such as the supported \ac{pl}s.
+Nowadays, the most systems devoted for programming offers an environment with several tools which facilitates the program development. The overview work presented in this section focuses on those tools, highlighting those which improves the programming comprehension. One can also highlight other aspects, such as the programming languages supported.
 
-The remaining of this section is organized as follows. Section~\ref{sec:gdide} describes the general design of \ac{ide}s. Section~\ref{sec:ide} briefly describes the actual commercial \ac{ide}s and its features. Section~\ref{sec:liveness} highlights the main tools used in live programming \ac{ide}s. Finally, Section~\ref{sec:gd} introduces the \ac{gd} area and its \ac{ide}s.
+The remaining of this section is organized as follows. Section~\ref{sec:gdide} describes the general design of \ac{ide}s. Section~\ref{sec:ide} briefly describes the actual commercial \ac{ide}s and its features. Section~\ref{sec:liveness} highlights the main tools used in live programming \ac{ide}s. Finally, Section~\ref{sec:gd} introduces the generative design area and its \ac{ide}s.
 
 \subsection{General design of IDEs}
 \label{sec:gdide}
 
-The programming environment started as a \ac{case}. The main concern, of this technology is support all, or at least, substantial part of software process. So, the first \ac{case} system came up with a set of software tools, such as compilers, editors and debuggers put together on a host machine which was dedicated to program development~\cite{ivie1977programmer}. In order to understand how the tools work together and, eventually, howcan we add new tools in a existing \ac{ide}, let look more deeply at this system. 
+The programming environment started as a computer aided software engineering (\ac{case}). The main concern, of this technology is support all, or at least, substantial part of software process. So, the first \ac{case} system came up with a set of software tools, such as compilers, editors and debuggers put together on a host machine which was dedicated to program development~\cite{ivie1977programmer}. In order to understand how the tools work together and, eventually, how can we add new tools in a existing \ac{ide}, let look more deeply at this system. 
 
 \begin{figure}[h]
   \centering
@@ -270,7 +270,7 @@ Despite the identified advantages, there are, at least, three important drawback
  
  \item \textit{Users cannot see the program flow.} To produce a geometric model, the computer traces a path through the code, looping around loops and calling into several functions and incrementally building up the output. We see none of this. As a result, designers should imagine what the program is doing, again an avoidable mental effort.
  
- \item \textit{Do not provide immediate feedback.} Most part of designers' work is an attempt to create art. That means, for instance, try over and over new parameters for parametric functions never ever found. Actually, that is a laborious and tedious process, hence in each attempt the program must be executed manually.
+ \item \textit{Do not provide immediate feedback.} Most part of designers' work is an attempt to create art. That means, for instance, try over and over new parameters for parametric functions never ever found. Actually, that is a laborious and tedious process, hence in each attempt the program must be executed manually
 \end{itemize}
 
 
