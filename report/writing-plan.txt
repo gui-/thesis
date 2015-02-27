@@ -1,0 +1,87 @@
+Writing plan -- Structuring the thesis report
+
+Title
+
+Abstract
+
+Keywords
+
+Introduction
+
+-What is the reason behind the study?
+	-lack of tools which enable novice programmers to read and understand their code.
+	-lack of tools which support program documentation and program comprehension.
+	-lack of a programming environment that enables beginner users to (1) effortless read the code and (2) immediately see the result of their actions.
+
+-What does the study demonstrate?
+	-the existing programming environments which provide those features are not suitable for beginners.
+	-among the area of generative design there is no such programming environment.
+
+-What is the necessary background info to understand the study?
+	-The reader should be introduced to:
+		-program documentation; text only
+		-program comprehension; read the code, experiment ideas
+		-generative design
+		-programing environment
+		-live code environment
+		-immediate feedback
+
+-What were the tested hypotheses?
+	-proposed two interactive tools to integrate in a generative design program environment: (1) image in the code correlation and (2) live code.
+
+-What is the hypothesis? (at end of introduction)
+	-the programming environment can improve program comprehension and program documentation
+	-as a result, programming become accessible for novices and  documentation become reliable
+
+Objectives
+-study how one can create tools to improve programming comprehension
+-design and implement two tools for a programming environment
+-experiment the tools using it in a real programming system.
+
+Related Work
+
+GD
+-Grasshopper: Visual PL for GD
+-Dynamo: Visual PL for GD
+-Design Script: Textual PL for GD
+-Monkey: PDE for Rhino
+-Processing: Program develop environment for GD
+-Rosetta: PDE for GD
+
+Scientific calculation
+-MathCAD 
+-Mathematica
+-IPython
+
+General programming
+-Eclipse
+-Fluxus
+-LightTable
+-DrRacket
+
+Learning programming
+-PythonTutor
+-LOGO
+-SmallTalk
+
+Summary
+-Summarize according to (i) type (ii) image support (iii) immediate feedback (iv) interactive widgets (v) traceability (vi) show comparisons
+
+
+Architecture
+
+-Highlight the importance of the work.
+
+-Decisions made. The proposed tools will be developed on top of DrRacket IDE, because of
+	-be a pedagogical IDE
+	-supports of image
+	-already has arrows mechanism
+	-use of different programming languages
+
+-Proposed architecture
+
+Evaluation
+-We will use Rosetta as case of study.
+
+Conclusion
+
