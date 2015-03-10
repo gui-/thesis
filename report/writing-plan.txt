@@ -1,16 +1,38 @@
 Writing plan -- Structuring the thesis report
 
+----------------------------------------------------------------------------
 Title
 
+Generative design enhanced by a new programming environment
+
+----------------------------------------------------------------------------
 Abstract
+
+The current programming environments force users to think as a machine, which leads programming be seen as a difficult and obscure art.
+
+Here, we presented a study over the existing systems which address this problem. In a critical perspective, we highlighted their main insights and limitations. 
+
+Inspired by insightful designs, we proposed a programming environment with two interactive tools: (1) image-code and (2) immediate feedback. While the first correlates code with image, the second displays the program's output as the user types.
+
+why using these 2 tools not others?
+they bring a high impact on program documentation, program comprehension and are smooth to implement.
+main advantage and disadvantages of each
+(1) + explanatory than plain text
+	+ enhanced program documentation
+	+ reuse the sketches made initially
+	- editor has to support image
+	- user needs to insert the image
+
+----------------------------------------------------------------------------
 
 Keywords
 
+immediate feedback; image correlation; DrRacket; Rosetta;
+
+----------------------------------------------------------------------------
 Introduction
 
 -What is the reason behind the study?
-	-lack of tools which enable novice programmers to read and understand their code.
-	-lack of tools which support program documentation and program comprehension.
 	-lack of a programming environment that enables beginner users to (1) effortless read the code and (2) immediately see the result of their actions.
 
 -What does the study demonstrate?
@@ -19,28 +41,71 @@ Introduction
 
 -What is the necessary background info to understand the study?
 	-The reader should be introduced to:
-		-program documentation; text only
-		-program comprehension; read the code, experiment ideas
+		-program documentation; only text is supported
+		-program comprehension; poor tools which help users to read the code and experiment ideas
 		-generative design
-		-programing environment
+		-programming environment
 		-live code environment
 		-immediate feedback
+		-traceability
 
 -What were the tested hypotheses?
 	-proposed two interactive tools to integrate in a generative design program environment: (1) image in the code correlation and (2) live code.
 
 -What is the hypothesis? (at end of introduction)
 	-the programming environment can improve program comprehension and program documentation
-	-as a result, programming become accessible for novices and  documentation become reliable
+	-as a result, programming become accessible for novices and documentation become reliable
 
+-----------------------------------
+-topics (background information)
+	-programming becomes used in different areas due to the facilities such as programming languages and programming environments
+	-e.g. in architecture area the generative design methods become an important topic of research
+	-program documentation is a 'boring' textual description and often is left behind
+	-program comprehension means read the code and think as a machine does
+
+	(gap in knowledge)
+	-general programming environments either does not address this issue or are targeted for professionals
+	-live code environments overcome this problem by providing immediate feedback.
+		-Two main problems: (i) this feature alone, worth nothing (ii) targeted for live performers
+	-generative design environments sidestep this problem by providing a visual programming language.
+		-problem: straightforward for beginners but got complex as the program grows
+		-textual environments problems:
+			-often provide a poor programming language
+			-there is no immediate feedback at all
+			-few provide traceability
+			-the text editor just supports text
+
+	(Hypothesis/aim)
+	-the programming environment can improve program comprehension and program documentation.
+		-enabling beginner programmers to effortless read the code and immediately see the result of their actions.
+
+	(Proposed solution/plan-how it fills the gaps)
+	-Based on learning programming (B. Victor et al) and old systems programming (cite) we proposed:
+	-two interactive tools, to integrate in a generative design program environment, (1) image in the code correlation and (2) live code
+		-(1) read the code effortless
+		-(2) experiment ideas instantly 
+
+----------------------------------------------------------------------------
 Objectives
 -study how one can create tools to improve programming comprehension
 -design and implement two tools for a programming environment
--experiment the tools using it in a real programming system.
+-test the tools by using them in a real programming system.
 
+----------------------------------------------------------------------------
 Related Work
 
-GD
+General programming systems
+-Eclipse
+-Fluxus
+-LightTable
+-DrRacket
+
+System programming designed to learn
+-PythonTutor
+-LOGO
+-SmallTalk
+
+Generative design programming environments
 -Grasshopper: Visual PL for GD
 -Dynamo: Visual PL for GD
 -Design Script: Textual PL for GD
@@ -53,35 +118,31 @@ Scientific calculation
 -Mathematica
 -IPython
 
-General programming
--Eclipse
--Fluxus
--LightTable
--DrRacket
-
-Learning programming
--PythonTutor
--LOGO
--SmallTalk
-
 Summary
--Summarize according to (i) type (ii) image support (iii) immediate feedback (iv) interactive widgets (v) traceability (vi) show comparisons
+-Summarize according to (i) type of system programming (ii) image support (iii) immediate feedback (iv) interactive widgets (v) traceability (vi) show comparisons
 
-
+----------------------------------------------------------------------------
 Architecture
 
--Highlight the importance of the work.
+-Highlight the importance of the work. 
 
 -Decisions made. The proposed tools will be developed on top of DrRacket IDE, because of
-	-be a pedagogical IDE
+	-be a pedagogical IDE, suitable for beginners
 	-supports of image
 	-already has arrows mechanism
 	-use of different programming languages
 
 -Proposed architecture
+	-diagram with two plug-ins
 
+----------------------------------------------------------------------------
 Evaluation
--We will use Rosetta as case of study.
 
+-We will use Rosetta as case of study. Particularly in generative design is often the use of image, i.e. sketches. We will get advantage of this.
+
+-The hypothesis will be tested by answering the questions: Has those tools helped in (1) test new designs ideas quickly (< 20ms) (2) introduce programming to beginners (3) read and understand the code?
+
+----------------------------------------------------------------------------
 Conclusion
 
+not done yet
