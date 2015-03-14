@@ -16,7 +16,7 @@ The remaining of this section is organized as follows. Section~\ref{sec:gdide} d
 
 The programming environment started as a computer aided software engineering (\ac{case}). The main concern, of this technology is support all, or at least, substantial part of software process. So, the first \ac{case} system came up with a set of software tools, such as compilers, editors and debuggers put together on a host machine which was dedicated to program development~\cite{ivie1977programmer}. In order to understand how the tools work together and, eventually, how can we add new tools in a existing \ac{ide}, let look more deeply at this system. 
 
-\begin{figure}[h]
+\begin{figure}[!htbp]
   \centering
   \includegraphics[scale=0.2]{img/pwb}
     \caption{General architecture of a programming environment~\cite{sommerville1996software}. The rounded rectangles represent the tools and the normal rectangles are the tools input or output. The  arrows without label means a tool input (arrow in) or a tool output (arrow out).}
@@ -63,14 +63,14 @@ In this section, most \ac{ide}s are using a \ac{pl} that supports reflection.
 \ac{lt}~\cite{lighttable} is an \ac{ide} whose main features are real-time feedback allowing instant execution, debugger with enhanced capabilities to present the program flow and quick access to program documentation. This \ac{ide}, has proved that Victor's ideas~\cite{inventingPrin,learnableProg} were achievable and, indeed, allowed a powerful programming environment. \ac{lt} implemented several of those ideas and serves to us as one example, in order to achieve our objectives.
 
 \ac{lt} was initially written in Clojure~\cite{hickey2008clojure} and actually has moved, almost the full implementation, to ClojureScript. In fact, the success of the \ac{ide}'s features is due to the capabilities of the ClojureScript \ac{pl}. Since, interactive features lacks on a programming model which allows continuous change. As a result, the programming model should manage its state independently of the data, in order that changes in the code does not affect data, such as Smalltalk~\cite{goldberg1983smalltalk} model does. However, in Clojure model code is mostly functional, where continuous code changes can be seen as continuous effects. This language capability allows \ac{lt} to implement gracefully its interactive features over a web based environment.
-
+!htbp
 The Clojure \ac{pl} is a compiled language that compiles the code directly to \ac{jvm} bytecode. In addition, to share with Lisp dialect the code-as-data philosophy, it provides a powerful macro system. In other hand, ClojureScript also has those advantages, however it uses a Clojure compiler which targets JavaScript. As a consequence, it creates powerful features over JavaScript and even remains dynamic. In this way, \ac{lt} represent a web application, which is running inside a little frame running node-webkit~\footnote{\url{https://github.com/rogerwang/node-webkit}} inside it. In reality, it is just {\small HTML}. A easy and quick way to prototype.
 
 Among other features, we will focus on the traceability mechanism and the ability to make the program flow visible. First, the traceability, showed in Figure~\ref{fig:lt1}, and second the real-time debugger in Figure~\ref{fig:lt2}.
 
 The traceability is the ability to relate parts of the program with some additional resources, in order to make the program meaning transparent. In \ac{lt}, a textual mechanism was used to this end. Therefore, when the programmer move the cursor over a function identifier, immediately the available documentation of this function is displayed on a panel, such as in Figure~\ref{fig:lt1}. This feature is useful, because it enables the reader to effortlessly read the program, to decode the code. Then, the programmer can concentrate in what is really genuine.
 
-\begin{figure}[h]
+\begin{figure}[!htbp]
   \centering
   \includegraphics[width=1.0\textwidth]{img/lt2}
     \caption{A program in LightTable \ac{ide}. On the right is the text code editor, the cursor was moved into a function name, i.e. {\tt keyword}. On the left, is a panel where appears the additional documentation of the function, in this case the {\tt keyword} function.}  
@@ -81,7 +81,7 @@ However, it just relates the predefined functions with the existing documentatio
 
 The reminiscent problem, understand the genuine code, would be mitigated using the real-time debugger. Improving the idea of lispers environment, where we can try out expressions in a \ac{repl}, \ac{lt} goes further by doing it in place, and instantaneously. A common technique of live programming systems~\cite{PER-GRA:2007,sorensen2005impromptu,mclean2010visualisation}. However, \ac{lt} uses reflection mechanisms to show the program flow and its respective values. In Figure~\ref{fig:lt2},  the expression {\tt (x 3 7)} has been evaluated, and the structure of the function {\tt x} was replicated on the panel, however the variables were replaced by their real substitutions.
 
-\begin{figure}[h]
+\begin{figure}[!htbp]
   \centering
   \includegraphics[width=1.0\textwidth,height=0.1\textheight]{img/lt1}
     \caption{A program in LightTable~\ac{ide} being explored using the real-timer debugger feature.}  
@@ -143,7 +143,7 @@ IPython~\cite{PER-GRA:2007} is an programming environment, developed in a comman
 
 The main interest in IPython, relies on the fact that it provides a base layer for programming environments. So, IPython exposes its major components to the user for modification and customization. Consequently, would be possible get benefit of IPython features in others systems, once it is an open platform.  
 
-\begin{figure}[h]
+\begin{figure}[!htbp]
   \centering
   \includegraphics[scale=0.22]{img/ipython}
     \caption{A session interaction using the IPython notebook. Each input is identified with sequence number, e.g. {\tt In[8], ..., In[n]}, which allow to reuse a previous computation result. Also, an input can contain one or more expressions. }  
@@ -177,7 +177,7 @@ The use of \ac{gd} methods has become popular, mainly between designers and arch
 In this context, the visual programming environment are those which support the \ac{vpls}. The \ac{vpls} can be seen as a bi-dimensional representation consisting of iconic components that can be interactively manipulated by the user according to some spatial grammar~\cite{myers1990taxonomies}. In general, the components are represented as boxes, meaning shapes or operations over shapes. The boxes can be connected to others boxes, also known as components. It establishes a dataflow between components, such that the output of a component is the input of another. For example, the Figure~\ref{fig:grass} represent a program in Grasshopper that computes the coordinates of a conical spiral, and Figure~\ref{fig:dynamo} represent a program in Dynamo.
 
 
-\begin{figure}[h]
+\begin{figure}[!htbp]
   \centering
   \includegraphics[scale=0.15]{img/grasshopper}
     \caption{A program in Grasshopper that computes the 3D coordinates of a conical spiral. On the left, two sliders connected to the program input. A change in the slider recomputes the new coordinate.}
@@ -197,7 +197,7 @@ However, these tools suffers on limitations. For instance, immediate feedback is
 
 Another popular environment for \ac{vpls} is the Dynamo~\footnote{\url{http://dynamobim.com/}}. However, Dynamo is implemented on top of Revit, a specifically software for \ac{bim}. In despite of being similar to the Grasshopper features, there are features in Dynamo which are worth seeing. First, is the ability to add watchers to the output nodes. In Figure~\ref{fig:dynamo}, a single point is being showed in three views, (1) textually in the watch, (2) graphically in the watch 3D and (3) in the model, at background. It allows inspect individually each node, a good form for augmenting the program comprehension, and also, to find bugs. However, that implies adding more nodes into the program and figuring out where is the best place to add them. Second, it has a lateral table which provides more than simply quick access. It also, encourages the designers to explore the available nodes and try new nodes never ever tried. A powerful feature to get new ideas. 
 
-\begin{figure}[h]
+\begin{figure}[!htbp]
   \centering
   \includegraphics[scale=0.3]{img/dynamo}
     \caption{A program in Dynamo which calculates a single 3D point. The x and y coordinate are fixed at origin and, the z coordinate varies as the slider are dragged. On the right, two representations of watch. Note that, the background of the image, also is showing the point.}
@@ -214,7 +214,7 @@ Initially, AutoCAD provides the VisualLisp environment which has, a text editor,
 
 The DesignScript's programming environment provides a text editor coupled into the AutoCAD, an interpreter and a debugger. For instance, the debugger can be used as an interactive feature. In Figure~\ref{fig:ds}, in each step of the debugger, a variable is set. According to the associative paradigm of the \ac{pl}, changing this value causes a change-propagation. In other words, whenever this variable occurs it will reflect its new value. As a result, a new model is recomputed and displayed. So, this environment works in a kind of live programming.
 
-\begin{figure}[h]
+\begin{figure}[!htbp]
   \centering
   \includegraphics[scale=0.25]{img/designScript}
     \caption{A DesignScript program, on the left, whose output represents graphically the sieve of Eratosthenes, on the right. This ancient algorithm for finding all prime numbers, is being tested interactively using the DesignScript's debug feature. }
@@ -239,7 +239,7 @@ Similarly to the embedded DesignScript editor, the current Monkey editor for Rhi
 On the other hand, Processing~\footnote{\url{https://processing.org/}} a \ac{pl} and \ac{ide}~(Fig.~\ref{fig:pross}), developed by the {\small MIT} media,  was created to teach programming to students, artists, and designers, without any previous programming experience~\cite{reas2006processing}. In order to do this, Processing uses a visual context, using
 a software sketchbook of 2D and 3D designs implemented on top of an OpenGL renderer. In addition, it provides different programming modes that enable the user to create new sketches in different languages and platforms.
 
-\begin{figure}[h]
+\begin{figure}[!htbp]
   \centering
   \includegraphics[scale=0.4]{img/processing}
     \caption{On the left, a processing program whose output, on the right, represents two cubes. The program was written in Python an its output was rendered in a OpenGL window.}
@@ -252,7 +252,7 @@ Rosetta~\cite{lopes2011portable}, by contrast, allows the interoperability betwe
 
 Usually, designers used to be locked-in to one family of \ac{cad} application, when developing their projects. Consequently, their designs were totally system-dependent, e.g. just work on specific \ac{cad}, and platform-dependent, e.g. just work in a certain operative system. Obviously, it creates strict requirements that hinders the design conception. In order to overcome this problem, Rosetta suggested a portable \ac{gd} for \ac{cad}~\cite{lopes2011portable}. It allows the use of different \ac{pl}s (front-ends) and interoperates with different \ac{cad} applications (back-ends). For example in Figure~\ref{fig:rosetta1}, Rosetta is being used with front-end Racket and back-end AutoCAD. The execution of the \ac{gd} program, produces the following geometric model.
 
-\begin{figure}[h]
+\begin{figure}[!htbp]
   \centering
   \includegraphics[scale=0.2]{img/rosetta1}
     \caption{A Rosetta program, on the left, and its output, on the right. The program was written in Racket using the DrRacket~\ac{ide} and its output was rendered by AutoCAD.}  

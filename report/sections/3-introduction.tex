@@ -6,6 +6,9 @@
 
 \section{Introduction (2/3pgs)}
 
+In the beginning of computing write a computer program was a very complex task. The instructions, which make up a program, were written in \textit{absolute binary}~\cite{hamming2003art} a suitable number's representation for machines. So programmers spent the most of time in converting program's instructions for binary, locating and fixing up errors, than programming itself.
+
+
 Computing has come a long way from the very primitive forms. At the dawn of programming people had to code manually using instructions and addresses in a special format - binary~\cite{hamming2003art}. As the early codes were consist of a single address, programmers had to invent notations and compute exact position of every instruction trying to avoid conflicts and collisions as best as possible. To avoid manual computing in binary and be able to write programs rather in symbols, the \ac{sap} was devised. Furthermore, \ac{sap} continued to develop, giving a way to {\small FORTRAN}~\cite{backus1978history} - {\small FOR}mula {\small TRAN}slation, a new concept that allowed writing programs in language similar to mathematics. After appearance of {\small FORTRAN}~\cite{backus1978history} the whole series of languages has been invented, where every language was developed on a basis of its predecessor, becoming more and more abstract. This process is explained in a book of Andrew S. Tanenbaum~\cite{TanenbaumAustin201208}, where the evolution of languages is represented as a stack of \textit{levels}, built one on another, and seen as the solution of the problem, when people want the machine to perform tasks which it cannot "understand". In that hypothetical structure, the bottommost level is the simplest, such as the binary language, and the topmost level is the most sophisticated, such as so-called \textit{high-level programming languages}.
 
 After gap between the machine and people got minimized, software production eventually increased. Now while programming would become more reliable and simple, program structure would get complicated and less understandable. One could say this evolution raised with five times bigger productivity~\cite{bullet1987essence}. In fact, this is a concern from the area of \textit{program comprehension}~\cite{rugaber1995program}.
@@ -16,4 +19,14 @@ Contemporary \ac{case} tools are grouped into an \ac{ide}. The \ac{ide}s offer v
 
 Inspired both by old \ac{pl} systems~\cite{papert1980mindstorms,goldberg1983smalltalk} and Learnable Programming~\cite{learnableProg,inventingPrin}, we propose \textit{An Interactive Programming Environment} which seeks to improve program comprehension, by providing reliable tools for an existing \ac{ide}. 
 
-The rest of the report is organized as follows. Section~\ref{sec:obj} briefly summarizes the objectives and expected results of our work. In Section~\ref{sec:rw} we present all the background related with our work. Section 4 describes the proposed solution to be implemented and Section 5 describes how we plan to evaluate our results. Finally, Section 6 concludes the report.
+
+
+\subsection{Program Documentation}
+
+Program documentation is very important for software development and maintenance
+
+\subsection{Program Comprehension}
+
+
+
+The rest of the report is organized as follows. Section~\ref{sec:obj}, briefly summarizes the objectives and expected results of our work. In Section~\ref{sec:rw}, we present all the background related with our work. Section~\ref{sec:arch} describes the proposed solution to be implemented and Section~\ref{sec:eval} describes how we plan to evaluate our results. Finally, Section~\ref{sec:fin} concludes the report.

@@ -19,7 +19,7 @@
 %%   Right brace   \}     Tilde         \~}
 %%
 \NeedsTeXFormat{LaTeX2e}[1995/12/01]
-\ProvidesClass{llncs}[2013/09/27 v2.18
+\ProvidesClass{llncs2e/llncs}[2013/09/27 v2.18
 ^^J LaTeX document class for Lecture Notes in Computer Science]
 % Options
 \let\if@envcntreset\iffalse
@@ -349,10 +349,8 @@
                         \rightskip=\z@ \@plus 8em\pretolerance=10000 }}
 \renewcommand\subsubsection{\@startsection{subsubsection}{3}{\z@}%
                        {-18\p@ \@plus -4\p@ \@minus -4\p@}%
-                       %{4\p@ \@plus 2\p@ \@minus 2\p@}%
-                       %{\normalfont\small\bfseries\boldmath}}
                        {-0.5em \@plus -0.22em \@minus -0.1em}%
-                       {\normalfont\small\bfseries\boldmath}}
+                       {\normalfont\normalsize\bfseries\boldmath}}
 \renewcommand\paragraph{\@startsection{paragraph}{4}{\z@}%
                        {-12\p@ \@plus -4\p@ \@minus -4\p@}%
                        {-0.5em \@plus -0.22em \@minus -0.1em}%

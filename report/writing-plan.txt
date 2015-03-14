@@ -12,7 +12,9 @@ The current programming environments force users to think as a machine, which le
 
 Here, we presented a study over the existing systems which address this problem. In a critical perspective, we highlighted their main insights and limitations. 
 
-Inspired by insightful designs, we proposed a programming environment with two interactive tools: (1) image-code and (2) immediate feedback. While the first correlates code with image, the second displays the program's output as the user types.
+Inspired by this study, we proposed a programming environment with two interactive tools: (1) image in the code and (2) immediate feedback. While the first correlates code with image, the second displays the program's output as the user types.
+
+We expect that using images in the code will enhance the power of program documentation while giving a meaning to the code. It arises challenges such as how to effectively combine code with image and what kind of image we should expect. On the other hand, immediate feedback gives to the user an express via to test their thoughts enabling to design exploration. However, this interactiveness implies acceptable performance since the program is constantly running.
 
 why using these 2 tools not others?
 they bring a high impact on program documentation, program comprehension and are smooth to implement.
@@ -22,15 +24,18 @@ main advantage and disadvantages of each
 	+ reuse the sketches made initially
 	- editor has to support image
 	- user needs to insert the image
+	- much space used
 
 ----------------------------------------------------------------------------
-
 Keywords
 
 immediate feedback; image correlation; DrRacket; Rosetta;
 
 ----------------------------------------------------------------------------
 Introduction
+
+-Why do we need a new programming environment?
+	-Actually, as B. Victor argues, programming is blindly manipulating symbols and the current programming environments does not provide mechanisms to minimize this lack. 
 
 -What is the reason behind the study?
 	-lack of a programming environment that enables beginner users to (1) effortless read the code and (2) immediately see the result of their actions.
@@ -76,7 +81,7 @@ Introduction
 			-the text editor just supports text
 
 	(Hypothesis/aim)
-	-the programming environment can improve program comprehension and program documentation.
+	-read the code and create by reacting can improve program comprehension and program documentation.
 		-enabling beginner programmers to effortless read the code and immediately see the result of their actions.
 
 	(Proposed solution/plan-how it fills the gaps)
@@ -87,9 +92,15 @@ Introduction
 
 ----------------------------------------------------------------------------
 Objectives
+
 -study how one can create tools to improve programming comprehension
+	-studding the state-of-art
 -design and implement two tools for a programming environment
+	-choose which tool and system are most adequate
 -test the tools by using them in a real programming system.
+	-system: Rosetta
+	-how many people involved: > 100
+	-how I will made efforts to test it comprehensively?
 
 ----------------------------------------------------------------------------
 Related Work
@@ -119,7 +130,7 @@ Scientific calculation
 -IPython
 
 Summary
--Summarize according to (i) type of system programming (ii) image support (iii) immediate feedback (iv) interactive widgets (v) traceability (vi) show comparisons
+-Summarize according to (i) type of system programming (ii) suitable for beginners (iii) image support (iv) immediate feedback (v) interactive widgets (vi) traceability (vii) show comparisons?
 
 ----------------------------------------------------------------------------
 Architecture
@@ -142,7 +153,127 @@ Evaluation
 
 -The hypothesis will be tested by answering the questions: Has those tools helped in (1) test new designs ideas quickly (< 20ms) (2) introduce programming to beginners (3) read and understand the code?
 
+-how I going to measure this success?
 ----------------------------------------------------------------------------
 Conclusion
 
-not done yet
+What do the results imply?
+
+Interpretation of the results.
+
+-take home message
+
+
+---------------------------------------------------------------------
+Related Work -- Topics
+--------------------
+MathCAD
+
+Is a math software intended for the verification, validation, documentation and reuse of engineering calculations.
+It is used by engineers and scientist in various areas, most often mechanical, chemical, electrical and civil engineering.
+Designed for non expert programming users. The undergraduate students require minimum knowledge of a programming language.
+
+-main features:-scientific calculation into human-readable form
+			  -integrating live calculations with plots, graphs, text, and images into a single, interactive, document.
+			  	-live worksheet
+			  -visual programming language that combines images, text and graphical objects 
+			  -enables design exploration, validation and verification
+	 		  -navigate through the plots, zoom in and zoom out
+			  -integration with other engineering applications, such as CAD and BIM
+
+-how does the interactiveness work: dependency between graphs, equations, variables.
+
+Limitations: -mainly visual programming
+		     -the programming language supported, C++, is too advanced for beginners
+
+--------------------
+Learning environments
+
+-huge area of research
+-use of AI to design intelligent tutors
+
+-------
+Teaching Systems: helping people to learn to program
+	-mechanics of programming: the primary barrier in learning to program lies in the mechanics of writing programs
+		-expressing programs
+		-structuring programs
+		-understanding program execution
+	-learning support
+		-social learning
+		-motivation context
+
+Empowering Systems: help people to build things that are tailored to their own needs
+	-mechanics of programming
+	-activities enhanced by programing
+
+------
+
+General-purpose programming systems --
+Systems used to develop complex softwares
+
+-Eclipse
+-IntelliJ
+-NetBeans
+-Microsoft Visual Studio
+
+Teaching systems --
+The main goal of this systems is to help people to learn to program
+
+-SmallTalk -- structuring programs by a new programming model 
+-PythonTutor -- understanding program execution 
+
+Empowering Systems --
+help people to build things that are tailored to their own needs
+
+-Logo -- make the language more understandable
+
+-Forms/3 -- improve interaction with the language
+-Fluxus -- improve interaction with the language
+-LightTable -- improve interaction with the language
+-Swift
+-Glitch -- managing time
+-YinYang -- debugger improvement: probing and tracing
+
+-DrRacket -- integration with environment
+-Design Script -- integration with environment
+-Monkey --
+-Processing -- 
+-Rosetta --
+
+-Grasshopper -- alternative way to expressing programs
+-Dynamo -- alternative way to expressing programs
+-MathCAD -- spreadsheet language
+-Mathematica -- 
+-IPython
+
+==========
+Summarizing 
+
+-Style of programming
+	-procedural
+	-functional
+	-object-based
+	-object-oriented
+	-event-based
+-Representation of code
+	-text
+	-pictures
+	-data flow
+	-...
+-Construction of programs
+	-typing code
+	-assembling graphical objects
+	-...
+-Support to understand programs
+	-debugging
+	-physical interpretation
+	-liveness
+	-traceability
+	-flow visible
+	-managing time
+-Designing accessible languages
+	-limit the domain
+	-select user-centered keywords
+	-remove unnecessary keywords
+	-remove unnecessary punctuation
+	-use natural language

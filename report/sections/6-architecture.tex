@@ -5,6 +5,7 @@
 % 
 
 \section{Architecture (2/3pgs)}
+\label{sec:arch}
 
 The proposed solution covers three main problems previously identified in Rosetta's programming environment: (1) poor or non-existent context explanation, (2) invisible program flow and (3) non-existence of immediate feedback. The solution, of each one of these problems, are describe in a proper section. 
 
@@ -19,7 +20,7 @@ It is a typical repository style (see Section~\ref{sec:ide}), the proposed tools
 The tools can be implemented separately, however is necessary to implement an exact data model required by the \ac{ide} and also by the back-end. In the \ac{ide} side, we will use the plug-ins to extend DrRacket functionality and in the Rosetta back-end we will use the existing communication protocol, since it has several back-ends. 
 
 
-\begin{figure}[h]
+\begin{figure}[!htbp]
  \centering
  \includegraphics[scale=0.2]{img/sol}
  \caption{General architecture of the proposed interactive tools. On the right, the DrRacket~\ac{ide} as a shared data repository. On the left, the Rosetta back-end also as a repository of data. The tools, in the center, are interacting with the repositories.}
@@ -50,12 +51,6 @@ Rosetta has proposed the bi-directional traceability. Starting from the model, i
 
 Most architects before going to translate his models into a \ac{gd} tool, often write in a piece of paper a sketch that represent the future design, which may have a coherent parametrization. So, this design can be used to illustrate the code by taking the advantage provide by the DrRacket~\ac{ide}, which allows the inclusion of images in the code. The next steep is bind the parameters of the functions with the image symbols.
 
-\begin{figure}[h]
-  \centering
-  \includegraphics[scale=0.26]{img/rosetta2}
-    \caption{Traceability with sketches. On the left, a parameter of the function was selected and an dark blue arrow was traced in the code. In the center is the generated model. On the right, the image was pointed and the parameters associated to the image were highlighted.}
-  \label{fig:trace}
-\end{figure}
 
 The Figure~\ref{fig:trace}, shows some advances in the direction of implementation. Those results, were obtained by using the syntax checker provided by DrRacket to annotate the source text, of syntactically correct programs. The syntax checker, marks up the source text based on five syntactic categories: primitives, keywords, bound variables, free variables, and constants. Thus, when the programmer move the mouse over an identifier, the syntax checker display arrows that point from bound identifiers to their binding occurrence. This feature, works well for text representation. However, an interesting challenge is modify this feature for supporting image representation.
 
@@ -108,3 +103,14 @@ Inspired by live-coding environments, others strategies would be useful to imple
 Immediate feedback, give us a straight correlation between the program inputs and outputs. However, as Bret Victor argues, seeing the result of input changes without seeing the steps in between is almost worthless. In order to understand what the program is actually doing, the programmer should see the program flow and, even more, it should be tangible. In this context, turn the program flow tangible means allow a user controls it.  
 
 In fact, implementing this functionality is not too easy. Is necessary to have the program computation in steps, or at least, a framework that supports it. The recently LightTable~\ac{ide} implement this idea as the time navigation. Others \ac{ide}s, for example PythonTutor also, implements similar technique to allow users to navigate into the program execution. However, it is an open idea for us, in order to improve the immediate feedback. As well as, the idea to show graphics objects in the DrRacket~\ac{repl}.
+
+\subsection{Experimental results}
+
+
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[scale=0.26]{img/rosetta2}
+    \caption{Traceability with sketches. On the left, a parameter of the function was selected and an dark blue arrow was traced in the code. In the center is the generated model. On the right, the image was pointed and the parameters associated to the image were highlighted.}
+  \label{fig:trace}
+\end{figure}
