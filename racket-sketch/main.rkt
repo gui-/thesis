@@ -7,7 +7,8 @@
          (rename-out [module-begin #%module-begin]
                      [app #%app]
                      [top #%top]
-                     [datum #%datum]))
+                     [datum #%datum])
+         define*)
 
 (define-syntax-rule (module-begin expr ...)
   (#%module-begin
@@ -33,3 +34,16 @@
          (displayln 'arg)
          (#%datum . arg)))
 
+(define-syntax (define* stx)
+  (syntax-case stx ()
+    [(_ (name param ...) body ...)
+     (let ([f syntax-e])
+       (display "id: ")
+       (displayln (f #'name))
+       (display "args: ")
+       (displayln (map f (syntax->list 
+                          #'(param ...))))
+       (display "body: ")
+       (displayln (map f (syntax->list 
+                          #'(body ...))))
+       #'(define (name param ...) body ...))]))
