@@ -209,7 +209,7 @@ Empowering Systems: help people to build things that are tailored to their own n
 ------
 
 General-purpose programming systems --
-Systems used to develop complex softwares
+Systems used to develop complex software
 
 -Eclipse
 -IntelliJ

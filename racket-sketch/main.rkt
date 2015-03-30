@@ -8,7 +8,9 @@
                      [app #%app]
                      [top #%top]
                      [datum #%datum])
-         define*)
+         def-img)
+
+(require racket/snip)
 
 (define-syntax-rule (module-begin expr ...)
   (#%module-begin
@@ -29,21 +31,30 @@
          (displayln 'arg)
          'arg))
 
+(define (maybe-saving-value arg)
+  (cond ([is-a? arg image-snip%]
+         (display #'arg))
+        (else
+         #f)))
+
 (define-syntax-rule (datum . arg)
   (begin (display "Value: ")
-         (displayln 'arg)
-         (#%datum . arg)))
+         ;(displayln 'arg)
+         (maybe-saving-value 'arg)
+         #;(#%datum . arg)))
 
-(define-syntax (define* stx)
+(define-syntax (def-img stx)
   (syntax-case stx ()
-    [(_ (name param ...) body ...)
-     (let ([f syntax-e])
-       (display "id: ")
-       (displayln (f #'name))
-       (display "args: ")
-       (displayln (map f (syntax->list 
-                          #'(param ...))))
-       (display "body: ")
-       (displayln (map f (syntax->list 
-                          #'(body ...))))
-       #'(define (name param ...) body ...))]))
+    [(_ (name param ...) img body ...)
+     (with-syntax ([(stuff ...)
+                    (map (lambda (p)
+                           (datum->syntax
+                            p
+                            (syntax->datum p)
+                            #'img
+                            p))
+                         (syntax->list #'(param ...)))])
+       #'(define (name param ...)
+           stuff ...
+           img
+           body ...))]))
