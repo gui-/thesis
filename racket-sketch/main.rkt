@@ -8,7 +8,7 @@
                      [app #%app]
                      [top #%top]
                      [datum #%datum])
-         def-img)
+         define/img)
 
 (require racket/snip)
 
@@ -43,18 +43,37 @@
          (maybe-saving-value 'arg)
          #;(#%datum . arg)))
 
-(define-syntax (def-img stx)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(define-syntax (point-at stx)
+  (syntax-case stx ()
+    [(_ from to at-px at-py)
+     (let ((px (syntax-e #'at-px))
+           (py (syntax-e #'at-py))
+           (from-len (string-length 
+                      (symbol->string (syntax-e #'from)))) 
+           #;(to-len (string-length 
+                    (syntax-e #'to))))
+       (syntax-property
+        #'(void)
+        'sub-range-binders
+        (vector (syntax-local-introduce #'from)
+                0 from-len 0.5 0.5
+                (syntax-local-introduce #'to)
+                0 1 px py)))]))
+
+(define-syntax (λ/point stx)
+  (syntax-case stx ()
+    [(_ (x . [px]) img e)
+     (let ((coord (map syntax-e (syntax-e #'px))))
+       #`(λ (x)
+           (point-at x img #,(car coord) #,(cadr coord))
+           (let ([x x]) e)))]))
+
+
+(define-syntax (define/img stx)
   (syntax-case stx ()
     [(_ (name param ...) img body ...)
-     (with-syntax ([(stuff ...)
-                    (map (lambda (p)
-                           (datum->syntax
-                            p
-                            (syntax->datum p)
-                            #'img
-                            p))
-                         (syntax->list #'(param ...)))])
-       #'(define (name param ...)
-           stuff ...
-           img
-           body ...))]))
+     #'(define name (λ/point (param ...)
+                             img
+                             body ...))]))
