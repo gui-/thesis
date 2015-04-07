@@ -47,9 +47,9 @@
 
 (define-syntax (point-at stx)
   (syntax-case stx ()
-    [(_ from to at-px at-py)
-     (let ((px (syntax-e #'at-px))
-           (py (syntax-e #'at-py))
+    [(_ from to)
+     (let (#;(px (syntax-e #'at-px))
+           #;(py (syntax-e #'at-py))
            (from-len (string-length 
                       (symbol->string (syntax-e #'from)))) 
            #;(to-len (string-length 
@@ -60,16 +60,28 @@
         (vector (syntax-local-introduce #'from)
                 0 from-len 0.5 0.5
                 (syntax-local-introduce #'to)
-                0 1 px py)))]))
+                0 1 0.5 0.5)))]))
 
 (define-syntax (λ/point stx)
   (syntax-case stx ()
-    [(_ (x . [px]) img e)
-     (let ((coord (map syntax-e (syntax-e #'px))))
-       #`(λ (x)
-           (point-at x img #,(car coord) #,(cadr coord))
-           (let ([x x]) e)))]))
-
+    [(_ (x) img e)
+     #'(λ (x)
+         (point-at x img)
+         (let ([x x]) e))]
+    [(_ (x y) img e)
+     #'(λ (x y)
+         (point-at x img)
+         (point-at y img)
+         (let ([x x]
+               [y y]) e))]
+    [(_ (x y z) img e)
+     #'(λ (x y z)
+         (point-at x img)
+         (point-at y img)
+         (point-at z img)
+         (let ([x x]
+               [y y]
+               [z z]) e))]))
 
 (define-syntax (define/img stx)
   (syntax-case stx ()
