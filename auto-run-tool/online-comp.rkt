@@ -7,11 +7,11 @@
          drracket/private/syncheck/traversals
          drracket/private/syncheck/syncheck-intf)
 
-(provide monitor go set-run! auto-run)
+(provide monitor go set-state! state)
 
-(define auto-run #f)
-(define (set-run!)
-  (set! auto-run (not auto-run)))
+(define state #f)
+(define (set-state!)
+  (set! state (not state)))
 
 
 (define (monitor send-back path the-source orig-cust)
