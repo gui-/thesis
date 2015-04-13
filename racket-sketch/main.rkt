@@ -34,14 +34,17 @@
 (define (maybe-saving-value arg)
   (cond ([is-a? arg image-snip%]
          (display #'arg))
+        ([number? arg]
+         (display "number: ")
+         (displayln arg))
         (else
          #f)))
 
 (define-syntax-rule (datum . arg)
   (begin (display "Value: ")
-         ;(displayln 'arg)
+         (displayln 'arg)
          (maybe-saving-value 'arg)
-         #;(#%datum . arg)))
+         (#%datum . arg)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 

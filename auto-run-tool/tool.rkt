@@ -5,6 +5,9 @@
          racket/gui/base
          racket/unit
          racket/contract/base
+         racket/match
+         racket/control
+         racket/contract
          mrlib/switchable-button
          "online-comp.rkt")
 
@@ -28,7 +31,7 @@
        'auto-run
        #:number 11))
     (define (phase2) (void))
-
+          
     (define autorun-frame<%>
       (interface ()
         autorun:button-callback))
@@ -40,6 +43,8 @@
     (define auto-run-mixin
       (λ (super%)
         (class* (docs-text-mixin super%) ()
+          (field (x #f))
+          (field (y #f))
           
           (inherit get-top-level-window
                    begin-edit-sequence
@@ -52,13 +57,48 @@
               (when frame
                 (send frame update-button-visibility/settings settings)))
             (inner (void) after-set-next-settings settings))
+        
+          (define/private (add-slider x y)
+            (define start (send this get-start-position))
+            (define end (send this get-end-position))
+            (define str (get-text start end))
+            (display str)
+            (define frame (new frame%	 
+                               [label ""]
+                               [width 64]
+                               [x (- x (round (/ x 2)))]
+                               [y (- y (round (/ y 2)))]))
+            (define slider (new slider%	 
+                                [label ""]	 
+                                [min-value 0]	 
+                                [max-value 10]	 
+                                [parent frame]	 
+                                [callback (lambda(b e) 
+                                            (define num (send slider 
+                                                              get-value))
+                                            (send this insert 
+                                                  (number->string num) 
+                                                  start
+                                                  end))]))
+            (send frame show #t))
+        
+          (define/override (on-char event)
+            (when (and (eq? (send event get-key-code) 'f4) x y)
+              (add-slider x y))
+            (super on-char event))
           
+          (define/override (on-default-event event)
+            (when (send event dragging?)
+              (set! x (send event get-x))
+              (set! y (send event get-y)))
+            (super on-default-event event))
+                
           (define/augment (on-insert start len)
             (begin-edit-sequence))
           
           (define/augment (after-insert start len)
-            ;(display "after-insert: ")
-            ;(displayln (get-text 0 (+ start len)))
+            #;(display "after-insert: ")
+            #;(displayln (get-text 0 (+ start len)))
             (end-edit-sequence))
           
           (define/augment (on-delete start len)
@@ -82,11 +122,7 @@
         (define/augment (on-tab-change old-tab new-tab)
           (displayln "tab-changed")
           (update-button-visibility/tab new-tab))
-        
-        #;(define/override (execute-callback)
-          (displayln "my execute") 
-          (ensure-rep-hidden))
-        
+
         (define/private (update-button-visibility/tab tab)
           (update-button-visibility/settings (send (send tab get-defs) get-next-settings)))
         
