@@ -13,6 +13,8 @@
 
 (provide tool@)
 
+(define frame #f)
+
 (define tool@
   (unit
     (import drracket:tool^)
@@ -62,24 +64,34 @@
             (define start (send this get-start-position))
             (define end (send this get-end-position))
             (define str (get-text start end))
-            (display str)
-            (define frame (new frame%	 
+            (define val (string->number str))
+            (define min (- val 10))
+            (define max (+ val 10))
+            
+            (set! frame (new frame%	 
                                [label ""]
-                               [width 64]
-                               [x (- x (round (/ x 2)))]
-                               [y (- y (round (/ y 2)))]))
+                               [width 128]
+                               [x (- x 70) #;(- x (round (/ x 2)))]
+                               [y (- y 10) #;(- y (round (/ y 2)))]
+                               [style '(float no-caption)]
+                               [alignment '(left bottom)]))
+            
             (define slider (new slider%	 
                                 [label ""]	 
-                                [min-value 0]	 
-                                [max-value 10]	 
+                                [min-value min]	 
+                                [max-value max]	 
                                 [parent frame]	 
                                 [callback (lambda(b e) 
                                             (define num (send slider 
                                                               get-value))
+                                            (define num-str (number->string num))
+                                            (define end (+ start (string-length num-str)))
+                                            (send this delete start end)
                                             (send this insert 
-                                                  (number->string num) 
-                                                  start
-                                                  end))]))
+                                                  num-str
+                                                  start))]
+                                [init-value val]))
+            
             (send frame show #t))
         
           (define/override (on-char event)
@@ -95,6 +107,12 @@
                 
           (define/augment (on-insert start len)
             (begin-edit-sequence))
+          
+          (define/override (on-focus on?)
+            (when (and on? frame)
+              (send frame show #f))
+            (super on-focus on?))
+                
           
           (define/augment (after-insert start len)
             #;(display "after-insert: ")
