@@ -4,9 +4,6 @@
          racket/class
          racket/gui/base
          racket/unit
-         racket/contract/base
-         racket/match
-         racket/control
          racket/contract
          mrlib/switchable-button
          "online-comp.rkt")
@@ -14,6 +11,7 @@
 (provide tool@)
 
 (define frame #f)
+
 
 (define tool@
   (unit
@@ -52,7 +50,8 @@
                    begin-edit-sequence
                    end-edit-sequence
                    insert
-                   get-text)
+                   get-text
+                   get-tab)
           
           (define/augment (after-set-next-settings settings)
             (let ([frame (get-top-level-window)])
@@ -71,6 +70,7 @@
             (set! frame (new frame%	 
                                [label ""]
                                [width 128]
+                               [height 20]
                                [x (- x 70) #;(- x (round (/ x 2)))]
                                [y (- y 10) #;(- y (round (/ y 2)))]
                                [style '(float no-caption)]
@@ -81,15 +81,15 @@
                                 [min-value min]	 
                                 [max-value max]	 
                                 [parent frame]	 
-                                [callback (lambda(b e) 
-                                            (define num (send slider 
-                                                              get-value))
+                                [callback (lambda(b e)
+                                            (define drr-frame (send (get-tab) get-frame))
+                                            (define num (send slider get-value))
                                             (define num-str (number->string num))
-                                            (define end (+ start (string-length num-str)))
+                                            (define end (+ start (string-length str)))
+                                            (set! str num-str)
                                             (send this delete start end)
-                                            (send this insert 
-                                                  num-str
-                                                  start))]
+                                            (send this insert num-str start)
+                                            (send drr-frame execute-callback))]
                                 [init-value val]))
             
             (send frame show #t))
