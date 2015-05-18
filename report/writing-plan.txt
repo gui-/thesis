@@ -167,26 +167,7 @@ Interpretation of the results.
 ---------------------------------------------------------------------
 Related Work -- Topics
 --------------------
-MathCAD
 
-Is a math software intended for the verification, validation, documentation and reuse of engineering calculations.
-It is used by engineers and scientist in various areas, most often mechanical, chemical, electrical and civil engineering.
-Designed for non expert programming users. The undergraduate students require minimum knowledge of a programming language.
-
--main features:-scientific calculation into human-readable form
-			  -integrating live calculations with plots, graphs, text, and images into a single, interactive, document.
-			  	-live worksheet
-			  -visual programming language that combines images, text and graphical objects 
-			  -enables design exploration, validation and verification
-	 		  -navigate through the plots, zoom in and zoom out
-			  -integration with other engineering applications, such as CAD and BIM
-
--how does the interactiveness work: dependency between graphs, equations, variables.
-
-Limitations: -mainly visual programming
-		     -the programming language supported, C++, is too advanced for beginners
-
---------------------
 Learning environments
 
 -huge area of research
@@ -249,21 +230,13 @@ help people to build things that are tailored to their own needs
 ==========
 Summarizing 
 
--Style of programming
-	-procedural
-	-functional
-	-object-based
-	-object-oriented
-	-event-based
 -Representation of code
 	-text
 	-pictures
 	-data flow
-	-...
 -Construction of programs
 	-typing code
 	-assembling graphical objects
-	-...
 -Support to understand programs
 	-debugging
 	-physical interpretation
@@ -271,9 +244,42 @@ Summarizing
 	-traceability
 	-flow visible
 	-managing time
--Designing accessible languages
-	-limit the domain
-	-select user-centered keywords
-	-remove unnecessary keywords
-	-remove unnecessary punctuation
-	-use natural language
+===========
+Systems -- Overview
+
+------------------------------
+Category: Models of program execution
+
+For beginning programmers, understanding how programs are executed and how programs 
+
+- Light Table
+
+- Usable Live Programming
+
+- 
+
+
+
+
+--------------------
+MathCAD
+
+Is a math software intended for the verification, validation, documentation and reuse of engineering calculations.
+It is used by engineers and scientist in various areas, most often mechanical, chemical, electrical and civil engineering.
+Designed for non expert programming users. The undergraduate students require minimum knowledge of a programming language.
+
+-main features:-scientific calculation into human-readable form
+			  -integrating live calculations with plots, graphs, text, and images into a single, interactive, document.
+			  	-live worksheet
+			  -visual programming language that combines images, text and graphical objects 
+			  -enables design exploration, validation and verification
+	 		  -navigate through the plots, zoom in and zoom out
+			  -integration with other engineering applications, such as CAD and BIM
+
+-how does the interactiveness work: dependency between graphs, equations, variables.
+
+Limitations: -mainly visual programming
+		     -the programming language supported, C++, is too advanced for beginners
+---------------------
+SmallTalk
+

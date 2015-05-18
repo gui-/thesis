@@ -1,5 +1,8 @@
 \documentclass[runningheads,a4paper]{llncs2e/llncs}
 \usepackage{graphicx}
+\usepackage{wrapfig}
+\usepackage{multirow}
+\usepackage{booktabs}
 \usepackage{listings}
 \usepackage{fixltx2e}
 %\usepackage{mathtools}
@@ -10,19 +13,22 @@
 % Maintain images and tables within their respective sections
 \usepackage[section]{placeins}
 
+\newcommand{\ra}[1]{\renewcommand{\arraystretch}{#1}}
+
 %\setcounter{secnumdepth}{2} %enumarates until the third level of subsection
 
 % 
 % Change the margins
 % 
 % \usepackage[margin=2.9cm]{geometry}
+\hyphenation{abstract}
 
 \begin{document}
 
 % ------------------------------------------------------
 % MASTER THESIS PROJECT
 % ------------------------------------------------------
-\title{An Interactive Development Environment for Generative Design}
+\title{Generative design enhanced by a new programming environment}
 % ------------------------------------------------------
 % AUTHOR
 % ------------------------------------------------------
@@ -30,7 +36,7 @@
 % ------------------------------------------------------
 % RUNNING PAGE TITLE
 % ------------------------------------------------------
-\authorrunning{An Interactive Development Environment for Generative Design}
+\authorrunning{G. Ferreira}
 % ------------------------------------------------------
 % INSTITUTION
 % ------------------------------------------------------
@@ -39,23 +45,23 @@ Universidade de Lisboa}
 
 \maketitle
 
-\input{sections/1-abstract.tex}
-\input{sections/2-keywords.tex}
-\input{sections/3-introduction.tex}
-\input{sections/4-objectives.tex}
+%\input{sections/1-abstract.tex}
+%\input{sections/2-keywords.tex}
+%\input{sections/3-introduction.tex}
+%\input{sections/4-objectives.tex}
 \input{sections/5-related-work.tex}
-\input{sections/6-architecture.tex}
-\input{sections/7-evaluation.tex}
-\input{sections/8-conclusions.tex}
+%\input{sections/6-architecture.tex}
+%\input{sections/7-evaluation.tex}
+%\input{sections/8-conclusions.tex}
 \input{sections/9-acronyms.tex}
-\newpage
-\appendix
-\input{sections/10-appendix.tex}
+%\newpage
+%\appendix
+%\input{sections/10-appendix.tex}
 
 % 
 % Bibliography
 % 
-\bibliographystyle{plain} 
+\bibliographystyle{unsrt} 
 
 % the .bib file
 \bibliography{reference.bib} 
