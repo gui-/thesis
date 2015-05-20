@@ -230,9 +230,9 @@ Moreover, the correlation tool correlates components with geometry. But from the
 
 Dynamo provides a set of tools similar to Grasshopper, particularly it provides a searching table as shows Figure~\ref{fig:dynam}. This lateral table provides quick access to the primitives of the language, in this case the components. This feature encourages designers to explore the available components and try new components never ever tried.  
 
-In general, Dynamo and Grasshopper are programming environments and visual languages popular among novices in programming. The smooth learn curve and perhaps the style of the \ac{ui} elements are attractive for beginners. However as the visual programs become large and complex it requires more time to understand, maintain, and adapt to new requirements, than the textual programs, as showed in~\cite{leitao2011programming}. Despite of spending more time and effort to learn a textual programming language, the learners have their time quickly recovered once the complexity of the design task becomes sufficiently large.
+In general, Dynamo and Grasshopper are programming environments and visual languages popular among novices in programming. The smooth learn curve and perhaps the style of the \ac{ui} elements are attractive for beginners. However as the visual programs become large and complex it requires more time to understand, maintain, and adapt to new requirements, than the textual programs as showed in~\cite{leitao2011programming}. Despite of spending more time and effort to learn a textual programming language, the learners have their time quickly recovered once the complexity of the design task becomes sufficiently large.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Mathematica~\cite{wolfram1991mathematica}} A set of interactive pedagogical tools for numeric, symbolic and graphical representation of mathematical concepts.
+\subsubsection{Mathematica~\cite{wolfram1991mathematica}} is a language and environment built to support scientific calculation. It is widely used in the scientific community, specially by students, because it is an artificial language in which typical computations and programs are expressed in the shortest and clearest possible way. For this, Mathematica supports not just liner textual input, but also full two-dimensional input, like traditional mathematical notation, as shows Figure~\ref{fig:math}.
 
 \begin{wrapfigure}{r}{0.6\textwidth}
   \vspace{-20pt}
@@ -240,29 +240,35 @@ In general, Dynamo and Grasshopper are programming environments and visual langu
     \includegraphics[width=0.6\textwidth]{img/mathematica}
   \end{center}
   \vspace{-15pt}
- \caption{Dynamo search tab. Searching for a component, highlighted in red.}  
-  \vspace{-15pt}
-    \label{fig:dynam}
+ \caption{Mathematica program. Note the two-dimensional character of the input.}  
+  \vspace{-20pt}
+    \label{fig:math}
 \end{wrapfigure}
 
--learning to use these programs will become one more hurdle, one more difficult thing in a subject that is already quite difficult.
+The core concept of Mathematica as such a language was based in the paradigm initiated by Turing's work~\cite{wolfram2003wolfram}. In this paradigm mathematical processes are systematized as computations. As a result, Mathematica represents mathematics by finding what is true explicitly computing output from input. 
 
--the fascination that these programs seem to exert. Some mathematicians, and some students, seem to get so fascinated with the tools that the mathematics ends up relegated to a supporting role.
+Mathematica can internally represent any possible computation. The challenge it addresses is to connect those possible computations to ones that human can describe. Surprisingly to achieve this, it took only a modest set of innovations. Because there was a certain degree of consistency in the notation that people tended to use. In this way the main process basically is to convert this notation to something completely precise and computable. 
 
--In fact, someone wanting to teach a course on Mathematica and graphics could use parts of this book as a text.
-
+Present the information in a human readable format is undoubtedly a successful strategy of Mathematica's features. However the growing complexity of these features may overwhelm novices. Consequently, Mathematica is avoid in many subjects because it adds an extra complexity in a subject that is already quite difficult. On the other hand some mathematicians, and some students, seem to get so fascinated with the tools that the mathematics ends up relegated to a supporting role.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{IPython~\cite{PER-GRA:2007}} is an programming environment, developed in a command shell base. Originally, IPython was designed to be a mini Mathematica~\cite{wolfram1991mathematica}, developed in Python to get access to the several libraries of math computation. Nowadays, IPython supports a set of languages, i.e. frontends, and it provides, among other features, an interactive shell with introspection capability, inline data visualization and a browser-based notebook with support for code, text, mathematical expressions, inline plots and other rich media. 
+\subsubsection{IPython~\cite{PER-GRA:2007}} is a programming environment built to support scientific calculation. Originally, IPython was designed to be a mini Mathematica~\cite{wolfram1991mathematica}. Nowadays it supports a set of languages (frontends) and provides, among other features, an interactive shell and a browser-based notebook with support for code, text, mathematical expressions, plots and other rich media. 
 
-IPython provides a base layer for new programming environments by exposing its major components to the user for modification and customization. Consequently, would be possible get benefit of IPython features in others systems, once it is an open platform.  
+IPython is implemented in Python to get access to the several libraries of math computation. Like Mathematica, a program in IPython explicitly computes an output from input. It is a useful paradigm for developing iteratively, because a program can be written in parts and each part is tested individually. However, IPython is focused on interoperability rather than present its computations to ones that humans can describe.
 
-The Figure~\ref{fig:ipython}, shows the interactions with IPython notebook. So, IPython architecture is a type of client-server, where the front-end is the client, in this case a notebook, and the server is a language kernel. The language kernel is a \ac{pl} which the user interacts. As a result, this mechanism gives IPython a certain level of interoperability, in order to support new \ac{pl}s. However, a strict communication protocol must be implemented by the kernel. On the other hand, the communication is very robust using the ZeroMQ~\cite{hintjens2013zeromq} networking and concurrency library. Certainly, it is a good example in order to support interactive tools in a real system environment.
+\begin{wrapfigure}{r}{0.6\textwidth}
+  \vspace{-35pt}
+  \begin{center}
+    \includegraphics[width=0.6\textwidth]{img/ipython-zoom}
+  \end{center}
+  \vspace{-15pt}
+ \caption{IPython browser-based notebook. The input is just linear characters.}  
+  \vspace{-15pt}
+    \label{fig:ipython}
+\end{wrapfigure}
 
-Actually, the DrRacket~\ac{repl} has similar functionality of a command shell. In sense that, the expressions typed in the \ac{repl} are immediately evaluated and its result displayed. However, it does not support plots nor rich media visualisation. On the other hand, some experiments in adapting the DrRacket~\ac{repl} to support 3D graphics visualisation has revealed interesting results, is the case of Pitct3D~\footnote{\url{https://github.com/ntoronto/pict3d}} a successful integration of DrRacket~\ac{repl} within OpenGL.
-
-A inherent concern behind a live programming model is the security. Since in a live programming environment, in principle, the instructions are executed immediately, there must exist some mechanism that guarantees the permissiveness of the code being executed. In order to understand how it could be done, lets see the next system. 
+Figure~\ref{fig:ipython}, shows some interactions with the IPython notebook using Python language through a web browser. The IPython's architecture is a kind of client-server. The frontend language is the server and the notebook is the client. To support several frontends IPython provides a base layer for new programming environments. This layer exposes the major components of IPytohn's architecture. Consequently, IPython's features are available form others systems. For example, IJulia uses IPython interface with Julia language. 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{MathCAD\protect\footnote{\texttt{http://www.ptc.com/product/mathcad}}} is a math software intended for the verification, validation, documentation and reuse of engineering calculations. It is used by engineers and scientist in various areas, most often mechanical, chemical, electrical and civil engineering. Designed for non expert programming users. The undergraduate students require minimum knowledge of a programming language.
+\subsubsection{MathCAD\protect\footnote{\texttt{http://www.ptc.com/product/mathcad}}} is a programming environment built to support scientific calculation. It is intended for the verification, validation, documentation and reuse of engineering calculations. It is designed for non expert programming users requiring minimum knowledge of a programming language.
 
 -main features:-scientific calculation into human-readable form
 			  -integrating live calculations with plots, graphs, text, and images into a single, interactive, document.
