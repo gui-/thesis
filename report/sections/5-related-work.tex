@@ -148,6 +148,7 @@ The systems in this category are built with the belief that the important aspect
   \vspace{-20pt}
     \label{fig:designscript}
 \end{wrapfigure}
+
 The programming language is presented as an associative language. The variables are abstract types that can represent numeric values or geometric entities. These variables are maintained in a graph of dependencies. When a change in a variable occurs it forces the re-evaluation of the graph, as showed in Figure~\ref{fig:designscript}. Consequently a subsequent change to a variable has impact on its previous use. This feature is useful, specially in a modeling environment, because allows the geometric entities be changed giving continuous feedback to the designer.
 
 The DesignScript's programming environment provides a text editor coupled into AutoCAD, an interpreter, a simple debugger and few tabs on the bottom. The language interpreter is invoked each time that the designer clicks on the run button. Then all the script is interpreted and its result produces geometric entities rendered in the CAD. The continuous feedback feature just work in debug mode, because in this mode the script is interpreted line by line. So each set to a variable will change its dependencies and will recompute the model. However, in debug mode the code cannot be edited. Consequently, this feature is worthless during code editing.
@@ -268,20 +269,9 @@ IPython is implemented in Python to get access to the several libraries of math 
 
 Figure~\ref{fig:ipython}, shows some interactions with the IPython notebook using Python language through a web browser. The IPython's architecture is a kind of client-server. The frontend language is the server and the notebook is the client. To support several frontends IPython provides a base layer for new programming environments. This layer exposes the major components of IPytohn's architecture. Consequently, IPython's features are available form others systems. For example, IJulia uses IPython interface with Julia language. 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{MathCAD\protect\footnote{\texttt{http://www.ptc.com/product/mathcad}}} is a programming environment built to support scientific calculation. It is intended for the verification, validation, documentation and reuse of engineering calculations. It is designed for non expert programming users requiring minimum knowledge of a programming language.
+\subsubsection{MathCAD\protect\footnote{\texttt{http://www.ptc.com/product/mathcad}}} is a programming environment and language built to support scientific calculation. Like Mathematica, MathCAD aims to present information into a human readable form. However, it generates live calculations with plots, graphs, text and images into a single document. This document is the program's environment as well as the final product.
 
--main features:-scientific calculation into human-readable form
-			  -integrating live calculations with plots, graphs, text, and images into a single, interactive, document.
-			  	-live worksheet
-			  -visual programming language that combines images, text and graphical objects 
-			  -enables design exploration, validation and verification
-	 		  -navigate through the plots, zoom in and zoom out
-			  -integration with other engineering applications, such as CAD and BIM
-
--how does the interactiveness work: dependency between graphs, equations, variables.
-
-Limitations: -mainly visual programming
-		     -the programming language supported, C++, is too advanced for beginners
+The mathematical expressions defined in the MathCAD document act as an associative language. So when a expressions is changed its value is propagated through the document. This mechanism is the base of the interactiveness. However, as stated above, it represents an barrier for recomposition. Because new expressions can change the previous. Moreover, the MathCAD language is purely visual so it presents the same drawbacks identified above.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%		     
 
 %%
