@@ -277,47 +277,48 @@ The mathematical expressions defined in the MathCAD document act as an associati
 %%
 \subsection{Summary}
 
-Table~\ref{tab:symmary} attempts to show the presented systems based on their major design influences, including those that were not the primary contribution. The table is also intended to address the following questions.
-
-(1) \textit{What is the purpose of the system?} We categorized three main purposes which a system can be designed. General-purpose systems designed for built complex software for the industry. \ac{ts} designed to help people learn to program. \ac{es} designed to allow people build things that are tailored to their own needs.
-
-(2) \textit{Does the programming environment provide additional support to enable users to better understand the behavior of their programs?} Environments in our study used several techniques to help users understand the behavior of their programs. These included (i) debugging support, (ii) educational task created specifically to aid in teaching programming, (iii) allowing users to make changes to a running program so that users can immediately see the effects of those changes (liveness), (iv) visualize execution of a running program and inspect its structures, (v) choosing commands with a physical interpretation (for example, move forward or turn right) so that users can “act out” their programs, and (vi) macro stepper which allow users to visualize the program expansion.
-
-(3) \textit{How does the system support its purpose?} There are many approaches which the system used to provide their features. For instance (i) provide an extensible platform where users can extend the environment as they want, (ii) create a new programming model more suitable for beginners, (iii) present models where users can see the program execution, (iv) create an understandable language which people can use their own knowledge to learn (v) improve interaction with the language by allowing rapid prototype and visualization, (vi) integrate the environment in which users write programs with the environment in which users run programs, and (iv) find alternative ways to typing programs.
-
-(4) \textit{How does code look in the programming environment or language?} The systems in our study represent programs using text, spread sheet forms users can fill in, and flow chart objects users can manipulate.
-
-(5) \textit{What actions do users take to construct programs?} Users can construct programs by typing code, assembling graphical objects and editing spread sheet cells.
+Table~\ref{tab:sum} attempts to show the presented systems based on their major design influences. The table is also intended to address the following questions.
 
 \begin{table}[h]
 \centering
 \resizebox{\textwidth}{!}{%
 \begin{tabular}{@{}clllll@{}}
 \toprule
-\multicolumn{1}{l}{\textbf{Type}} & \multicolumn{1}{c}{\textbf{System}} & \textbf{Approach} & \multicolumn{1}{c}{\textbf{Feature Support}} & \multicolumn{1}{c}{\textbf{\begin{tabular}[c]{@{}c@{}}Representation \\ of code\end{tabular}}} & \multicolumn{1}{c}{\textbf{\begin{tabular}[c]{@{}c@{}}Construction\\ of programs\end{tabular}}} \\ \midrule
-\multirow{4}{*}{GPS} & Eclipse & \multirow{3}{*}{\begin{tabular}[c]{@{}l@{}}integration with\\ environment\end{tabular}} & \multirow{3}{*}{\begin{tabular}[c]{@{}l@{}}software \\ development life cycle\end{tabular}} & \multirow{15}{*}{pure text} & \multirow{15}{*}{typing code} \\
+\multicolumn{1}{l}{\textbf{Type$^{(1)}$}} & \textbf{System} & \textbf{Main feature}$^{(2)}$ & \textbf{\begin{tabular}[c]{@{}l@{}}Support to under-\\ stand programs$^{(3)}$\end{tabular}} & \textbf{\begin{tabular}[c]{@{}l@{}}Representation \\ of code$^{(4)}$\end{tabular}} & \textbf{\begin{tabular}[c]{@{}l@{}}Construction\\ of programs$^{(5)}$\end{tabular}} \\ \midrule
+\multirow{6}{*}{GS} & Eclipse & \multirow{4}{*}{\begin{tabular}[c]{@{}l@{}}support software\\ development \\ life cycle\end{tabular}} & \multirow{4}{*}{debugger} & \multirow{16}{*}{text} & \multirow{16}{*}{typing code} \\
  & NetBeans &  &  &  &  \\
- & IntelliJ &  &  &  &  \\ 
- & MVS &  &  &  &  \\ \cmidrule(r){1-4}
-\multirow{6}{*}{TS} & LOGO & \multirow{2}{*}{\begin{tabular}[c]{@{}l@{}}understandable\\ language\end{tabular}} & \multirow{2}{*}{physical interpretation} &  &  \\
+ & IntelliJ &  &  &  &  \\
+ & MVS &  &  &  &  \\ \cmidrule(lr){2-4}
+ & Xcode & \multirow{2}{*}{\begin{tabular}[c]{@{}l@{}}observable \\ programming\end{tabular}} & \multirow{2}{*}{\begin{tabular}[c]{@{}l@{}}live execution\\ feedback\end{tabular}} &  &  \\
+ & LightTable &  &  &  &  \\ \cmidrule(r){1-4}
+\multirow{7}{*}{TS} & LOGO & \multirow{2}{*}{\begin{tabular}[c]{@{}l@{}}understandable\\ language\end{tabular}} & \multirow{2}{*}{physical interpretation} &  &  \\
  & SmallTalk &  &  &  &  \\ \cmidrule(lr){2-4}
- & Processing & \multirow{2}{*}{\begin{tabular}[c]{@{}l@{}}visual\\ feedback\end{tabular}} & \multirow{2}{*}{liveness} &  &  \\
+ & Processing & \multirow{2}{*}{visual context} & \multirow{2}{*}{instant visualization} &  &  \\
  & Fluxus &  &  &  &  \\ \cmidrule(lr){2-4}
- & DrRacket &  & debugger; stepper &  &  \\ \cmidrule(lr){2-4}
- & PythonTutor & show program execution &  &  &  \\ \cmidrule(r){1-4}
-\multirow{11}{*}{ES} & LightTable & \multirow{3}{*}{show program state} & \multirow{2}{*}{} &  &  \\
- & Xcode &  &  &  &  \\ \cmidrule(lr){2-2} \cmidrule(lr){4-4}
- & YinYang &  & probing &  &  \\ \cmidrule(lr){2-4}
- & Rosetta & \multirow{3}{*}{\begin{tabular}[c]{@{}l@{}}integration with\\ environment\end{tabular}} & \multirow{3}{*}{debugger} &  &  \\
+ & DrRacket & gradual learning & debugger; stepper &  &  \\ \cmidrule(lr){2-4}
+ & PythonTutor & \multirow{2}{*}{show program flow} & \multirow{2}{*}{\begin{tabular}[c]{@{}l@{}}navigate through the \\ program execution\end{tabular}} &  &  \\
+ & YinYang &  &  &  &  \\ \cmidrule(r){1-4}
+\multirow{8}{*}{ES} & DesignScript & \multirow{3}{*}{\begin{tabular}[c]{@{}l@{}}support\\ generative\\ design methods\end{tabular}} & \multirow{3}{*}{debugger} &  &  \\
  & Monkey &  &  &  &  \\
- & Design Script &  &  &  &  \\ \cmidrule(l){2-6} 
- & Grasshopper & \multirow{2}{*}{\begin{tabular}[c]{@{}l@{}}alternative way to \\ expressing programs\end{tabular}} & \multirow{5}{*}{liveness} & \multirow{2}{*}{flow chart} & \multirow{2}{*}{\begin{tabular}[c]{@{}l@{}}assembling \\ graphical objects\end{tabular}} \\
- & Dynamo &  &  &  &  \\ \cmidrule(lr){2-3} \cmidrule(l){5-6} 
- & MathCAD & \multirow{3}{*}{scientific calculation} &  & \multirow{3}{*}{spread sheet} & editing cells \\ \cmidrule(l){6-6} 
- & Mathematica &  &  &  & \multirow{2}{*}{typing code} \\
- & IPython &  &  &  &  \\ \bottomrule
+ & Rosetta &  &  &  &  \\ \cmidrule(l){2-6} 
+ & Grasshopper & \multirow{2}{*}{\begin{tabular}[c]{@{}l@{}}alternative way to \\ expressing programs\end{tabular}} & \multirow{2}{*}{dataflow paradigm} & \multirow{2}{*}{\begin{tabular}[c]{@{}l@{}}graphical \\ components\end{tabular}} & \multirow{2}{*}{\begin{tabular}[c]{@{}l@{}}linking\\ components\end{tabular}} \\
+ & Dynamo &  &  &  &  \\ \cmidrule(l){2-6} 
+ & Mathematica & \multirow{3}{*}{\begin{tabular}[c]{@{}l@{}}support \\ scientific calculation\end{tabular}} & \multirow{3}{*}{\begin{tabular}[c]{@{}l@{}}present data \\ meaningfully\end{tabular}} & \multirow{3}{*}{\begin{tabular}[c]{@{}l@{}}mathematical\\ forms\end{tabular}} & \multirow{3}{*}{fill forms} \\
+ & IPython &  &  &  &  \\
+ & MathCAD &  &  &  &  \\ \bottomrule
 \end{tabular}
 }
-\caption{My caption}
-\label{my-label}
+\caption{System Attributes.}
+\label{tab:sum}
 \end{table}
+
+
+(1) \textit{What is the purpose of the system?} We categorized three main purposes which a system can be designed. \ac{gs} designed for building complex software for the industry. \ac{ts} designed to help people learn to program. \ac{es} designed to allow people build things that are tailored to their own needs.
+
+(2) \textit{How does the system support its purpose?} We identified the following strategies. (i) Support software development life cycle, (ii) make programming in something observable, (iii) create an understandable language, (iv) combine textual programming with a visual context, (v) support gradual learning in a single environment, (vi) show the program flow, (vii) support generative design methods, (viii) find alternative ways to typing programs and (ix) support scientific calculation.
+
+(3) \textit{Does the programming environment provide additional support to enable users to better understand the behavior of their programs?} Environments in our study used several techniques to help users understand the behavior of their programs. These included (i) a debugger that stops the program execution allowing users to inspect line-by-line (ii) live execution feedback (iii) physical interpretation (iv) instant visualization (v) navigate through the program execution (vi) dataflow paradigm and (vii) present data as humans understand.
+
+(4) \textit{How does code look in the programming environment or language?} The systems in our study represent programs using text, graphical components, users can manipulate, and mathematical forms users can fill in.
+
+(5) \textit{What actions do users take to construct programs?} Users can construct programs by typing code, linking graphical components and editing mathematical forms.
