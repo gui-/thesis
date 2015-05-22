@@ -7,12 +7,12 @@
 \section{Conclusions}
 \label{sec:fin}
 
-We have shown that we can turn programming even more understandable, flexible and productive. Consequently, these are the main desires of projects whose users are not experts in programming, such as Rosetta. As a result, we proposed an tailored environment for generative design with well designed tools, to be used with Rosetta.
+We found that a programming environment can be designed to address the several problems with programming in general. As we proposes, two distinct tools, designed to work cohesively together, eliminate significant barriers in programming. For example, the mechanism which correlates code with image eliminates the difficulty of reading the code. Because images and sketches are more illustrative than plain text. On the other hand, the mechanism of immediate feedback encourages users to test new ideas and get feedback as fast as possible.
 
-Our solution suggest some tools to integrate into the DrRacket~\ac{ide} which enable the user to read the program helped by traceability and sketches, follow the program flow by using a tracer, and see the state of the program by using immediate feedback. Recalling that, each one of these tools, were designed for help people to understand programs, and also the concept it implements can be used in the most different areas, in our case we will use the Rosetta as a proof-of-concept.
+Among the generative design systems, from those which support programming in a textual form~\cite{aish2012designscript,lopes2011portable} just one~\cite{lopes2011portable} supports other elements, in the editor, besides plain text. However, none correlates text with sketches (so common in this area). Moreover, in these systems the only way to get immediate feedback is using a stepwise debugger which stops the whole program execution.
 
-Part of traceability mechanism that relates image with code has already been implemented, users have its sketches associated with its functions. However, some additional work must be done to improve this mechanism, such as automate the arrows binding and also recognizing figure symbols.
+Using the proposed tools the above problem will be resolved. However, as natural, we expect these tools to have some limitations. The first is related with the automatic recognition of symbols in the sketch. Until now, we have had bad experiences with OCR engines. If necessary, and as a proof-of-concept we will generate the OCR data manually. And similar to all other generative systems, the immediate feedback tool will not scale for arbitrarily complex programs.
 
-In order to implement the others tools, we have to come up with another implementation ideas. The tool's design is just as critical as the tool's implementation. In addition, editing directly the DrRacket~\ac{ide} source code, have been proved as a slow process and will not support the implementation of several ideas, here presented. 
+A functional prototype of these features was already implemented. In a near future, we will improve the implementation of these mechanisms and, if time permits, we will explore new mechanisms and a possible integration.
 
-In the future, we will explore new tools as well as new environments to integrate into the Rosetta programming environment.
+More important than these features are the underlying design principles that they represent. Understand how these principles enable the programmer to think is the initial point to evolve the way we programming.

@@ -9,13 +9,13 @@
 
 As discussed in the previous section, the general purpose programming environments provide advanced features for editing, refactoring and debugging code, but the representation of code in those editors are purely textual and most of time the code must be compiled and executed manually. On the other hand, the environments used in generative design, for instance, provide straightforward features for beginners, but does not suite well as program grows.
 
-The problem addressed in this work is to design and implement an interactive programming environment. Our approach suggests two features. The first, illustrates the code with program's sketches improving the program documentation. The second, allows the result of the code be visualized as soon as possible improving the program comprehension. More important than these features, are the underlying design principles that they represent, and understand how these principles enable the programmer to think.
+The problem addressed in this work is to design and implement an interactive programming environment. Our approach suggests two features. The first, illustrates the code with program's sketches improving the program documentation. The second, allows the result of the code be visualized as soon as possible improving the program comprehension.
 
 The features we propose will be built on top of DrRacket~\cite{findler2002drscheme}. In the following sections, we will present relevant properties of DrRacket that justify its choice as the basis of this work, as well as the proposed architecture to extend the DrRacket environment.
 
 \subsection{DrRacket Properties}
 
-Like DrRacket, our solution initially will target at students. The features, we propose, are supposed to be used for quickly experiment ideas and progressively migrate these experiments to a bigger project. However, this interactive environment can be used for either beginner which wants to understand a piece of code or a professional programmer which needs to test a particular module.
+Like DrRacket, our solution initially will target at students. The features, we propose, are supposed to be used for quickly experiment ideas and progressively migrate these experiments to a bigger project. However, this interactive environment can be used for either beginner who wants to understand a piece of code or a professional programmer who needs to test a particular module.
 
 DrRacket was built in the same principle we search for and has some key qualities:
 
