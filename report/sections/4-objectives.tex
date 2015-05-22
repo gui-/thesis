@@ -4,25 +4,26 @@
 % Objectives
 % 
 
-\section{Objectives (1pg)}
-\label{sec:obj}
+\section{Objectives}
 
 This work addresses two challenges:
-\begin{itemize}
-\item lack of documentation in the programs
-\item program comprehension improvement.
-\end{itemize}
-
-To overcome it, we will investigate better ways to help programmers in their conceptual tasks. 
 
 \begin{itemize}
-\item[] \textit{Objectives:} This work aims at designing and implementing tools for programming development that support and encourage new ways of thinking, and enable programmers to see and understand the execution of their programs. These tools will be designed to work cohesively. 
+\item support the program comprehension process.
+\item minimize the lack of program documentation.
 \end{itemize}
 
-Our approach to address this problem is, at first, to analyze, which components are particularly important, and which are the essential tools in a programming environment. Further, to emphasize which of them are used for static analysis (reading the code), e.g. traceability mechanisms and dynamic analysis (running the code), e.g. immediate feedback. 
+To overcome it, we will investigate better ways to help programmers in their conceptual tasks. The objective is designing and implementing tools that support and encourage new ways of thinking and enable programmers to see and understand the execution of their programs.
 
-The project will produce the following expected results:
+Our approach to achieve this objective is, firstly, analyze which tools are particularly important to improve the program comprehension. Fortunately, the Learnable Programming~\cite{learnableProg,inventingPrin} shows interesting insights in this direction. Secondly, based on this analysis, we will propose and implement two interactive tools: 
+
+\begin{enumerate}
+\item \textit{code correlation tool} which correlates image with code. The source code pass to be commented with visual images rather than just plain text. This enables programmers to effortless read the code acquiring a better mental model.
+\item \textit{live code execution tool} which executes the program upon changes. This tool minimizes the latency until the code written be executed. Encouraging users to quickly experiment ideas augmenting their comprehension about the program.
+\end{enumerate}
+
+This project will produce the following expected results:
  
 \begin{itemize}
-\item[] \textit{Expected result:}  The work will produce \textit{i)} a specification of each tool, its purpose and how this tool will improve the productivity; \textit{ii)} a coherent implementation of a prototype and \textit{iii)} an experimental evaluation using a real programming system.
+\item[] \textit{Expected result:} The work will produce \textit{i)} a specification of each tool, its purpose and how this tool will be designed to support its purpose; \textit{ii)} a coherent implementation of a prototype and \textit{iii)} an experimental evaluation with a comparison to other similar tools.
 \end{itemize}

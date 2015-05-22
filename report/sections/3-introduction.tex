@@ -4,32 +4,16 @@
 % Introduction
 % 
 
-\section{Introduction (2/3pgs)}
+\section{Introduction}
 
-topics (background information)
-	-programming becomes used in different areas due to the facilities such as programming languages and programming environments
-	-e.g. in architecture area the generative design methods become an important topic of research
-	-program documentation is a boring textual description and often is left behind
-	-program comprehension means read the code and think as a machine does
+Challenges in understanding programs are all too familiar since the early days of computing. At that time programmers wrote their programs using absolute binary code~\cite{hamming2003art}. A numeric representation typically expressed by a sequence of zeros and ones. Undoubtedly, it is an awkward representation of program completely against from what we can see and understand.
 
-	(gap in knowledge)
-	-general programming environments either does not address this issue or are targeted for professionals
-	-live code environments overcome this problem by providing immediate feedback.
-		-Two main problems: (i) this feature alone, worth nothing (ii) targeted for live performers
-	-generative design environments sidestep this problem by providing a visual programming language.
-		-problem: straightforward for beginners but got complex as the program grows
-		-textual environments problems:
-			-often provide a poor programming language
-			-there is no immediate feedback at all
-			-few provide traceability
-			-the text editor just supports text
+From these early days we have come to accept that there is no silver bullet to understand a program~\cite{bullet1987essence}. However, in recent years the field of program comprehension~\cite{rugaber1995program} has evolved considerably. The main motivation behind this evolution is because a program that is not comprehended cannot be changed, shared and communicated. 
 
-	(Hypothesis/aim)
-	-read the code and create by reacting can improve program comprehension and program documentation.
-		-enabling beginner programmers to effortless read the code and immediately see the result of their actions.
+The area of program comprehension has shown that perhaps we do not need a silver bullet. This field came up with a wide variety of theories that provide rich explanations of how programmers understand programs. For instance, the top-down theory~\cite{brooks1977towards} says that to comprehend a program the programmer creates a mental model of the program's structure and behavior. This model is a set of certain hypothesis which the programmer confirms or rejects them based on evidence found in the code.
 
-	(Proposed solution/plan-how it fills the gaps)
-	-Based on learning programming (B. Victor et al) and old systems programming (cite) we proposed:
-	-two interactive tools, to integrate in a generative design program environment, (1) image in the code correlation and (2) live code
-		-(1) read the code effortless
-		-(2) experiment ideas instantly 
+In response to these theories, many powerful tools and innovative software processes have evolved to improve comprehension activities. For example, sophisticated frameworks to support the more rapid construction and integration of tools~\cite{DesRivieres2004}, advanced technologies such as intelligent users interface~\cite{carlson2005eclipse,boudreau2002netbeans,intellij2001intellij,guckenheimer2006software}, and even simple tools designed for learning environments~\cite{papert1980mindstorms,Kay1993,Reas2006,findler2002drscheme,GuoSIGCSE2013,mcdirmid2013usable}. In parallel to these tool advances, there are more researchers from other disciplines that are interested in the aspects of program comprehension. For example, in the Architecture area, new tools~\cite{aish2012designscript,lopes2011portable} are being proposed to support the procedural generation of designs.
+
+However many of those tools would be unnecessary if the programs were documented properly. The oldest recommended practice in software engineering, comment the source code, is the most important artifact to understand a system an to maintain it, as showed in~\cite{de2005study}. Unfortunately, for the most programmers, writing documentation is perceived as a tiresome task and thus avoided.
+
+In this work we aim that by creating well designed tools is possible to improve the program documentation. In this way, documenting a program will be no more a tiresome task. Consequently, the program comprehension will be improved because the documentation helps the programmer to create a better mental model.
