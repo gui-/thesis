@@ -15,7 +15,7 @@ The features we propose will be built on top of DrRacket~\cite{findler2002drsche
 
 \subsection{DrRacket Properties}
 
-Like DrRacket, our solution initially will target at students. The features, we propose, are supposed to be used for quickly experiment ideas and progressively migrate these experiments to a bigger project. However, this interactive environment can be used for either beginner who wants to understand a piece of code or a professional programmer who needs to test a particular module.
+Like DrRacket, our solution initially will target students. The features, we propose, are supposed to be used for quickly experiment ideas and progressively migrate these experiments into a bigger project. However, this interactive environment can be used for either beginner who wants to understand a piece of code or a professional programmer who needs to test a particular module.
 
 Fortunately, DrRacket is built in the same principle we search for and has some key qualities:
 
@@ -52,7 +52,7 @@ The \texttt{tool core} component, in Figure~\ref{fig:solution}, will change the 
 
 \begin{itemize}
 	\item \texttt{on-change:} when DrRacket detects that the editor has been modified, it sends the contents of the editor over to action handlers.
-	The action handler, in this case is the \texttt{online expansion handler} an separated place where the code are expanded. \textit{Desired action}: \texttt{execute} the code when the syntax is correct. 
+	The action handler, in this case is the \texttt{online expansion handler}; a separated place where the code are expanded. \textit{Desired action}: \texttt{execute} the code when the syntax is correct. 
 
 	\item \texttt{on-paint:} this event is sent just before and just after every painting of the editor. Handling this event provide a way to add arbitrary graphics to an editor's display. \textit{Desired action}: \texttt{show} a slider widget when the cursor stops over a literal.
 
