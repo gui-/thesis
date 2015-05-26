@@ -7,7 +7,7 @@
 \section{Architecture}
 \label{sec:arch}
 
-As discussed in the previous section, the general purpose programming environments provide advanced features for editing, refactoring and debugging code, but the representation of code in those editors are purely textual. On the other hand, the visual languages and environments used in generative design, for instance, provide straightforward features for beginners, but does not suite well as program grows.
+As discussed in the previous section, the general purpose programming environments provide advanced features for editing, refactoring and debugging code, but the representation of code in those editors are purely textual. On the other hand, the visual languages and environments used in generative design, for instance, provide straightforward features for beginners, but these features are suitable only for small programs.
 
 The problem addressed in this work is to design and implement an interactive programming environment. Our approach suggests two features. The first, illustrates the code with images (handmade sketches) which improves the program documentation. The second, allows the result of the code be visualized as soon as possible improving the program comprehension.
 
@@ -15,7 +15,7 @@ The features we propose will be built on top of DrRacket~\cite{findler2002drsche
 
 \subsection{DrRacket Properties}
 
-Like DrRacket, our solution initially will target students. The features, we propose, are supposed to be used for quickly experiment ideas and progressively migrate these experiments into a bigger project. However, this interactive environment can be used for either beginner who wants to understand a piece of code or a professional programmer who needs to test a particular module.
+Like DrRacket, our solution initially will target students. The proposed features are supposed to be used for quickly experimenting ideas and to progressively migrate these experiments to a bigger project. However, this interactive environment can be used for either a beginner who wants to understand a piece of code or a professional programmer who needs to test a particular module.
 
 Fortunately, DrRacket is built in the same principle we search for and has some key qualities:
 
@@ -34,15 +34,16 @@ However, DrRacket lacks on a mechanism which enables beginner programmers to eff
 The Figure~\ref{fig:solution}, presents a publish-subscribe view of the proposed tool. There are two different interactions in this architecture, the first presented by a publish-subscribe and the second by a client-server.
 
 \begin{enumerate}
-	\item \texttt{DrRacket UI event manager} acts as an event bus for user-interface events (such as button clicks). Subscription information, i.e. what \ac{ui} events are relevant to our system and what components handle them, is defined at load time when the event manager reads the \textit{plugin} configuration file, the \texttt{info} file. So, when user are working on a editor, an \ac{ui} event is generated and dispatched via implicit invocation to the action handler objects that subscribe to that event.
+	\item \texttt{DrRacket UI event manager} acts as an event bus for user-interface events (such as button clicks). Subscription information, i.e. which \ac{ui} events are relevant to our system and which components handle them, is defined at load time when the event manager reads the \textit{plugin} configuration file, the \texttt{info} file. So, when user are working on a editor, an \ac{ui} event is generated and dispatched via implicit invocation to the action handler objects that subscribe to that event.
 
-	\item The manuscripts symbols, present on the image, will be parsed using an \ac{ocr} engine. This engine usually get an image and return a text file containing a symbol table with the parsed symbols and its respective coordinates on the image. We expect the \ac{ocr} engine acts as an external service providing a service to identify those symbols. For this purpose, in our architecture the \texttt{symbol identifier} component call this service to handle the recognition of symbols in the image.
+	\item The manuscripts symbols, present on the image, will be parsed using an \ac{ocr} engine. This engine usually gets an image and returns a text file containing a symbol table with the parsed symbols and its respective coordinates on the image. We expect the \ac{ocr} engine to act as an external service that allows to identify those symbols. For this purpose, in our architecture the \texttt{symbol identifier} component call this service to handle the recognition of symbols in the image.
 \end{enumerate}
 
 \begin{figure}[htb]
  \vspace{-15pt}
 	\centering
 	\includegraphics[scale=0.19]{img/solution}
+	\vspace{-10pt}
 	\caption{Diagram for a publish subscribe view of the proposed architecture.}
 	\label{fig:solution}
  \vspace{-10pt}
@@ -52,11 +53,11 @@ The \texttt{tool core} component, in Figure~\ref{fig:solution}, will change the 
 
 \begin{itemize}
 	\item \texttt{on-change:} when DrRacket detects that the editor has been modified, it sends the contents of the editor over to action handlers.
-	The action handler, in this case is the \texttt{online expansion handler}; a separated place where the code are expanded. \textit{Desired action}: \texttt{execute} the code when the syntax is correct. 
+	The action handler, in this case is the \texttt{online expansion handler}; a separated place where the code is expanded. \textit{Desired action}: \texttt{execute} the code when the syntax is correct. 
 
 	\item \texttt{on-paint:} this event is sent just before and just after every painting of the editor. Handling this event provide a way to add arbitrary graphics to an editor's display. \textit{Desired action}: \texttt{show} a slider widget when the cursor stops over a literal.
 
 	\item \texttt{on-new-image-snip:} this event is sent when an image is inserted in the editor. The default implementation creates an image snip which is an object with the image information, such as path, format, etc. \textit{Desired action}: get the image and sent it to the \ac{ocr} engine to recognize its symbols and respective coordinates (x, y). Then return an subclass of image snip, adding this extra information.
 \end{itemize}
 
-Finally, to connect all pieces of the image recognition we will use a syntactic transformer, i.e. macro. The macro will add a new syntax form into the language grammar allowing an image be used as a comment. Very similar to Lisper's comment, we will add a new rule where an image will be between a function declaration and a function body. Basically, the image will be will be ignored. However, in background, our macro expansion will add to the function body new occurrences of the function parameter. As a result, the DrRacket arrow mechanism will be able to recognize bound occurrences and point to them inside an image.
+Finally, to connect all pieces of the image recognition we will use a syntactic transformer, i.e. macro. The macro will add a new syntax form into the language grammar, allowing an image to be used as a comment. Very similar to Lisper's comment, we will add a new rule where an image will be between a function declaration and a function body. Basically, the image will be ignored. However, in background, our macro expansion will add to the function body new occurrences of the function parameter. As a result, the DrRacket arrow mechanism will be able to recognize bound occurrences and point to them inside an image.
