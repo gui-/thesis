@@ -61,3 +61,17 @@ The \texttt{tool core} component, in Figure~\ref{fig:solution}, will change the 
 \end{itemize}
 
 Finally, to connect all pieces of the image recognition we will use a syntactic transformer, i.e. macro. The macro will add a new syntax form into the language grammar, allowing an image to be used as a comment. Very similar to Lisper's comment, we will add a new rule where an image will be between a function declaration and a function body. Basically, the image will be ignored. However, in background, our macro expansion will add to the function body new occurrences of the function parameter. As a result, the DrRacket arrow mechanism will be able to recognize bound occurrences and point to them inside an image.
+
+\begin{figure}
+        \centering
+        \begin{subfigure}{0.5\textwidth}
+                \includegraphics[width=\textwidth]{img/img-code}
+                \label{fig:Ncolors}
+        \end{subfigure}%
+        ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc.
+          %(or a blank line to force the subfigure onto a new line)
+        \begin{subfigure}{0.5\textwidth}
+                \includegraphics[width=\textwidth]{img/img-code-2}
+                \label{fig:Nblackandwhite}
+        \end{subfigure}
+\end{figure}

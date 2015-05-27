@@ -6,15 +6,15 @@
 
 \section{Related Work}
 \label{sec:rw}
-A \textit{programming system} has two fundamental parts: the \textit{programming language} that users should know, and the \textit{programming environment} where the users write their programs. Undoubtedly, both parts are equally important to built a program and understand it.
+A \textit{programming system} has two fundamental parts: the \textit{programming language} that users should know, and the \textit{programming environment} that is installed on the computer. Undoubtedly, both parts are equally important to build a program and understand it.
 
-In the following sections we divide the programming systems in three categories. In each category we focus, mainly, on the tools that the programming environment provides. One can also highlight other aspects of a programming system, such as the features which the programming language provides.
+In the following sections we divide the programming systems in three categories: general-purpose, teaching and empowering . In each category we describe the tools provided by the programming environment.
 %%%
 \subsection{General-purpose systems}
 
 The systems in this category are built to support all, or at least a substantial part, of software development process. For this, these systems suggest an \ac{ide} that aims to support the entire development process by grouping in a single environment all necessary tools. These tools are minimal set of functionality and are designed to allow people to build as much as possible.
 
-In this section we describe, in detail, two popular \ac{ide}s: Eclipse~\cite{carlson2005eclipse} and LightTable\footnote{\label{lt:note}\texttt{http://lighttable.com/}}. However, we focus on features that are similar among other \ac{ide}s. For this reason, we select these two representative systems among the others. For instance, Eclipse~\cite{carlson2005eclipse} among NetBeans~\cite{boudreau2002netbeans}, IntelliJ~\cite{intellij2001intellij}, and Microsoft Visual Studio (MVS)~\cite{guckenheimer2006software}. Similarly, LighTable\footnotemark[\ref{lt:note}] among Xcode\footnote{\texttt{https://developer.apple.com/xcode/}}.
+In this section we describe, in detail, two popular \ac{ide}s: Eclipse~\cite{carlson2005eclipse} and LightTable\footnote{\texttt{http://lighttable.com/}}. However, we focus on features that are similar among other \ac{ide}s. For this reason, we select these two representative systems among the others. For instance, Eclipse~\cite{carlson2005eclipse} among NetBeans~\cite{boudreau2002netbeans}, IntelliJ~\cite{intellij2001intellij}, and Microsoft Visual Studio (MVS)~\cite{guckenheimer2006software}. Similarly, LighTable among Xcode\footnote{\texttt{https://developer.apple.com/xcode/}}.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Eclipse~\cite{carlson2005eclipse}} is a popular \ac{ide} used mainly by Java developers, although it supports other programming languages such as C, C++ and JavaScript. As showed in~\cite{murphy2006java}, the commonly cited reasons for using Eclipse include rich Java development tools support and a \textit{plugin} architecture, the Eclipse Platform~\cite{DesRivieres2004}, that allows tight integration of third-party functionality.
 
@@ -28,7 +28,7 @@ However, Eclipse and the other similar \ac{ide}s share the following drawbacks.
 	\item Programs in these \ac{ide}s are unobservable. The only way to see how the program executes is by a stepwise debugger, which forces the programmer to stop the program and look at a line in a single instant of time. Consequently, the programmer cannot see how his program is executing, how his changes affect its execution, and nor how his program is connected to others.
 \end{itemize}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{LightTable\protect\footnotemark[\ref{lt:note}]} is a programming environment which aims to turn programming in something more observable. Bret Victor, in his influential work~\cite{inventingPrin,learnableProg}, pointed out serious problems with programming nowadays and showed, with some prototypes, how the environment can address those problems. LighTable is implemented base on those ideas, and its features are  state of the art. It is commonly used by professional programmers to build web applications. Because it provides, at least, two features that help in this process. First, live execution feedback that executes the program instantly showing the program flow. And second, the organization of code in tables enabling quick access to the documentation.
+\subsubsection{LightTable} is a programming environment which aims to turn programming in something more observable. Bret Victor, in his influential work~\cite{inventingPrin,learnableProg}, pointed out serious problems with programming nowadays and showed, with some prototypes, how the environment can address those problems. LighTable is implemented base on those ideas, and its features are  state of the art. It is commonly used by professional programmers to build web applications. Because it provides, at least, two features that help in this process. First, live execution feedback that executes the program instantly showing the program flow. And second, the organization of code in tables enabling quick access to the documentation.
 
 \begin{figure}[!htbp]
 \vspace{-10pt}
