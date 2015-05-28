@@ -63,7 +63,7 @@
         (vector (syntax-local-introduce #'from)
                 0 from-len 0.5 0.5
                 (syntax-local-introduce #'to)
-                0 1 0.5 0.5)))]))
+                0 1 0.3 0.56)))]))
 
 (define-syntax (λ/point stx)
   (syntax-case stx ()
