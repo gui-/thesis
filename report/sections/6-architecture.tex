@@ -7,11 +7,29 @@
 \section{Architecture}
 \label{sec:arch}
 
-As discussed in the previous section, the general purpose programming environments provide advanced features for editing, refactoring and debugging code, but the representation of code in those editors are purely textual. On the other hand, the visual languages and environments used in generative design, for instance, provide straightforward features for beginners, but these features are suitable only for small programs.
+The problem addressed in this thesis is to design and implement an interactive programming environment. Our approach suggests two features. The first, shows the code in context of the data, addressing the problem discussed in the above section. The second, allows the result of the code to be visualized as soon as possible, improving the program comprehension.
 
-The problem addressed in this work is to design and implement an interactive programming environment. Our approach suggests two features. The first, illustrates the code with images (handmade sketches) which improves the program documentation. The second, allows the result of the code be visualized as soon as possible improving the program comprehension.
+The Figure~\ref{fig:img-code} shows an initial prototype which illustrates how code and image can be correlated. In this prototype, the meaning of the functions parameters are transparent, so users can point to each parameter to figure out its meaning. For example in the Figure~\ref{fig:img-code1}, there are two arrows pointing to the parameter \texttt{r}, when we look at the image is easy to see that \texttt{r} is the radius of the sphere. Moreover, one can conclude that the function creates a similar object represented in the image.
 
-The features we propose will be built on top of DrRacket~\cite{findler2002drscheme}. In the following sections, we will present relevant properties of DrRacket that justify its choice as the basis of this work, as well as the proposed architecture to extend the DrRacket environment.
+The features we propose will be built on top of DrRacket~\cite{findler2002drscheme}. In the following sections, we will present relevant properties of DrRacket that justify its choice as the basis of this project, as well as the proposed architecture to extend the DrRacket environment.
+
+\begin{figure}
+        \centering
+        \begin{subfigure}{0.5\textwidth}
+                \includegraphics[width=\textwidth]{img/img-code}
+                \caption{Searching for ``r'' meaning.}
+                \label{fig:img-code1}
+        \end{subfigure}%
+        ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc.
+          %(or a blank line to force the subfigure onto a new line)
+        \begin{subfigure}{0.5\textwidth}
+                \includegraphics[width=\textwidth]{img/img-code-2}
+                \caption{Searching for ``c'' meaning.}
+                %\label{}
+        \end{subfigure}
+        \caption{Contextualizing the code with image.}
+        \label{fig:img-code}
+\end{figure}
 
 \subsection{DrRacket Properties}
 
@@ -62,16 +80,3 @@ The \texttt{tool core} component, in Figure~\ref{fig:solution}, will change the 
 
 Finally, to connect all pieces of the image recognition we will use a syntactic transformer, i.e. macro. The macro will add a new syntax form into the language grammar, allowing an image to be used as a comment. Very similar to Lisper's comment, we will add a new rule where an image will be between a function declaration and a function body. Basically, the image will be ignored. However, in background, our macro expansion will add to the function body new occurrences of the function parameter. As a result, the DrRacket arrow mechanism will be able to recognize bound occurrences and point to them inside an image.
 
-\begin{figure}
-        \centering
-        \begin{subfigure}{0.5\textwidth}
-                \includegraphics[width=\textwidth]{img/img-code}
-                \label{fig:Ncolors}
-        \end{subfigure}%
-        ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc.
-          %(or a blank line to force the subfigure onto a new line)
-        \begin{subfigure}{0.5\textwidth}
-                \includegraphics[width=\textwidth]{img/img-code-2}
-                \label{fig:Nblackandwhite}
-        \end{subfigure}
-\end{figure}
