@@ -7,9 +7,11 @@
 \section{Architecture}
 \label{sec:arch}
 
-The problem addressed in this thesis is to design and implement an interactive programming environment. Our approach suggests two features. The first, shows the code in context of the data, addressing the problem discussed in the above section. The second, allows the result of the code to be visualized as soon as possible, improving the program comprehension.
+The problem addressed in this thesis is to design and implement an interactive programming environment. Our approach suggests two features. The first, shows the code in context of the data, addressing the problem discussed in the above section. The second, allows the result of the code to be visualized as soon as possible, improving the program comprehension. Before to present the architecture, the next section shows a possible implementation of these features.
 
-The Figure~\ref{fig:img-code} shows an initial prototype which illustrates how code and image can be correlated. In this prototype, the meaning of the functions parameters are transparent, so users can point to each parameter to figure out its meaning. For example in the Figure~\ref{fig:img-code1}, there are two arrows pointing to the parameter \texttt{r}, when we look at the image is easy to see that \texttt{r} is the radius of the sphere. Moreover, one can conclude that the function creates a similar object represented in the image.
+\subsection{Experimental results}
+
+The Figure~\ref{fig:img-code} shows an initial prototype which illustrates how code and image can be correlated. In this prototype, the meaning of the functions parameters are transparent, so users can point to each parameter to figure out its meaning. For example in the Figure~\ref{fig:img-code1}, there are two arrows pointing to the parameter \texttt{r}, when we look at the image is easy to see that \texttt{r} is the radius of the sphere. Moreover, we can conclude that the function creates a similar object which is being illustrated in the image.
 
 The features we propose will be built on top of DrRacket~\cite{findler2002drscheme}. In the following sections, we will present relevant properties of DrRacket that justify its choice as the basis of this project, as well as the proposed architecture to extend the DrRacket environment.
 
