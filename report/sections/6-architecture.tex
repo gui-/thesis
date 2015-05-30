@@ -7,15 +7,14 @@
 \section{Architecture}
 \label{sec:arch}
 
-The problem addressed in this thesis is to design and implement an interactive programming environment. Our approach suggests two features. The first, shows the code in context of the data, addressing the problem discussed in the above section. The second, allows the result of the code to be visualized as soon as possible, improving the program comprehension. Before to present the architecture, the next section shows a possible implementation of these features.
+The problem addressed in this thesis is to design and implement an interactive programming environment. Our approach suggests two features. The first, shows the code in context of the data, addressing the problem discussed in the above section. The second, allows the result of the code to be visualized as soon as possible, creating an interactive environment to quickly test new ideas and, eventually, improve the program comprehension. Before to present the architecture, the next section shows a prototype of how these features will work.
 
 \subsection{Experimental results}
 
-The Figure~\ref{fig:img-code} shows an initial prototype which illustrates how code and image can be correlated. In this prototype, the meaning of the functions parameters are transparent, so users can point to each parameter to figure out its meaning. For example in the Figure~\ref{fig:img-code1}, there are two arrows pointing to the parameter \texttt{r}, when we look at the image is easy to see that \texttt{r} is the radius of the sphere. Moreover, we can conclude that the function creates a similar object which is being illustrated in the image.
-
-The features we propose will be built on top of DrRacket~\cite{findler2002drscheme}. In the following sections, we will present relevant properties of DrRacket that justify its choice as the basis of this project, as well as the proposed architecture to extend the DrRacket environment.
+The Figure~\ref{fig:img-code}, shows an initial prototype which illustrates how code and image can be correlated. In this prototype, the meaning of the functions parameters are transparent, so users can point to each parameter to figure out its meaning. For example in the Figure~\ref{fig:img-code1}, there are two arrows pointing to the parameter \texttt{r}, when we look at the image is easy to see that \texttt{r} is the radius of the sphere. Especially in this example, the function produces a geometric model which is illustrated in the sketch (i.e. the function \texttt{sphere} is a primitive of Rosetta which creates a sphere in the selected backend).
 
 \begin{figure}
+ \vspace{-10pt}
         \centering
         \begin{subfigure}{0.5\textwidth}
                 \includegraphics[width=\textwidth]{img/img-code}
@@ -31,20 +30,45 @@ The features we propose will be built on top of DrRacket~\cite{findler2002drsche
         \end{subfigure}
         \caption{Contextualizing the code with image.}
         \label{fig:img-code}
+         \vspace{-10pt}
 \end{figure}
+
+\begin{figure}[htb]
+ \vspace{-10pt}
+    \centering
+        \begin{subfigure}{0.7\textwidth}
+                \includegraphics[width=\textwidth]{img/cube}
+                \caption{Searching for ``r'' meaning.}
+                \label{fig:img-code1}
+        \end{subfigure}%
+        ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc.
+          %(or a blank line to force the subfigure onto a new line)
+        \begin{subfigure}{0.3\textwidth}
+                \includegraphics[width=\textwidth]{img/img-cube}
+                \caption{Searching for ``c'' meaning.}
+                %\label{}
+        \end{subfigure}
+        \caption{Contextualizing the code with image.}
+        \label{fig:cube}
+ \vspace{-10pt}
+\end{figure}
+
+After the programmers get a high level understanding of the function and its parameters, they can test their ideas using the immediate feedback tool. The Figure~\ref{fig:cube}, shows a prototype which support this process. In this prototype, the function defined in Figure~\ref{fig:img-code}, i.e. \texttt{cube-spheres}, is being interactively tested. Each change in the slider causes the program to be executed with the new slider value, particularly in this example, it will generate a new geometric model (similar to the sketch). So users can confirm that the parameter \texttt{r} is, indeed, the radius of the sphere.
+
+These features will be built on top of DrRacket~\cite{findler2002drscheme}. In the following sections, we will present relevant properties of DrRacket that justify its choice as the basis of this thesis, as well as the proposed architecture to extend the DrRacket environment.
 
 \subsection{DrRacket Properties}
 
-Like DrRacket, our solution initially will target students. The proposed features are supposed to be used for quickly experimenting ideas and to progressively migrate these experiments to a bigger project. However, this interactive environment can be used for either a beginner who wants to understand a piece of code or a professional programmer who needs to test a particular module.
+Like DrRacket, our solution initially will target students. The proposed features are supposed to be used by students to quickly experiment ideas and to progressively migrate these experiments to a bigger project. However, this interactive environment can be used by either a beginner who wants to understand a piece of code or by a professional programmer who needs to test a particular module.
 
 Fortunately, DrRacket is built in the same principle we search for and has some key qualities:
 
 \begin{itemize}
-	\item \textbf{Pedagogic.} DrRacket has been a popular environment for introductory courses in programming languages. The environment is designed to guide the student by catching typical mistakes and explain them in terms the students understand. The environment is also useful for professional programmers, due to its sophisticated programming tools, such as the static debugger, and its advanced language features, such as units and mixins.
+	\item \textbf{Pedagogic.} DrRacket is a popular environment for introductory courses in programming languages. The environment is designed to guide the student by catching typical mistakes and explain them in terms that students understand. The environment is also useful for professional programmers, due to its sophisticated programming tools, such as the static debugger, and its advanced language features, such as units and mixins.
 
 	\item \textbf{Sophisticated editor.} DrRacket fully integrates a graphics-enriched editor which supports, in addition to plain text, elements such as images, boxes (with comments, Racket code and XML code), etc. DrRacket also displays these elements appropriately in the read-eval-print loop.
 
-	\item \textbf{Extensible.} The main tools of DrRacket environment is implemented using the same \ac{api} that it provides for extension. For example, the debugger, the syntax checker and the stepper, despite of providing different functionalities, these tools implements the same \ac{api}. And this \ac{api} is available for any ordinary tool.
+	\item \textbf{Extensible.} The main tools of DrRacket environment is implemented using the same \ac{api} that it provides for extension. For example, the debugger, the syntax checker and the stepper, despite providing different functionalities, are implemented with the same \ac{api}, which is available to third-party.
 \end{itemize}
 
 However, DrRacket lacks on a mechanism which enables beginner programmers to effortless read the code and also allow them immediately see the result of their actions. In the next section, we present a possible way to integrate these mechanisms in DrRacket.
