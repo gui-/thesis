@@ -36,7 +36,7 @@ Moreover, both Eclipse and the other similar \ac{ide}s also share the following 
 \vspace{-10pt}
   \centering
   \includegraphics[width=1.0\textwidth]{img/lt2}
-    \vspace{-20pt}
+    \vspace{-15pt}
     \caption{LighTable \ac{ide}.}
     \vspace{-10pt}  
   \label{fig:lt}
@@ -69,7 +69,7 @@ Despite providing some tools which are state of the art, LightTable remains in a
 Unlike the previous systems, teaching systems are designed with the goal of helping people learning to program. Most of the systems in this category provide simple programming tools that expose the novice programmers some of the fundamental aspects of the programming process. After acquiring experience with a teaching system, students are expected to move to a more general-purpose environment. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{LOGO~\cite{papert1980mindstorms}} is a programming language and environment intended to allow children to explore a wide variety of topics such as physics and mathematics. The programming language is a dialect of Lisp, with much of the punctuation removed to make the syntax accessible to children, the notorious innovation in LOGO is the metaphor that the programming language uses.
+\subsubsection{LOGO~\cite{papert1980mindstorms}} is a programming language and environment intended to allow children to explore a wide variety of topics such as physics and mathematics. The programming language is a dialect of Lisp, with much of the punctuation removed to make the syntax accessible to children, it uses a helpful metaphor which facilitates the introduction of programming concepts.
 
 \begin{wrapfigure}{r}{0.4\textwidth}
   \vspace{-25pt}
@@ -82,7 +82,7 @@ Unlike the previous systems, teaching systems are designed with the goal of help
     \label{fig:turtle}
 \end{wrapfigure}
 
-In Logo, the programmer draws pictures by directing the ``turtle'', an onscreen character which leaves a trail as it moves (see Figure~\ref{fig:turtle}). The turtle serves a number of functions, but the most important is that the programmer can identify with it. That means, to figure out how to make the turtle perform an action, the programmer can ask how he would perform that action himself, as if he were the turtle.
+In Logo, the programmer draws pictures by directing the ``turtle'', an onscreen character which leaves a trail as it moves (see Figure~\ref{fig:turtle}). The turtle is a metaphor that helps learners to translate their experiences as a person into programming knowledge. That means, to figure out how to make the turtle perform an action, the programmer can ask how he would perform that action himself, as if he were the turtle.
 
 For example, to figure out how to draw a circle, a learner would walk around in circles for a bit, and quickly derive a ``circle procedure'' of taking a step forward, turning a bit, taking another step forward, turning a bit. After teaching it to himself, the learner can then teach it to the computer. 
 
@@ -135,49 +135,48 @@ From the perspective of professional programmers DrRacket can be a potential tar
 
 Despite of the identified advantages, DrRacket has some barriers that may discourage the learner. For example, the Racket programming language is simple to teach, but its heavy syntax of s-expressions hinders the learner to read the program. Consequently, the learner can spend a huge mental effort to understand insignificant details of the language.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{PythonTutor~\cite{GuoSIGCSE2013}} is a web-based program visualization tool, designed to explain how a piece of Python code executes. It has become popular among students from introductory Computer Science courses. Using this tool, teachers and students can write Python programs directly in the web browser and navigate step by step throughout its execution, seeing the run-time state of data structures. For example, a global variable that defines a tuple will be represented with an arrow that point to a box with two divisions.
+\subsubsection{PythonTutor~\cite{GuoSIGCSE2013}} is a web-based program visualization tool, designed to explain how a piece of Python code executes. It has become popular among students from introductory Computer Science courses. Using this tool, teachers and students can write Python programs directly in the web browser and navigate step by step throughout its execution, seeing the run-time state of data structures.
 
-PyhtonTutor has two main modules: the \textit{backend} which implements the tool core functionality and the \textit{frontend} which presents the visualization of program's data structures. The \textit{backend} executes the input program under supervision of the standard Python debugger module (\texttt{bdb}) which stops execution after every executed line and records the program's run-time state. After execution terminates, the \textit{backend} encodes the trace in JSON format, serializing Python data types into native JSON types with extra \textit{metadata} tags and send it to the \textit{frontend}. The frontend renders the objects using standard web technologies: HTML, CSS, and JavaScript. In this way, users can use the tool without installing any extensions or plugins.
+PyhtonTutor has two main modules: the \textit{backend} which implements the tool core functionality, and the \textit{frontend} which presents the visualization of program's data structures. The \textit{backend} executes the input program under supervision of the standard Python debugger module (\texttt{bdb}) which stops execution after every executed line and records the program's run-time state. After execution terminates, the \textit{backend} encodes the program state in JSON format, serializing Python data types into native JSON types with extra \textit{metadata} tags and sends it to the \textit{frontend}. The frontend renders the objects using standard web technologies: HTML, CSS, and JavaScript. In this way, users can use the tool without installing any extensions or plugins.
 
-A major concern in PythonTutor is the security, because the PythonTutor's \textit{backend} executes untrusted Python code from the web. To prevent the execution of dangerous constructs such as {\tt eval}, {\tt exec} and {\tt file I/O}, PythonTutor implements sandboxing. Basically, it denies the use of most module imports, by parsing the user's code importing. A strict approach, but effective in this case.
+A major concern in PythonTutor is security, because the PythonTutor's \textit{backend} executes untrusted Python code from the web. To prevent the execution of dangerous constructs such as {\tt eval}, {\tt exec} and {\tt file I/O}, PythonTutor implements sandboxing. Basically, it denies the use of most module imports, by parsing the user's code importing, a strict approach, but effective in this case.
 
-The PythonTutor tool allows the programmer to follow the program execution over time. But, he only sees a single point in time at any instant. There is no visual context at all. The entire program flow is represented by disconnected points in time. For example, the programmer who wants to understand a conditional algorithm, using this tool will not see the pattern of this algorithm neither understand it at a higher level.
+The PythonTutor tool allows the programmer to follow the program execution over time, but he only sees a single point in time at any instant. There is no visual context at all. The entire program flow is represented by disconnected points in time. For example, the programmer who wants to understand a conditional algorithm, using this tool will not see the pattern of this algorithm neither understand it at a higher level.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{YinYang~\cite{mcdirmid2013usable}} is a prototype of a programming language and environment whose main feature is the live execution feedback. That means it combines editing and debugging, where updated debug results are conveniently visible while editing. YingYang addresses the above issue in two ways. First, as well as the previous system, it allows programmers to see single points of execution directly within the code editor (probe; precede expressions with \texttt{@} operator). Second, it has a pane aside the editor which traces execution with entries that are navigable (trace; print-like statements). Basically, the trace is an enhanced display function which combined with ``probes'' allows the state of previous executions to be restored. So, programmers can take in the entire program flow at a glance and navigate trough it using probes.
+\subsubsection{YinYang~\cite{mcdirmid2013usable}} is a prototype of a programming language and environment whose main feature is the live execution feedback. That means it combines editing and debugging, where updated debug results are conveniently visible while editing. YingYang addresses the above issue in two ways. First, just like the previous system, it allows programmers to see single points of execution directly within the code editor (probe; precede expressions with \texttt{@} operator). Second, it has a pane aside the editor which traces execution with entries that are navigable (trace; print-like statements). Basically, the trace is an enhanced display function which, combined with ``probes'', allows the state of previous executions to be restored. So, programmers can take in the entire program flow at a glance and navigate trough it using probes.
 
-YingYang uses an incremental framework as basis of its programming model. This framework decomposes the program execution into a tree of nodes that can be re-executed independently on a code or input change. However, this decomposition cannot be performed transparently. It requires programmers to specify how the program will be decomposed. To perform this task one must deeply understand the granularity and modularity characteristics of the computations being performed by the program. Otherwise changes can sometimes have a huge impact on program re-execution time ($\sim$50ms). Consequently, live programming would actually reduce programmer productivity as programmers depend on but wait for slow feedback.
+YingYang uses an incremental framework as basis of its programming model. This framework decomposes the program execution into a tree of nodes that can be re-executed independently on a code or input change. However, this decomposition cannot be performed transparently. It requires programmers to specify how the program will be decomposed. To perform this task one must deeply understand the granularity and modularity characteristics of the computations being performed by the program. Otherwise changes can sometimes have a huge impact on program re-execution time ($\sim$50ms). Consequently, live programming would actually reduce programmer productivity as programmers wait for slow feedback.
 
-Although YinYang provides usable features for a learning environment, such as the live execution feedback, it does not have a suitable language for beginners. The language is merely experimental as well as the system. Moreover, to navigate through the program execution programmers must include probes in the code. At the end of experimentation the code is full of useless expressions.
+Although YinYang provides usable features for a learning environment, such as the live execution feedback, it does not have a suitable language for beginners. The language is merely experimental and to navigate through the program execution, programmers must include probes in the code. At the end of experimentation, the code is full of useless expressions.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%
 \subsection{Empowering Systems}
 \label{sec:es}
 
-The systems in this category are built with the belief that the important aspect of programming is that it allows people to build things that are tailored to their own needs. In this section, we describe how systems from two distinct areas are being tailored to achieve their user's needs. 
+In this category of systems, the most important aspect is to allow people to build programs tailored to their own needs. In this section, we describe how systems from two distinct areas are tailored to achieve their user's needs. 
 
-First, in Architecture where new programming languages and environments are being proposed to support the increasing use of \ac{gd}~\cite{mccormack2004generative}. The \ac{gd} is a design method that uses algorithms to generate architectural models. Usually these models are rendered using a \ac{cad} tool. 
+First, we consider Architecture, where new programming languages and environments are being proposed to support the increasing use of \ac{gd}~\cite{mccormack2004generative}. \ac{gd} is a design method that uses algorithms to generate architectural models. Usually these models are rendered using a \ac{cad} tool. 
 
-Second, in Mathematics where advanced technologies are being used to approximate as much as possible the mathematical models to ones that we can see and understand.
+Second, we consider Mathematics, where advanced technologies are used to approximate as much as possible the mathematical models to the ones that we can see and understand.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{DesignScript~\cite{aish2012designscript}} is a programming language and environment designed to support \ac{gd} with textual methods. It is mainly used by architects and designers to generate geometric models for AutoCAD. Instead of creating geometric models manually by manipulating \ac{ui} icons, designers can automate this process with a script. When the script is executed a geometric model is generated in AutoCAD. The Figure~\ref{fig:ds}, shows five spheres, in a 2D view, being created using this method.
+\subsubsection{DesignScript~\cite{aish2012designscript}} is a programming language and environment designed to support \ac{gd} with textual methods. It is mainly used by architects and designers to generate geometric models using a script. When the script is executed it generates new models in a \ac{cad} tool. DesignScript is a AutoDesk\footnote{\texttt{http://www.autodesk.com/products}} product initially proposed to be used within AutoCAD (as shown in Figure~\ref{fig:ds}), nowadays it provides the same functionality on top of Revit, another AutoDesk product used for \ac{bim}. In short, a \ac{bim} model is similar to a \ac{cad} model but it covers more than just geometry. It also covers spatial relationships, properties of building components, such as manufacturers' details.
 
 \begin{figure}[!htbp]
-\vspace{-5pt}
+%\vspace{-5pt}
   \centering
   \includegraphics[width=1.0\textwidth]{img/designScriptIDE}
-  \vspace{-20pt}
-    \caption{DesignScript programming environment.} 
-    \vspace{-10pt} 
+ % \vspace{-15pt}
+    \caption{Typical DesignScript programming environment.} 
+  %  \vspace{-10pt} 
   \label{fig:ds}
 \end{figure} 
 
-
-\begin{wrapfigure}{r}{0.4\textwidth}
+\begin{wrapfigure}{r}{0.45\textwidth}
   \vspace{-25pt}
   \begin{center}
-    \includegraphics[width=0.4\textwidth]{img/designscript}
+    \includegraphics[width=0.45\textwidth]{img/designscript}
   \end{center}
   \vspace{-20pt}
  \caption{Associative interpretation.}  
@@ -185,23 +184,23 @@ Second, in Mathematics where advanced technologies are being used to approximate
     \label{fig:designscript}
 \end{wrapfigure}
 
-The programming language is presented as an associative language. The variables are abstract types that can represent numeric values or geometric entities. These variables are maintained in a graph of dependencies. When a change in a variable occurs it forces the re-evaluation of the graph, as shows Figure~\ref{fig:designscript}. Consequently, a subsequent change to a variable has impact on its previous use. This feature is useful, specially in a modeling environment, because it provides continuous feedback to the designer as new models are added.
+The programming language is presented as an associative language. The variables are abstract types that can represent numeric values or geometric entities. These variables are maintained in a graph of dependencies. When a change in a variable occurs it forces the re-evaluation of the graph, as shown in Figure~\ref{fig:designscript}, consequently variables has always updated values. This feature is useful, specially in a modeling environment, because it provides continuous feedback to the designer as the model is being modified.
 
-The DesignScript's programming environment provides a text editor coupled into AutoCAD, an interpreter, a simple debugger and few tabs on the bottom. The language interpreter is invoked each time that the designer clicks on the run button. Then all the script is interpreted and its result produces geometric entities rendered in the \ac{cad}. The continuous feedback feature works only in debug mode, because in this mode the script is interpreted line by line. Thus each set to a variable will change its dependencies and will recompute the model. However, in debug mode the code cannot be edited. Consequently, this feature is worthless during code editing.
+The DesignScript's programming environment provides a text editor, an interpreter, and a simple debugger. The language interpreter is invoked each time that the designer clicks on the run button. Then all the script is interpreted and its result produces geometric entities rendered in the \ac{cad}. The continuous feedback feature works only in debug mode, because in this mode the script is interpreted line by line. Thus, each update to a variable will change its dependencies and will recompute the model. However, in debug mode the code cannot be edited, so this feature is worthless during code editing.
 
-In the DesignScript's debug mode, users can inspect the variable values by adding \textit{watchers} to them. A watched variable is showed in a special tab, as shows Figure~\ref{fig:designscript}. In case of the variable represents a geometric model, the respective model will be highlighted in the \ac{cad} when the variable is selected. It creates a certain \textit{traceability} between models in the \ac{cad} and code in the editor. In this way he user is able to correlate which model a variable correspond. However the inverse, starting form the model and find the correspondent variable, is unsupported.
+In the DesignScript's debug mode, users can inspect the variable values by adding \textit{watchers} to them. A watched variable is showed in a special tab, as shown in Figure~\ref{fig:designscript}. In case the variable represents a geometric model, the respective model will be highlighted in the \ac{cad} when the variable is selected. It creates a certain \textit{traceability} between models in the \ac{cad} and code in the editor. In this way the user is able to correlate which model a variable corresponds to. However the inverse, starting form the model and finding the correspondent variable, is unsupported.
 
-DesignScript also supports the typical mechanism of \textit{live} programming environments: the sliders. The sliders are widget which facilitate to give new values to the program input. By quickly experiment new ideas, designers can create new models reacting by these changes. However, in the DesignScript's sliders the changes just reflect in the models when the designer drops the slider. Until there, the designer should imagine how would be the model with the dragged value. It is completely against the purpose of the sliders.
+DesignScript also supports a typical mechanism of \textit{live} programming environments: the sliders. The sliders are widgets which facilitate giving new values to the program input. This way, designers can create new models reacting to these changes. However, in the DesignScript's sliders the changes are reflected in the models only when the designer leaves the slider. Until then, the designer should imagine how the model would be with the new value, which is completely against the purpose of sliders.
 
-Moreover the DesignScript language, despite of being presented as pedagogic, has some drawbacks. It does not carries any strong metaphor which helps beginners to start with the language. Additionally the associative paradigm represents an barrier for sharing code. Because it discourages the recomposition of modules, since new modules can change the previous one. The environment provides poor mechanism that help people to find bugs in the code. And finally, a DesignScript is confined to only produce geometry to AutoCAD.
+Moreover the DesignScript language, despite of being presented as pedagogic, has some drawbacks. It does not carry any strong metaphor which helps beginners start with the language. Additionally the associative paradigm represents a barrier for sharing code: it discourages the recomposition of modules, because new modules can change the previous one. The environment provides poor mechanisms that help people to find bugs in the code, and finally,  DesignScript is confined to produce geometry in a single \ac{cad} tool.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Monkey\protect\footnote{\texttt{http://wiki.mcneel.com/developer/monkeyforrhino4}}} is a programming environment designed to support \ac{gd} with textual methods. Like DesignScript Monkey is used to edit, debug and interpreter scripts. However Monkey uses RhinoScript as its programming language and Rhinoceros3D\footnote{\label{rhin}\texttt{https://www.rhino3d.com}} (or Rhino for short), a lighter \ac{cad} than the AutoCAD, to generate the geometric models.
+\subsubsection{Monkey\protect\footnote{\texttt{http://wiki.mcneel.com/developer/monkeyforrhino4}}} is a programming environment designed to support \ac{gd}. Like DesignScript, Monkey is used to edit, debug and interpreter scripts. However, Monkey uses RhinoScript as its programming language and Rhinoceros3D\footnote{\label{rhin}\texttt{https://www.rhino3d.com}} (or Rhino for short), a lighter \ac{cad} than AutoCAD, to generate the geometric models.
 
-Monkey is implemented as a plugin for Rhino4. It uses a \texttt{.NET} framework to communicate with the \ac{cad}. So the scripts are written outside of the \ac{cad}'s environment and upon execution the plugin, through the framework, invokes the \ac{cad} primitives to generate the models. It has an advantage, relatively the previous system, which is the \ac{cad} independence. On the other hand, it depends on the \texttt{.NET} framework which must exist in the user's machine.
+Monkey is implemented as a \texttt{.NET} plugin for Rhino4 and provides a programming environment to write and debug scripts. The RhinoScript is based on Microsoft's VBScript language (a descendant of BASIC), and like VBScript it is a weakly typed language. One of the major drawback with this language is the fact that users must beware with the data passed in their functions at all time, because RhinoScript can accidentally casts variables into inappropriate types. Therefore, it creates errors difficult to find, specially for people which are learning to program.
 
-In fact, Monkey is pretty based on general-purpose environments. It provides typical features of those environments, namely syntax highlighting, auto-completion and error highlighting. And even the organization of code into trees are similar. However, this influence seems awkward when the community that will use these tools are mostly composed by beginners in programming. Moreover, similar to DesignScript, the RhinoScript just produce geometry for Rhino. Consequently Monkey is also \ac{cad} dependent. 
+Monkey is based on general-purpose programming environments. It provides typical features of those environments, namely syntax highlighting, auto-completion, and error highlighting. The organization of code into trees is also similar. However, the programming environment and language, does not provide any well designed feature which helps beginners to start with programming. The provided features are based on general-purpose systems, instead of being tailored for \ac{gd}.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Rosetta~\cite{lopes2011portable}} is a programming environment designed to support \ac{gd} with textual methods. Like Monkey, Rosetta provides its own environment detached from the \ac{cad}. Rosetta is a step forward from the previous systems, because it solves the portability problem among \ac{cad}s. In Rosetta a \ac{gd} program can be written in various programming languages (frontends) and the geometric models can be rendered by various \ac{cad}s (backends). As a result, designers are free to write their programs in their preferred frontend which, upon execution, will generate the same geometry for the various backends. In Figure~\ref{fig:rosetta}, a program is written in Racket and its execution produces geometry for AutoCAD.
+\subsubsection{Rosetta~\cite{lopes2011portable}} is a programming environment designed to support \ac{gd} that is based on DrRacket~\cite{findler2002drscheme}. Like Monkey, Rosetta provides its own environment detached from the \ac{cad}. Rosetta is a step forward from the previous systems, because it solves the portability problem among \ac{cad} tools. In Rosetta a \ac{gd} program can be written in various programming languages (frontends) and the geometric models can be rendered by various \ac{cad}s (backends). As a result, designers are free to write their programs in their preferred frontend which, upon execution, will generate the same geometry for the various backends. In Figure~\ref{fig:rosetta}, a program is written in Racket and its execution produces geometry for AutoCAD.
 
 \begin{figure}[!htbp]
 \vspace{-5pt}
@@ -213,15 +212,15 @@ In fact, Monkey is pretty based on general-purpose environments. It provides typ
   \vspace{-10pt}
 \end{figure} 
 
-Rosetta has been used to teach programming in an architecture course. Tailored to this end, Rosetta uses DrRacket~\cite{findler2002drscheme} as its own programming environment. The DrRacket environment serves a number of functions, but the most important is that the student can start immediately to learn programming. For instance, the environment is set up with just three lines of code. As shows Figure~\ref{fig:rosetta}, the \texttt{\#lang} specifies the frontend language, the \texttt{require} imports Rosetta's primitives and finally the \texttt{backend} names a possible backend.
+Rosetta has been used to teach programming in architecture courses. Tailored to this end, Rosetta uses DrRacketas its own programming environment. The DrRacket environment serves a number of functions, but the most important is that the student can start immediately to learn programming. For instance, the environment is set up with just three lines of code. As shown in Figure~\ref{fig:rosetta}, the \texttt{\#lang} specifies the frontend language, the \texttt{require} imports Rosetta's primitives and finally the \texttt{backend} names a possible backend.
 
-The Racket language is also an advantage of Rosetta's environment. Because, mainly, it encourages the development of the mathematical paradigm for writing algorithms. In this way, students that learn simple programming techniques, such as recursion, are able to create robust models as never designed before. Additionally, as the students progress, new programming languages are also available to learn, such as JavaScript, Python, Processing and so on.
+The Racket language is also an advantage of Rosetta's environment, because it encourages the use of the mathematical paradigm for writing algorithms. In this way, students that learn simple programming techniques, such as recursion, are able to create robust models. Additionally, as the students progress, new programming languages are also available to learn, such as JavaScript, Python, Processing, and so on.
 
-The Rosetta's environment provides some interesting tools for \ac{gd}. A programming flow tracer, similar to the DesignScript's watcher. It highlights models in the \ac{cad} upon function selecting. However this feature goes further, it highlights the code in the editor upon model selecting. Another interactive tool is the slider. An attempt to provide immediate feedback to the designers. The slider's callback is the function that generates the entire model, so each time the slider change this function will be called. Consequently a new model will be generated.
+The Rosetta's environment provides some interesting tools for \ac{gd}, such as a programming flow tracer, similar to the DesignScript's watcher. It highlights models in the \ac{cad} upon selection of expressions, it also supports the inverse, selecting the model in the \ac{cad} and shows the expression in the code editor. Another interactive tool is the slider, an attempt to provide immediate feedback to the designers. It uses the DrRacket slider, associating the slider callback to the function that generates the entire model, so each time the slider change a new model will be generated. However, this process must be performed manually.
 
-Undoubtedly Rosetta's environment goes further than the textual environments for \ac{gd} presented in this report. However it presents some drawbacks which may discourage the learning in general. Beginning with the usual programming language: Racket. The syntax of a Racket program represents a significant barrier for reading. For instance the function which draws a circle in Rosetta is written as \texttt{(circle (xy 0 0) 1)}. The reader must lookup or memorize every argument. Using the Rosetta's documentation the reader will spend even more time, because it is in a book mixed with architecture subjects. Moreover, the immediate feedback confines to re-execute the same function with different arguments.
+Undoubtedly Rosetta's environment goes further than the textual environments for \ac{gd} presented in this report. However it presents some drawbacks which may discourage the learning in general. Beginning with the usual programming language: Racket. The syntax of a Racket program represents a significant barrier for reading. For instance the function which draws a circle in Rosetta is written as \texttt{(circle (xy 0 0) 1)}. The reader must lookup or memorize every argument. Using the Rosetta's documentation the reader will spend even more time, because it is in a book mixed with architecture topics.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Grasshopper\protect\footnote{\texttt{http://www.grasshopper3d.com/}}} is a programming language and environment designed to support \ac{gd} with visual methods. Grasshopper provides an alternative way to programming. By definition, it is a bi-dimensional representation consisting of iconic components that can be interactively manipulated by the user according to some spatial grammar~\cite{myers1990taxonomies}. For example, the boxes in Figure~\ref{fig:grass} are components which receive the input (left ports) perform some operations and return the output (right port). The components are linked to other components establishing a \textit{dataflow} paradigm where the input of a component is the output of another.
+\subsubsection{Grasshopper\protect\footnote{\texttt{http://www.grasshopper3d.com/}}} is a programming language and environment designed to support \ac{gd} using a visual language. Grasshopper provides an alternative way to programming. By definition, it is a bi-dimensional representation consisting of iconic components that can be interactively manipulated by the user according to some spatial grammar~\cite{myers1990taxonomies}. For example, the boxes in Figure~\ref{fig:grass} are components which receive the input (left ports) perform some operations and return the output (right port). The components are linked to other components establishing a \textit{dataflow} paradigm where the input of a component is the output of another.
 
 \begin{figure}[!htbp]
 \vspace{-5pt}
@@ -238,32 +237,20 @@ Like Monkey, Grasshopper is implemented as a \textit{plugin} for Rhino\footnotem
 \begin{itemize}
  \item \textit{Get immediate feedback}. As the user interacts with the components, by adding and connecting them, the result reflects immediately in the \ac{cad} model. It facilitates the design conception, because the user's intentions are immediately visible. 
  \item \textit{Facilitate program input}. To facilitate the process of design exploration, Grasshopper provides sliders which are connected at the component input. Dragging the slider causes a change propagation through components. The components are re-executed with the new slider value. Combined with the above feature new models are generated immediately.
- \item \textit{Correlate the program with generated elements}. Like DesignScript's watcher, by selecting a component its geometry is highlighted in the \ac{cad}. It allows designers to better understand a program by figuring out the roles of each component.
+ \item \textit{Correlate the program with the generated elements}. Like DesignScript's watcher, by selecting a component its geometry is highlighted in the \ac{cad}. It allows designers to better understand a program by figuring out the roles of each component.
  \item \textit{Show comparisons between models}. Grasshopper provides a special component that, when connected at the output of another component, replicates the geometry. This mechanism is useful for design exploration, because it maintains in the \ac{cad}'s background an old replica of the changed geometry. It adds a context at each change, so the designer can compare the result of his change in the new geometry based on the old one.
 \end{itemize}
 
-Mainly, the Grasshopper interactivity depends on the immediate feedback tool. However, this tool will never scale for arbitrarily complex programs. Because the \ac{cad}'s render is not designed to process the huge amount of information generated by \ac{gd} methods. Other systems, such as DesignScript and Rosetta, improve this problem by sidestepping most of the functionality of traditional \ac{cad} tools and focusing only on the generation and visualization of geometric models. So these systems provide a backend based on OpenGL that is independent of a full-fledged \ac{cad} application. But in Grasshopper there is no such backend.
+Mainly, the Grasshopper interactivity depends on the immediate feedback tool. However, this tool will never scale for arbitrarily complex programs, because the \ac{cad}'s render is not designed to process the huge amount of information generated by \ac{gd} methods. Other systems, such as DesignScript and Rosetta, improve this problem by sidestepping most of the functionality of traditional \ac{cad} tools and focusing only on the generation and visualization of geometric models. These systems provide a backend based on OpenGL that is independent of a full-fledged \ac{cad} application, but, in Grasshopper, there is no such backend.
 
-Moreover, the traceability among components is just in one direction. From the designer perspective, would be more useful to start form the geometry and find which component implements it. However this is unsupported. And despite the comparison between models be useful in design exploration. To use this feature requires the designer to have a deeply understanding of the program, or at least knows the main program \textit{dataflow}. Unlike this approach, this feature should be available whenever a change in the model occurs.
+Moreover, the traceability among components is just in one direction. From the designer perspective, it would be more useful start form the geometry and find which component implements it, but it is unsupported. However, despite the usefulness of model comparison in design exploration, this feature is also unsupported.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Dynamo\protect\footnote{\texttt{http://dynamobim.com/}}} is a programming language and environment designed to support \ac{gd} with visual methods. Like Grasshopper, Dynamo provides an alternative way to programming. However Dynamo is implemented on top of Revit an Autodesk product for \ac{bim}. In short, a \ac{bim} model is similar to a \ac{cad} model but it covers more than just geometry. It also covers spatial relationships, properties of building components, such as manufacturers' details, and so on. Consequently, a \ac{bim} model is more straightforward to reproduce than a \ac{cad} model. 
+\subsubsection{Dynamo\protect\footnote{\texttt{http://dynamobim.com/}}} is a programming language and environment designed to support \ac{gd}. Like Grasshopper, Dynamo provides an alternative way to programming. However Dynamo, like DesignScript, is implemented on top of Revit, an Autodesk product for \ac{bim}.
 
-\iffalse
-\begin{figure}[!htbp]
-	\vspace{-15pt}
-	\begin{center}
-  		\includegraphics[width=0.8\textwidth]{img/dynam-tab}
-   	\end{center}
-   	\vspace{-15pt}
-    \caption{Dynamo search tab.}
-  \label{fig:dynam}
-\end{figure}
-\fi
-
-\begin{wrapfigure}{r}{0.6\textwidth}
-  \vspace{-10pt}
+\begin{wrapfigure}{r}{0.5\textwidth}
+  \vspace{-30pt}
   \begin{center}
-    \includegraphics[width=0.6\textwidth]{img/dynam-tab}
+    \includegraphics[width=0.5\textwidth]{img/dynam-tab}
   \end{center}
   \vspace{-20pt}
  \caption{Dynamo search tab. Searching for a component, highlighted in red.}  
@@ -271,12 +258,15 @@ Moreover, the traceability among components is just in one direction. From the d
     \label{fig:dynam}
 \end{wrapfigure}
 
-Dynamo provides a set of tools similar to Grasshopper, particularly it provides a searching table as shows Figure~\ref{fig:dynam}. This lateral table provides quick access to the primitives of the language, such as the components and widgets. This feature encourages designers to explore the available components and try new components never ever tried.  
+Dynamo provides a set of tools similar to Grasshopper, particularly a searching table, as shown in Figure~\ref{fig:dynam}, which provides quick access to the primitives of the language, such as the components and widgets. This feature encourages designers to explore the available components and try new components.
 
-In general, Dynamo and Grasshopper are programming environments and visual languages popular among novices in programming. The smooth learning curve and perhaps the style of the \ac{ui} elements are attractive for beginners. However as the visual programs become large and complex it requires more time to understand, maintain, and adapt to new requirements, than the textual programs as showed in~\cite{leitao2011programming}. Despite of spending more time and effort to learn a textual programming language, the learners have their time quickly recovered once the complexity of the design task becomes sufficiently large.
-
+In general, Dynamo and Grasshopper are programming environments and visual languages popular among novices in programming. The smooth learning curve and perhaps the style of the \ac{ui} elements are attractive for beginners. However as the visual programs become large and complex it requires more time to understand, maintain, and adapt to new requirements, than the textual programs as showed in~\cite{leitao2011programming}. Despite spending more time and effort to learn a textual programming language, the learners have their time quickly recovered once the complexity of the design task becomes sufficiently large.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Mathematica~\cite{wolfram1991mathematica}} is a language and environment built to support scientific calculation. It is widely used in the scientific community, specially by students, because it is an artificial language in which typical computations and programs are expressed in the shortest and clearest possible way. For this, Mathematica supports not just liner textual input, but also full two-dimensional input, like traditional mathematical notation, as shows Figure~\ref{fig:math}.
+\subsubsection{Mathematica~\cite{wolfram1991mathematica}} is a language and environment built to support scientific calculation. It is widely used in the scientific community, specially by students, because it is an artificial language in which typical computations and programs are expressed in the shortest and clearest possible way. For this, Mathematica supports not just liner textual input, but also full two-dimensional input, like traditional mathematical notation, as shown in Figure~\ref{fig:math}.
+
+The core concepts of Mathematica are based in the paradigm initiated by Turing's work~\cite{wolfram2003wolfram}. In this paradigm mathematical processes are systematized as computations. As a result, Mathematica represents mathematics by finding what is true explicitly computing output from input.
+
+Mathematica can internally represent any possible computation. The challenge it addresses is to connect those possible computations to ones that human can describe. Surprisingly to achieve this, it took only a modest set of innovations. Because there was a certain degree of consistency in the way notation tended to be used. As a result, the main process it implements is converting this notation to something completely precise and computable. 
 
 \begin{wrapfigure}{r}{0.6\textwidth}
   \vspace{-35pt}
@@ -288,10 +278,6 @@ In general, Dynamo and Grasshopper are programming environments and visual langu
   \vspace{-25pt}
     \label{fig:math}
 \end{wrapfigure}
-
-The core concept of Mathematica as such a language was based in the paradigm initiated by Turing's work~\cite{wolfram2003wolfram}. In this paradigm mathematical processes are systematized as computations. As a result, Mathematica represents mathematics by finding what is true explicitly computing output from input. 
-
-Mathematica can internally represent any possible computation. The challenge it addresses is to connect those possible computations to ones that human can describe. Surprisingly to achieve this, it took only a modest set of innovations. Because there was a certain degree of consistency in the way notation tended to be used. As a result, the main process it implements is converting this notation to something completely precise and computable. 
 
 Presenting the information in a human readable form is, undoubtedly, a successful strategy of Mathematica's features. However the growing complexity of these features may overwhelm some novices. For this reason, Mathematica is avoided in many subjects. Mainly because it adds an extra level of complexity in a subject that is already difficult. On the other hand some mathematicians, and some students, seem to get so fascinated with these tools that the mathematics ends up relegated to a supporting role.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -324,33 +310,34 @@ The mathematical expressions defined in the MathCAD document act as an associati
 Table~\ref{tab:sum} attempts to show the presented systems based on their major design influences. The table is also intended to address the following questions.
 
 \begin{table}[h]
-\vspace{-10pt}
+\vspace{-15pt}
 \centering
+\ra{1.0}
 \resizebox{\textwidth}{!}{%
-\begin{tabular}{@{}clllcl@{}}
+\begin{tabular}{@{}clllc@{}}
 \toprule
-\multicolumn{1}{l}{\textbf{Type$^{(1)}$}} & \textbf{System} & \textbf{Main feature}$^{(2)}$ & \textbf{\begin{tabular}[c]{@{}l@{}}Support to under-\\ stand programs$^{(3)}$\end{tabular}} & \multicolumn{1}{l}{\textbf{\begin{tabular}[c]{@{}l@{}}Representation \\ of code$^{(4)}$\end{tabular}}} & \textbf{\begin{tabular}[c]{@{}l@{}}Construction\\ of programs$^{(5)}$\end{tabular}} \\ \midrule
-\multirow{6}{*}{GS} & Eclipse & \multirow{4}{*}{\begin{tabular}[c]{@{}l@{}}support software\\ development \\ life cycle\end{tabular}} & \multirow{4}{*}{debugger} & \multirow{16}{*}{text} & \multirow{16}{*}{typing code} \\
- & NetBeans &  &  &  &  \\
- & IntelliJ &  &  &  &  \\
- & MVS &  &  &  &  \\ \cmidrule(lr){2-4}
- & Xcode & \multirow{2}{*}{\begin{tabular}[c]{@{}l@{}}observable \\ programming\end{tabular}} & \multirow{2}{*}{\begin{tabular}[c]{@{}l@{}}live execution\\ feedback\end{tabular}} &  &  \\
- & LightTable &  &  &  &  \\ \cmidrule(r){1-4}
-\multirow{7}{*}{TS} & LOGO & \multirow{2}{*}{\begin{tabular}[c]{@{}l@{}}understandable\\ language\end{tabular}} & \multirow{2}{*}{physical interpretation} &  &  \\
- & SmallTalk &  &  &  &  \\ \cmidrule(lr){2-4}
- & Processing & \multirow{2}{*}{visual context} & \multirow{2}{*}{instant visualization} &  &  \\
- & Fluxus &  &  &  &  \\ \cmidrule(lr){2-4}
- & DrRacket & gradual learning & debugger; stepper &  &  \\ \cmidrule(lr){2-4}
- & PythonTutor & \multirow{2}{*}{show program flow} & \multirow{2}{*}{\begin{tabular}[c]{@{}l@{}}navigate through the \\ program execution\end{tabular}} &  &  \\
- & YinYang &  &  &  &  \\ \cmidrule(r){1-4}
-\multirow{8}{*}{ES} & DesignScript & \multirow{3}{*}{\begin{tabular}[c]{@{}l@{}}support\\ generative\\ design methods\end{tabular}} & \multirow{3}{*}{debugger} &  &  \\
- & Monkey &  &  &  &  \\
- & Rosetta &  &  &  &  \\ \cmidrule(l){2-6} 
- & Grasshopper & \multirow{2}{*}{\begin{tabular}[c]{@{}l@{}}alternative way to \\ expressing programs\end{tabular}} & \multirow{2}{*}{dataflow paradigm} & \multicolumn{1}{l}{\multirow{2}{*}{\begin{tabular}[c]{@{}l@{}}graphical \\ components\end{tabular}}} & \multirow{2}{*}{\begin{tabular}[c]{@{}l@{}}linking\\ components\end{tabular}} \\
- & Dynamo &  &  & \multicolumn{1}{l}{} &  \\ \cmidrule(l){2-6}
- & Mathematica & \multirow{3}{*}{\begin{tabular}[c]{@{}l@{}}support \\ scientific calculation\end{tabular}} & \multirow{3}{*}{\begin{tabular}[c]{@{}l@{}}present data \\ meaningfully\end{tabular}} &  \multicolumn{1}{l}{\multirow{3}{*}{\begin{tabular}[c]{@{}l@{}}mathematical\\ forms\end{tabular}}} & \multirow{3}{*}{fill forms} \\
- & IPython &  &  & \multicolumn{1}{l}{} &  \\
- & MathCAD &  &  & \multicolumn{1}{l}{} &  \\ \bottomrule
+\multicolumn{1}{l}{{\bf Type$^{(1)}$}} & {\bf System} & {\bf Main feature$^{(2)}$} & {\bf \begin{tabular}[c]{@{}l@{}}Support to understand \\ programs$^{(3)}$\end{tabular}} & {\bf Representation of code$^{(4)}$} \\ \midrule
+\multirow{6}{*}{GS} & Eclipse & \multirow{4}{*}{\begin{tabular}[c]{@{}l@{}}support software \\ development life cycle\end{tabular}} & \multirow{4}{*}{debugger} & \multirow{16}{*}{text} \\
+ & NetBeans &  &  &  \\
+ & IntelliJ &  &  &  \\
+ & MVS &  &  &  \\ \cmidrule(lr){2-4}
+ & Xcode & \multirow{2}{*}{observable programming} & \multirow{2}{*}{live execution feedback} &  \\
+ & LightTable &  &  &  \\ \cmidrule(r){1-4}
+\multirow{7}{*}{TS} & LOGO & \multirow{2}{*}{understandable language} & \multirow{2}{*}{physical interpretation} &  \\
+ & SmallTalk &  &  &  \\ \cmidrule(lr){2-4}
+ & Processing & \multirow{2}{*}{visual context} & \multirow{2}{*}{instant visualization} &  \\
+ & Fluxus &  &  &  \\ \cmidrule(lr){2-4}
+ & DrRacket & gradual learning & debugger; stepper &  \\ \cmidrule(lr){2-4}
+ & PythonTutor & \multirow{2}{*}{show program flow} & \multirow{2}{*}{\begin{tabular}[c]{@{}l@{}}navigate through the \\ program execution\end{tabular}} &  \\
+ & YinYang &  &  &  \\ \cmidrule(r){1-4}
+\multirow{8}{*}{ES} & DesignScript & \multirow{3}{*}{\begin{tabular}[c]{@{}l@{}}support generative design \\ methods\end{tabular}} & \multirow{3}{*}{debugger} &  \\
+ & Monkey &  &  &  \\
+ & Rosetta &  &  &  \\ \cmidrule(l){2-5} 
+ & Grasshopper & \multirow{2}{*}{\begin{tabular}[c]{@{}l@{}}alternative way to \\ expressing programs\end{tabular}} & \multirow{2}{*}{dataflow paradigm} & \multicolumn{1}{l}{\multirow{2}{*}{graphical components}} \\
+ & Dynamo &  &  & \multicolumn{1}{l}{} \\ \cmidrule(l){2-5} 
+ & Mathematica & \multirow{3}{*}{\begin{tabular}[c]{@{}l@{}}support scientific \\ calculation\end{tabular}} & \multirow{3}{*}{present data meaningfully} & \multicolumn{1}{l}{\multirow{3}{*}{mathematical forms}} \\
+ & IPython &  &  & \multicolumn{1}{l}{} \\
+ & MathCAD &  &  & \multicolumn{1}{l}{} \\ \bottomrule
 \end{tabular}
 }
 \vspace{1pt}
