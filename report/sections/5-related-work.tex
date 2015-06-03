@@ -27,7 +27,7 @@ Moreover, both Eclipse and the other similar \ac{ide}s also share the following 
 \begin{itemize}
 	\item They are incidentally complex. There is an immense amount of work to be done in those \ac{ide}s that is indirectly related to the real problem itself. For example, until the programmer gets a simple program to run, he needs to install and configure a set of necessary software, and he needs also to configure the development environment. This is a tiresome and time consuming task that adds an extra complexity into programming which is already a complex subject.
 
-	\item Programs execution in these \ac{ide}s is difficult to observe, such that the only way to see how the program executes is by a stepwise debugger. This forces the programmer to stop the program and look at a line in a single instant of time. Consequently, the programmer cannot see how his program is executing, nor how his changes affect its execution.
+	\item Program execution is difficult to observe, such that the only way to see how the program executes is by a stepwise debugger. This forces the programmer to stop the program and look at a line in a single instant of time. Consequently, the programmer cannot see how his program is executing, nor how his changes affect its execution.
 \end{itemize}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{LightTable} is a programming environment which aims to turn programming in a observable task. Bret Victor, in his influential work~\cite{inventingPrin,learnableProg}, pointed out serious problems with the current environments and showed, using prototypes, how the environment can help to address those problems. LighTable is implemented base on those ideas, and it is designed to build web applications. To support this process, LightTable provides, at least, two useful features: (1) live execution feedback, that executes the program on every change showing the program flow, and (2) the organization of code in tables, enabling quick access to the program documentation.
@@ -262,26 +262,26 @@ Dynamo provides a set of tools similar to Grasshopper, particularly a searching 
 
 In general, Dynamo and Grasshopper are programming environments and visual languages popular among novices in programming. The smooth learning curve and perhaps the style of the \ac{ui} elements are attractive for beginners. However as the visual programs become large and complex it requires more time to understand, maintain, and adapt to new requirements, than the textual programs as showed in~\cite{leitao2011programming}. Despite spending more time and effort to learn a textual programming language, the learners have their time quickly recovered once the complexity of the design task becomes sufficiently large.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Mathematica~\cite{wolfram1991mathematica}} is a language and environment built to support scientific calculation. It is widely used in the scientific community, specially by students, because it is an artificial language in which typical computations and programs are expressed in the shortest and clearest possible way. For this, Mathematica supports not just liner textual input, but also full two-dimensional input, like traditional mathematical notation, as shown in Figure~\ref{fig:math}.
-
-The core concepts of Mathematica are based in the paradigm initiated by Turing's work~\cite{wolfram2003wolfram}. In this paradigm mathematical processes are systematized as computations. As a result, Mathematica represents mathematics by finding what is true explicitly computing output from input.
-
-Mathematica can internally represent any possible computation. The challenge it addresses is to connect those possible computations to ones that human can describe. Surprisingly to achieve this, it took only a modest set of innovations. Because there was a certain degree of consistency in the way notation tended to be used. As a result, the main process it implements is converting this notation to something completely precise and computable. 
-
 \begin{wrapfigure}{r}{0.6\textwidth}
-  \vspace{-35pt}
+  \vspace{-15pt}
   \begin{center}
     \includegraphics[width=0.6\textwidth]{img/mathematica}
   \end{center}
-  \vspace{-23pt}
- \caption{Mathematica program. Note the two-dimensional character of the input.}  
-  \vspace{-25pt}
+  \vspace{-15pt}
+ \caption{Mathematica notebook.}  
+  \vspace{-60pt}
     \label{fig:math}
 \end{wrapfigure}
 
-Presenting the information in a human readable form is, undoubtedly, a successful strategy of Mathematica's features. However the growing complexity of these features may overwhelm some novices. For this reason, Mathematica is avoided in many subjects. Mainly because it adds an extra level of complexity in a subject that is already difficult. On the other hand some mathematicians, and some students, seem to get so fascinated with these tools that the mathematics ends up relegated to a supporting role.
+\subsubsection{Mathematica~\cite{wolfram1991mathematica}} is a language and environment built to support scientific calculation. It is widely used in the scientific community, specially by students, because it represents programs using a short and clear artificial language. This language supports not just linear textual input, but also two-dimensional input, like traditional mathematical notation.
+
+The core concepts of Mathematica are based in the paradigm initiated by Turing's work~\cite{wolfram2003wolfram}. In this paradigm mathematical processes are systematized as computations. For example, in a typical interaction, the user types a mathematical expression in the Mathematica environment (i.e. notebook), then this expression is evaluated, as shown in Figure~\ref{fig:math}.  
+
+A relevant aspect of Mathematica's notebook is the immediacy that users get a response. Unlike a typical program that must be executed explicitly to get a feedback of an action, in this notebook expressions are evaluated as soon as they are typed. It works like a read-eval-print loop, however it has enhanced mechanisms to present data meaningfully.
+
+The Mathematica features are well designed to present data in a human readable form. It would be useful for an external programming languages, if it could take advantage of these features. Unfortunately, Mathematica is closed for this end.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{IPython~\cite{PER-GRA:2007}} is a programming environment built to support scientific calculation. Originally, IPython was designed to be a mini Mathematica~\cite{wolfram1991mathematica}. Nowadays it supports a set of languages (frontends) and provides, among other features, an interactive shell and a browser-based notebook with support for code, text, mathematical expressions, plots and other rich media. 
+\subsubsection{IPython~\cite{PER-GRA:2007}} is a programming environment built to support scientific calculation. Unlike Mathematica~\cite{wolfram1991mathematica},  IPython is an open platform for extensions, it allows external programming languages (frontends) to use its features which includes an interactive shell, and a browser-based notebook with support for code, text, mathematical expressions, plots, and other rich media. 
 
 \begin{wrapfigure}{r}{0.6\textwidth}
   \vspace{-35pt}
@@ -289,25 +289,24 @@ Presenting the information in a human readable form is, undoubtedly, a successfu
     \includegraphics[width=0.6\textwidth]{img/ipython-zoom}
   \end{center}
   \vspace{-25pt}
- \caption{IPython browser-based notebook. The input is just linear characters.}  
-  \vspace{-15pt}
+ \caption{IPython browser-based notebook.}  
+    \vspace{-15pt}
     \label{fig:ipython}
 \end{wrapfigure}
 
-IPython is implemented in Python to get access to the several libraries of math computation. Like Mathematica, a program in IPython explicitly computes an output from input. It is an useful paradigm for developing iteratively, because a program can be written in parts and each part is tested individually. However, IPython is focused on interoperability rather than present its computations to ones that humans can describe.
+Like Mathematica, IPython has a notebook where users can try out expressions and immediately see its result, as shown in Figure~\ref{fig:ipython}, however this notebook is in a web format. IPython's architecture is a typical client-server, where the frontend is the client (i.e. the notebook), and the server is a language kernel (i.e. the programming language which users interact with). The communication between client and server, is through a strict protocol that the language kernel must implement. 
 
-
-Figure~\ref{fig:ipython}, shows some interactions with the IPython notebook using Python language through a web browser. The IPython architecture is a kind of client-server. The frontend language is the server and the notebook is the client. To support several frontends IPython provides a base layer for new programming environments. This layer exposes the major components of IPytohn's architecture. Consequently, IPython's features are available form others systems. For example, IJulia uses IPython interface with Julia language. 
+IPython provides a base layer for new programming environments, by exposing the major components of its architecture, consequently its features are available from other systems. For example, IJulia uses IPython interface with Julia language. 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{MathCAD\protect\footnote{\texttt{http://www.ptc.com/product/mathcad}}} is a programming environment and language built to support scientific calculation. Like Mathematica, MathCAD aims to present information into a human readable form. However, it generates live calculations with graphical plots, text and images into a single document. This document is the program environment as well as the final product.
 
-The mathematical expressions defined in the MathCAD document act as an associative language. So when a expression is changed its value is propagated through the document. This mechanism is the base of the interactiveness. However, as stated above, it represents an barrier for recomposition. Because new expressions can change the previous one. Moreover, the MathCAD language is purely visual consequently it presents the same drawbacks identified above.
+The mathematical expressions defined in the MathCAD document act as an associative language. So, when an expression is changed its value is propagated through the document. This mechanism is the base of the interactiveness. However, it represents a barrier for program recomposition, because new expressions can change the previous ones. That means that variables has a global scope, the MathCAD document, if in somewhere a variable is changed it will be changed in every occurrence in the document.   
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%		     
 
 %%
 \subsection{Summary}
 
-Table~\ref{tab:sum} attempts to show the presented systems based on their major design influences. The table is also intended to address the following questions.
+Table~\ref{tab:sum} shows the presented systems based on their major design influences. The table is also intended to address the following questions:
 
 \begin{table}[h]
 \vspace{-15pt}
@@ -346,14 +345,12 @@ Table~\ref{tab:sum} attempts to show the presented systems based on their major 
 \label{tab:sum}
 \end{table}
 
-(1) \textit{What is the purpose of the system?} We categorized three main purposes which a system can be designed. \ac{gs} designed for building complex software for the industry. \ac{ts} designed to help people learn to program. \ac{es} designed to allow people build things that are tailored to their own needs.
+(1) \textit{What is the purpose of the system?} We categorized three main purposes for a system. \ac{gs} designed for building complex software for the industry; \ac{ts} designed to help people learn how to program; \ac{es} designed to help people build things that are tailored to their own needs.
 
-(2) \textit{How does the system support its purpose?} We identified the following strategies. (i) Support software development life cycle, (ii) turn programming in something more observable, (iii) create an understandable language, (iv) combine textual programming with a visual context, (v) support gradual learning in a single environment, (vi) show the program flow, (vii) support generative design methods, (viii) find alternative ways for typing programs and (ix) support scientific calculation.
+(2) \textit{How does the system support its purpose?} We identified the following strategies: (i) support software development life cycle, (ii) turn programming in something more observable, (iii) create an understandable language, (iv) combine textual programming with a visual context, (v) support gradual learning in a single environment, (vi) show the program flow, (vii) support generative design methods, (viii) find alternative ways for to express programs, and (ix) support scientific calculation.
 
-(3) \textit{Does the programming environment provide additional support to enable users to better understand the behavior of their programs?} Environments in our study used several techniques to help users understand the behavior of their programs. These included (i) a debugger which helps to find bugs in the program, (ii) an enhanced debugger which provides live execution feedback, (iii) languages with strong metaphor allowing physical interpretation, (iv) instant visualization of models, (v) navigation through the program's execution (vi) assembling components in a dataflow paradigm and (vii) present data as humans understand.
+(3) \textit{Does the programming environment provide additional support to enable users to better understand the behavior of their programs?} Environments in our study used several techniques to help users understand the behavior of their programs. These included (i) a debugger which helps to find bugs in the program, (ii) an enhanced debugger which provides live execution feedback, (iii) languages with strong metaphor allowing physical interpretation, (iv) instant visualization of models, (v) navigation through the program's execution (vi) assembling components in a dataflow paradigm and (vii) present data adequately.
 
-(4) \textit{How does code look in the programming environment or language?} The systems in our study represent programs using text, graphical components, users can manipulate, and mathematical forms users can fill in.
+(4) \textit{How does code look in the programming environment or language?} The systems in our study represent programs using text, users can type, graphical components, users can manipulate, and mathematical forms users can fill in.
 
-(5) \textit{What actions do users take to construct programs?} Users can construct programs by typing code, linking graphical components and editing mathematical forms.
-
-To conclude, in the surveyed systems the common representation of code is textual. This representation is typically static and, to be understood, requires the reader to know the vocabulary of the programming language. For a novice it is simply a barrier to learning. On the other hand, the representation of programs as a graphical components or mathematical forms eliminates this barrier, because it is easier to read, but it becomes incomprehensible as the program grows.
+To conclude, in the surveyed systems the common representation of code is textual. This representation is typically static and, to be understood, requires the reader to know the vocabulary of the programming language. For a novice it is simply a barrier to learning. On the other hand, the representation of programs as graphical components or mathematical forms lowers this barrier, because for simple programs it is easier to read, but it becomes incomprehensible as the program grows.
