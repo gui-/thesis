@@ -1,42 +1,36 @@
 %!TEX root = ../report.tex
+\appendix
+\clearpage
 
-\section{Appendix} % (fold)
-\label{sec:attachments}
-
-Appendix files and refs will go here.
-Such as your thesis work scheduling. 
-
-\subsection{Work Scheduling Example} % (fold)
-\label{sub:work_scheduling}
-Simple work schedule is presented in Table~\ref{tab:worktable}. You can do something more fancy link a Gantt chart or whatever.
-\begin{table}[H]
-  \caption{Work Scheduling}
-  \label{tab:worktable}
-  \begin{center}
-    \begin{tabular}{l|cc}
-    \hline
-
-    \hline
-    \textbf{Month} & \textbf{Work} \\
-    \hline
-      February & Do Stuff \\
-    \hline
-      February & Do Stuff \\
-    \hline
-      March & Do Stuff   \\
-    \hline
-      April & Do Stuff   \\
-    \hline
-      May & Do Stuff   \\
-    \hline
-      May & Do Stuff   \\
-    \hline
-      June & Do Stuff   \\
-    \hline
-      July & Do Stuff   \\
-    \hline
-
-    \hline
-    \end{tabular}
-  \end{center}
+\section{Planning}
+ 
+\begin{table}[ht]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{@{}lll@{}}
+\toprule
+%\multicolumn{3}{c}{{\bf Planning}} \\ \midrule
+{\bf Tasks} & {\bf Details} & {\bf Duration} \\ \midrule
+Improve the related work research & $-$ Explore additional related systems & July (3 weeks) \\ \midrule
+\multirow{3}{*}{Improve the sketch-correlation tool} & $-$ Research additional \ac{ocr} engines & July (1 week) \\
+ & $-$ Implement client-server architecture & August (4 weeks) \\
+ & $-$ Test the tool implementation & September (1 week) \\ \midrule
+\multirow{4}{*}{Improve the immediate feedback tool} & $-$ Study DrRacket \ac{api} & September (2 weeks) \\
+ & $-$ Implement publish-subscribe architecture & October (4 weeks) \\
+ & $-$ Improve the slider mechanism & November (2 weeks) \\
+ & $-$ Test the tool implementation & November (1 weeks) \\ \midrule
+\multirow{4}{*}{Implementation of the case study} & $-$ Design specific tests using \ac{gd} programs & November (2 week) \\
+ & $-$ Implement the tests & December (4 weeks) \\
+ & $-$ Test the tools & January (2 weeks) \\
+ & $-$ Review the results with the target users & January (1 weeks) \\ \midrule
+\multirow{2}{*}{Evaluation} & $-$ Evaluate the solution with the case study results & February (1 week) \\
+ & $-$ Perform a comparison with similar systems & February (3 weeks) \\ \midrule
+\multirow{2}{*}{Thesis final dissertation writing} & \multirow{2}{*}{$-$ Write thesis dissertation} & March (4 weeks) \\
+ &  & April (2 weeks) \\ \midrule
+Reviews and Submission & $-$ Dissertation review and deliver MSc dissertation & April - May (3 week) \\ \bottomrule
+\end{tabular}
+}
+\vspace{2pt}
+\caption{Planning schedule}
+\label{ap:planning}
 \end{table}
