@@ -7,14 +7,14 @@
 \section{Architecture}
 \label{sec:arch}
 
-The problem addressed in this thesis is to design and implement an interactive programming environment for generative design that covers the needs of both beginners and advanced users. Our approach suggests two interactive tools: (1) \textit{sketch-correlation tool}, which correlates sketches with code, as a result it allows programmers to effortlessly read the code, and (2) \textit{immediate feedback tool}, which executes the program upon changes, thereby creating an interactive environment to users quickly test their ideas and, eventually, improve program comprehension. The next section shows how these features will work.
+The problem addressed in this thesis is to design and implement an interactive programming environment for generative design that covers the needs of both beginners and advanced users. Our approach suggests two interactive tools: (1) \textit{sketch-correlation tool}, which correlates sketches with code, as a result it significantly reduces the effort to read the code, and (2) \textit{immediate feedback tool}, which executes the program upon changes, thereby creating an interactive environment to users quickly test their ideas and, eventually, improve program comprehension. The next section shows how these features will work.
 
 \subsection{Experimental results}
 
-An initial prototype was devised to show how code and images can be correlated, as shown in Figure~\ref{fig:img-code}. In this prototype, the meaning of the function and its parameters are transparent, because users can move the mouse over an identifier to figure out its meaning. For example in the Figure~\ref{fig:img-code1}, there are two arrows pointing to the identifier \texttt{r}, when we look at the image is easy to see that it represents the radius of the sphere, while the other arrow refers to the location where it is used, i.e. in the \texttt{sphere} function. Especially in this example, the sketch illustrates exactly the function output. The function uses a primitive of Rosetta~\cite{lopes2011portable} (the \texttt{sphere} function) which creates a sphere, given a 3D point and a radius, in the selected \textit{backend}.
+An initial prototype was devised to show how code and images can be correlated, as shown in Figure~\ref{fig:img-code}. In this prototype, the meaning of the function and its parameters are transparent, because users can move the mouse over an identifier to figure out its meaning. For example in Figure~\ref{fig:img-code1}, there are two arrows pointing to the identifier \texttt{r}, when we look at the image is easy to see that it represents the radius of the sphere, while the other arrow refers to the location where it is used, i.e. in the \texttt{sphere} function. Especially in this example, the sketch illustrates exactly the function output. The function uses a primitive of Rosetta~\cite{lopes2011portable} (the \texttt{sphere} function) which creates a sphere, given a 3D point and a radius, in the selected \textit{backend}.
 
 \begin{figure}
- \vspace{-10pt}
+ %\vspace{-5pt}
         \centering
         \begin{subfigure}{0.5\textwidth}
                 \includegraphics[width=\textwidth]{img/img-code}
@@ -55,7 +55,7 @@ An initial prototype was devised to show how code and images can be correlated, 
  \vspace{-10pt}
 \end{figure}
 
-Using the immediate feedback tool, programmers can test their ideas by quickly experiment them. The Figure~\ref{fig:slider}, shows a prototype which supports this process. In this prototype, the function defined in Figure~\ref{fig:img-code}, i.e. \texttt{cube-spheres}, is being interactively tested. Each change in the slider causes an execution of the program with the new slider value, particularly in this example, it will generate a new geometric model (see Figure~\ref{fig:cube}). As a result, users can confirm that the parameter \texttt{r} is, indeed, the radius of the sphere and it also eliminates the cycle edit-compile-run, allowing fast visualization of changes.  
+Using the immediate feedback tool, programmers can test their ideas by quickly experiment them, as the prototype shown in Figure~\ref{fig:slider} which supports this process. In this prototype, the function defined in Figure~\ref{fig:img-code}, i.e. \texttt{cube-spheres}, is being interactively tested. Each change in the slider causes an execution of the program with the new slider value, particularly in this example, it will generate a new geometric model (see Figure~\ref{fig:cube}). As a result, users can confirm that the parameter \texttt{r} is, indeed, the radius of the sphere and it also eliminates the cycle edit-compile-run, allowing fast visualization of changes.  
 
 These features will be built on top of DrRacket~\cite{findler2002drscheme}. In the following sections, we will present relevant properties of DrRacket that justify its choice as the basis of this thesis, as well as the proposed architecture to extend the DrRacket environment.
 

@@ -19,7 +19,17 @@ In this section we describe, in detail, two relevant \ac{ide}s: Eclipse~\cite{ca
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Eclipse~\cite{carlson2005eclipse}} is a popular \ac{ide} used mainly by Java developers, although it supports other programming languages such as C, C++ and JavaScript. As showed in~\cite{murphy2006java}, the commonly cited reasons for using Eclipse include rich Java development tools support and a \textit{plugin} architecture, the Eclipse Platform~\cite{DesRivieres2004}, that allows tight integration of third-party functionality.
 
-The Eclipse platform~\cite{DesRivieres2004} has a common architecture among the \ac{ide}s presented in this report. This architecture is characterized by two main components, the \textit{plugin} which is the smallest unit of functionality that can be developed and delivered separately, and the platform runtime which will discover and connect the \textit{plugins} to the platform itself. As a result, the platform integrates several tools that are used in distinct phases of the software development process.
+The Eclipse platform~\cite{DesRivieres2004} has a common architecture among the \ac{ide}s presented in this report. This architecture is characterized by two main components, the \textit{plugin} which is the smallest unit of functionality that can be developed and delivered separately, and the platform runtime which will discover and connect the \textit{plugins} to the platform itself. As a result, the platform integrates several tools that are used in distinct phases of the software development process. Figure~\ref{fig:eclipse} shows how the \ac{ide} looks like when the user is writing a Java program. 
+
+\begin{figure}[!htbp]
+\vspace{-5pt}
+  \centering
+  \includegraphics[width=1.0\textwidth]{img/eclipse}
+    \vspace{-15pt}
+    \caption{Eclipse \ac{ide} showing Java perspective.}
+    \vspace{-5pt}  
+  \label{fig:eclipse}
+\end{figure} 
 
 Eclipse has many features that provide feedback to the programmers about what they are constructing, such as syntax highlighting, code completion suggestions, and indications of problems associated with various locations in a source file. In the literature, this concept is also known as \textit{liveness}~\cite{alpern1985defining}. It generally refers to the ability to modify a running program, however, as show in recent studies~\cite{tanimoto2013perspective}, there are several levels of liveness and these tools represent the first ones. While the tools in the first levels respond after a programmer action, the tools in the last levels not only run the program and respond immediately, but also predict the next programmer action. The modern \ac{ide}s tools, such as the Eclipse tools, are far from achieving the last liveness levels.
 
@@ -47,11 +57,11 @@ LightTable is implemented in ClojureScript\footnote{\texttt{http://clojure.org/c
 The program documentation in LightTable is quickly accessed by a lateral tab, where primitive functions of Clojure and ClojureScript can be consulted. This documentation is a textual description of the function parameters, the type of return, and some usage suggestions. While looking at a program, it is helpful to have the documentation of strange primitives, such as the \texttt{keyword} function shown in Figure~\ref{fig:lt}, however non-primitive functions are still undocumented. 
 
 \begin{wrapfigure}{r}{0.3\textwidth}
-  \vspace{-25pt}
+  \vspace{-30pt}
   \begin{center}
     \includegraphics[width=0.3\textwidth]{img/eval-close}
   \end{center}
-  \vspace{-20pt}
+  \vspace{-15pt}
  \caption{LightTable real-time debugger.}  
   \vspace{-20pt}
     \label{fig:lt2}
@@ -71,8 +81,10 @@ Unlike the previous systems, teaching systems are designed with the goal of help
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{LOGO~\cite{papert1980mindstorms}} is a programming language and environment intended to allow children to explore a wide variety of topics such as physics and mathematics. The programming language is a dialect of Lisp, with much of the punctuation removed to make the syntax accessible to children, it uses a helpful metaphor which facilitates the introduction of programming concepts.
 
+In Logo, the programmer draws pictures by directing the ``turtle'', an onscreen character which leaves a trail as it moves (see Figure~\ref{fig:turtle}). The turtle is a metaphor that helps learners to translate their experiences as a person into programming knowledge. That means, to figure out how to make the turtle perform an action, the programmer can ask how he would perform that action himself, as if he were the turtle.
+
 \begin{wrapfigure}{r}{0.4\textwidth}
-  \vspace{-25pt}
+  \vspace{-40pt}
   \begin{center}
     \includegraphics[width=0.4\textwidth]{img/turtle}
   \end{center}
@@ -82,15 +94,27 @@ Unlike the previous systems, teaching systems are designed with the goal of help
     \label{fig:turtle}
 \end{wrapfigure}
 
-In Logo, the programmer draws pictures by directing the ``turtle'', an onscreen character which leaves a trail as it moves (see Figure~\ref{fig:turtle}). The turtle is a metaphor that helps learners to translate their experiences as a person into programming knowledge. That means, to figure out how to make the turtle perform an action, the programmer can ask how he would perform that action himself, as if he were the turtle.
-
 For example, to figure out how to draw a circle, a learner would walk around in circles for a bit, and quickly derive a ``circle procedure'' of taking a step forward, turning a bit, taking another step forward, turning a bit. After teaching it to himself, the learner can then teach it to the computer. 
 
 LOGO has influenced several systems, and its principles show how a system can be designed around the way people think and learn.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{SmallTalk~\cite{Kay1993}} is a programming language and environment to support children in the world of information. The designers of this system, wanted to create a programming language that had a simple model of execution and a programming methodology that could accommodate a wide variety of programming styles. SmallTalk was based around three ideas: (1) everything is an object, (2) objects have memory in the form of other objects, (3) and objects can communicate with each other through messages.
 
-Like LOGO, the communication through messages has a strong resonant metaphor. To specify the behavior of an object, the programmer casts himself into the role of that object (to the extent of referring to the object as ``self'') and thinks of himself as carrying on a conversation with other objects. This is a strong metaphor, because role-playing and conversing are innate human facilities. 
+\begin{wrapfigure}{r}{0.5\textwidth}
+\vspace{-20pt}
+  \centering
+  \includegraphics[width=0.5\textwidth]{img/smalltalk}
+    \vspace{-15pt}
+    \caption{Smalltalk user interface.}
+    \vspace{-20pt}  
+  \label{fig:smalltalk}
+\end{wrapfigure} 
+
+Smalltalk programming environment was a successful achievement with relevant improvements on its successors. The system consisted of about 50 classes described in about 180 pages of source code~\cite{Kay1993}. This included all of the OS functions, files, printing and other Ethernet services, the window interface, editors, graphics and painting systems, as shown in Figure~\ref{fig:smalltalk}. 
+
+In the Smalltalk programming language, the communication through messages has a strong resonant metaphor. To specify the behavior of an object, the programmer casts himself into the role of that object (to the extent of referring to the object as ``self'') and thinks of himself as carrying on a conversation with other objects. This is a strong metaphor, because role-playing and conversing are innate human facilities. 
+
+In fact, SmallTalk features are, nowadays, a consistent reference for any programming system.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Processing~\cite{Reas2006}} is a programming language and environment designed to teach programming in a visual context. Processing has become popular among students, artists, designers, and architects, because it acts as a tool to get non-programmers started with programming through instant visual feedback.
 
@@ -174,7 +198,7 @@ Second, we consider Mathematics, where advanced technologies are used to approxi
 \end{figure} 
 
 \begin{wrapfigure}{r}{0.45\textwidth}
-  \vspace{-25pt}
+  \vspace{-5pt}
   \begin{center}
     \includegraphics[width=0.45\textwidth]{img/designscript}
   \end{center}
@@ -252,9 +276,9 @@ Moreover, the traceability among components is just in one direction. From the d
   \begin{center}
     \includegraphics[width=0.5\textwidth]{img/dynam-tab}
   \end{center}
-  \vspace{-20pt}
+  \vspace{-18pt}
  \caption{Dynamo search tab. Searching for a component, highlighted in red.}  
-  \vspace{-15pt}
+  \vspace{-20pt}
     \label{fig:dynam}
 \end{wrapfigure}
 
@@ -262,18 +286,18 @@ Dynamo provides a set of tools similar to Grasshopper, particularly a searching 
 
 In general, Dynamo and Grasshopper are programming environments and visual languages popular among novices in programming. The smooth learning curve and perhaps the style of the \ac{ui} elements are attractive for beginners. However as the visual programs become large and complex it requires more time to understand, maintain, and adapt to new requirements, than the textual programs as showed in~\cite{leitao2011programming}. Despite spending more time and effort to learn a textual programming language, the learners have their time quickly recovered once the complexity of the design task becomes sufficiently large.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Mathematica~\cite{wolfram1991mathematica}} is a language and environment built to support scientific calculation. It is widely used in the scientific community, specially by students, because it represents programs using a short and clear artificial language. This language supports not just linear textual input, but also two-dimensional input, like traditional mathematical notation.
+
 \begin{wrapfigure}{r}{0.6\textwidth}
-  \vspace{-15pt}
+  \vspace{-30pt}
   \begin{center}
     \includegraphics[width=0.6\textwidth]{img/mathematica}
   \end{center}
   \vspace{-15pt}
  \caption{Mathematica notebook.}  
-  \vspace{-60pt}
+  \vspace{-20pt}
     \label{fig:math}
 \end{wrapfigure}
-
-\subsubsection{Mathematica~\cite{wolfram1991mathematica}} is a language and environment built to support scientific calculation. It is widely used in the scientific community, specially by students, because it represents programs using a short and clear artificial language. This language supports not just linear textual input, but also two-dimensional input, like traditional mathematical notation.
 
 The core concepts of Mathematica are based in the paradigm initiated by Turing's work~\cite{wolfram2003wolfram}. In this paradigm mathematical processes are systematized as computations. For example, in a typical interaction, the user types a mathematical expression in the Mathematica environment (i.e. notebook), then this expression is evaluated, as shown in Figure~\ref{fig:math}.  
 
@@ -309,7 +333,7 @@ The mathematical expressions defined in the MathCAD document act as an associati
 Table~\ref{tab:sum} shows the presented systems based on their major design influences. The table is also intended to address the following questions:
 
 \begin{table}[h]
-\vspace{-15pt}
+\vspace{0pt}
 \centering
 \ra{1.0}
 \resizebox{\textwidth}{!}{%
@@ -340,8 +364,8 @@ Table~\ref{tab:sum} shows the presented systems based on their major design infl
 \end{tabular}
 }
 \vspace{1pt}
-\caption{System Attributes.}
-\vspace{-15pt}
+\caption{System attributes.}
+\vspace{-20pt}
 \label{tab:sum}
 \end{table}
 

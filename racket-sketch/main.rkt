@@ -8,7 +8,7 @@
                      [app #%app]
                      [top #%top]
                      [datum #%datum])
-         define/img)
+         #;define/img)
 
 (require racket/snip)
 
@@ -63,7 +63,7 @@
         (vector (syntax-local-introduce #'from)
                 0 from-len 0.5 0.5
                 (syntax-local-introduce #'to)
-                0 1 0.3 0.56)))]))
+                0 1 0.5 0.5)))]))
 
 (define-syntax (λ/point stx)
   (syntax-case stx ()
@@ -86,7 +86,7 @@
                [y y]
                [z z]) e))]))
 
-(define-syntax (define/img stx)
+#;(define-syntax (define/img stx)
   (syntax-case stx ()
     [(_ (name param ...) img body ...)
      #'(define name (λ/point (param ...)
