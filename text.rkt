@@ -1,11 +1,12 @@
 #lang racket/base
-;path: share/pkgs/gui-lib/framework/private
+
 (require string-constants
          racket/class
          racket/match
          racket/path
          racket/math
          "sig.rkt"
+         "interfaces.rkt"
          "../gui-utils.rkt"
          "../preferences.rkt"
          "autocomplete.rkt"
@@ -85,21 +86,7 @@
     
     (values register-port-name! lookup-port-name)))
 
-(define basic<%>
-  (interface (editor:basic<%> (class->interface text%))
-    highlight-range
-    unhighlight-range
-    unhighlight-ranges
-    unhighlight-ranges/key
-    get-highlighted-ranges
-    get-styles-fixed
-    get-fixed-style
-    set-styles-fixed
-    move/copy-to-edit
-    initial-autowrap-bitmap
-    get-port-name
-    port-name-matches?
-    get-start-of-line))
+(define basic<%> text:basic<%>)
 
 (define highlight-range-mixin
   (mixin (editor:basic<%> (class->interface text%)) ()
@@ -547,13 +534,20 @@
       (send (get-style-list) find-named-style "Standard"))
 
     (define port-name-identifier #f)
+    (define port-name-unsaved-name "unsaved-editor")
+    (define/public-final (set-port-unsaved-name p)
+      (unless (equal? port-name-unsaved-name p)
+        (set! port-name-unsaved-name p)
+        (set! port-name-identifier #f)
+        (after-set-port-unsaved-name)))
+    (define/public (after-set-port-unsaved-name) (void))
     (define/public (get-port-name)
       (let* ([b (box #f)]
              [n (get-filename b)])
         (cond
           [(or (unbox b) (not n))
            (unless port-name-identifier
-             (set! port-name-identifier (gensym 'unsaved-editor))
+             (set! port-name-identifier (string->uninterned-symbol port-name-unsaved-name))
              (register-port-name! port-name-identifier this))
            port-name-identifier]
           [else n])))
@@ -772,9 +766,11 @@
               (define old-α (send dc get-alpha))
               (define old-font (send dc get-font))
               (define old-text-foreground (send dc get-text-foreground))
+              (define old-text-mode (send dc get-text-mode))
               (define w-o-b? (preferences:get 'framework:white-on-black?))
               (send dc set-font (get-font))
               (send dc set-smoothing 'aligned)
+              (send dc set-text-mode 'transparent)
               (define-values (tw th _1 _2) (send dc get-text-extent first-line))
               (define line-height (+ (unbox by) dy th 1))
               (define line-left (+ (unbox bx) dx))
@@ -823,6 +819,7 @@
               (send dc draw-text first-line (+ x-start (+ (unbox bx) dx)) (+ (unbox by) dy))
               
               (send dc set-text-foreground old-text-foreground)
+              (send dc set-text-mode old-text-mode)
               (send dc set-font old-font)
               (send dc set-pen old-pen)
               (send dc set-brush old-brush)
@@ -1088,7 +1085,8 @@
     set-searching-state
     set-search-anchor
     get-search-bubbles
-    get-search-hit-count))
+    get-search-hit-count
+    finish-pending-search-work))
 
 (define normal-search-color (send the-color-database find-color "plum"))
 (define dark-search-color (send the-color-database find-color "mediumorchid"))
@@ -1334,14 +1332,27 @@
         (queue-callback (λ () (run-search)) #f)))
     
     (define/private (run-search)
-      (define done? (coroutine-run search-coroutine (void)))
-      (cond
-        [done?
-         (set! search-coroutine #f)]
-        [else
-         (queue-callback
-          (λ () (run-search))
-          #f)]))
+      ;; there may be a call to (finish-pending-search-work) with a run-search
+      ;; pending so we check to see if that happened and do no work in that case.
+      (when search-coroutine
+        (define done? (coroutine-run search-coroutine (void)))
+        (cond
+          [done?
+           (set! search-coroutine #f)]
+          [else
+           (queue-callback
+            (λ () (run-search))
+            #f)])))
+    
+    (define/public (finish-pending-search-work)
+      (when search-coroutine
+        (let loop ()
+          (define done? (coroutine-run search-coroutine (void)))
+          (cond
+            [done?
+             (set! search-coroutine #f)]
+            [else
+             (loop)]))))
     
     (define/private (create-search-coroutine notify-frame?)
       (coroutine
@@ -2219,6 +2230,32 @@
 ;;   to do the work
 (define-struct data/chan (data to-insert-chan))
 
+  (struct snip-special (snip name bytes))
+  (define (make-snip-special snip)
+    (define the-snipclass (send snip get-snipclass))
+    (cond
+      [the-snipclass
+       (define base (new editor-stream-out-bytes-base%))
+       (define stream (make-object editor-stream-out% base))
+       (send snip write stream)
+       (snip-special snip
+                     (send the-snipclass get-classname)
+                     (send base get-bytes))]
+      [else
+       (snip-special snip #f #f)]))
+  (define (snip-special->snip snip-special)
+    (define the-name (snip-special-name snip-special))
+    (define snipclass (and the-name (send (get-the-snip-class-list) find the-name)))
+    (cond
+      [snipclass
+       (define base (make-object editor-stream-in-bytes-base%
+                      (snip-special-bytes snip-special)))
+       (define es (make-object editor-stream-in% base))
+       (or (send snipclass read es)
+           (snip-special-snip snip-special))]
+      [else
+       (snip-special-snip snip-special)]))
+  
 (define ports-mixin
   (mixin (wide-snip<%>) (ports<%>)
     (inherit begin-edit-sequence
@@ -2246,7 +2283,9 @@
              scroll-to-position
              position-location
              get-styles-fixed
-             set-styles-fixed)
+             set-styles-fixed
+             auto-wrap
+             get-autowrap-bitmap-width)
     
     ;; private field
     (define eventspace (current-eventspace))
@@ -2453,16 +2492,17 @@
     
     (define/private (adjust-box-input-width)
       (when box-input
-        (let ([w (box 0)]
-              [x (box 0)]
-              [bw (send (icon:get-eof-bitmap) get-width)])
-          (get-view-size w #f)
-          (let ([pos (- (last-position) 2)])
-            (position-location pos x #f #t
-                               (not (= pos (paragraph-start-position (position-paragraph pos))))))
-          (let ([size (- (unbox w) (unbox x) bw 24)])
-            (when (positive? size)
-              (send box-input set-min-width size))))))
+        (define w (box 0))
+        (define x (box 0))
+        (define bw (send (icon:get-eof-bitmap) get-width))
+        (get-view-size w #f)
+        (define pos (- (last-position) 2))
+        (position-location pos x #f #t
+                           (not (= pos (paragraph-start-position (position-paragraph pos)))))
+        (define auto-wrap-icon-size (get-autowrap-bitmap-width))
+        (define size (- (unbox w) (unbox x) bw 24 auto-wrap-icon-size))
+        (when (positive? size)
+          (send box-input set-min-width size))))
     
     (define/augment (on-display-size)
       (adjust-box-input-width)
@@ -2531,10 +2571,12 @@
     ;; output port synchronization code
     ;;
     
-    ;; flush-chan : (channel (evt void))
-    ;; signals that the buffer-thread should flush pending output
-    ;; the evt inside is waited on to indicate the flush has occurred
-    (define flush-chan (make-channel))
+    ;; the flush chans signal that the buffer-thread should flush pending output
+    ;; the diy variant just gets the data back and flushes it itself
+    ;; the other causes the thread that services all the events to flush
+    ;; the data via queue-callback
+    (define flush-chan/diy (make-channel))
+    (define flush-chan/queue (make-channel))
     
     ;; clear-output-chan : (channel void)
     (define clear-output-chan (make-channel))
@@ -2556,60 +2598,65 @@
         (queue-callback
          (λ ()
            (do-insertion txts #f)
-           (sync signal)))))
+           (sync signal))
+         #f)))
     
     ;; do-insertion : (listof (cons (union string snip) style-delta)) boolean -> void
     ;; thread: eventspace main thread
     (define/private (do-insertion txts showing-input?)
-      (let ([locked? (is-locked?)]
-            [sf? (get-styles-fixed)])
-        (begin-edit-sequence)
-        (lock #f)
-        (set-styles-fixed #f)
-        (set! allow-edits? #t)
-        (let loop ([txts txts])
-          (cond
-            [(null? txts) (void)]
-            [else 
-             (let* ([fst (car txts)]
-                    [str/snp (car fst)]
-                    [style (cdr fst)])
-               
-               (let ([inserted-count
-                      (if (is-a? str/snp snip%)
-                          (send str/snp get-count)
-                          (string-length str/snp))]
-                     [old-insertion-point insertion-point])
-                 (set! insertion-point (+ insertion-point inserted-count))
-                 (set! unread-start-point (+ unread-start-point inserted-count))
-                 
-                 (insert (if (is-a? str/snp snip%)
-                             (let ([s (send str/snp copy)])
-                               (if (is-a? s snip%)
-                                   s
-                                   (new snip%)))
-                             str/snp)
-                         old-insertion-point
-                         old-insertion-point
-                         #t)
-                 
-                 ;; the idea here is that if you made a string snip, you
-                 ;; could have made a string and gotten the style, so you
-                 ;; must intend to have your own style.
-                 (unless (is-a? str/snp string-snip%)
-                   (change-style style old-insertion-point insertion-point))))
-             (loop (cdr txts))]))
-        (set-styles-fixed sf?)
-        (set! allow-edits? #f)
-        (lock locked?)
-        (unless showing-input?
-          (when box-input
-            (adjust-box-input-width)
-            (when (eq? box-input (get-focus-snip))
-              (scroll-to-position (last-position)))))
-        (end-edit-sequence)
-        (unless (null? txts)
-          (after-io-insertion))))
+      (define locked? (is-locked?))
+      (define sf? (get-styles-fixed))
+      (begin-edit-sequence)
+      (lock #f)
+      (set-styles-fixed #f)
+      (set! allow-edits? #t)
+      (let loop ([txts txts])
+        (cond
+          [(null? txts) (void)]
+          [else 
+           (define fst (car txts))
+           (define str/snp
+             (cond
+               [(snip-special? (car fst))
+                (snip-special->snip (car fst))]
+               [else (car fst)]))
+           (define style (cdr fst))
+           
+           (define inserted-count
+             (if (is-a? str/snp snip%)
+                 (send str/snp get-count)
+                 (string-length str/snp)))
+           (define old-insertion-point insertion-point)
+           (set! insertion-point (+ insertion-point inserted-count))
+           (set! unread-start-point (+ unread-start-point inserted-count))
+           
+           (insert (if (is-a? str/snp snip%)
+                       (let ([s (send str/snp copy)])
+                         (if (is-a? s snip%)
+                             s
+                             (new snip%)))
+                       str/snp)
+                   old-insertion-point
+                   old-insertion-point
+                   #t)
+           
+           ;; the idea here is that if you made a string snip, you
+           ;; could have made a string and gotten the style, so you
+           ;; must intend to have your own style.
+           (unless (is-a? str/snp string-snip%)
+             (change-style style old-insertion-point insertion-point))
+           (loop (cdr txts))]))
+      (set-styles-fixed sf?)
+      (set! allow-edits? #f)
+      (lock locked?)
+      (unless showing-input?
+        (when box-input
+          (adjust-box-input-width)
+          (when (eq? box-input (get-focus-snip))
+            (scroll-to-position (last-position)))))
+      (end-edit-sequence)
+      (unless (null? txts)
+        (after-io-insertion)))
     
     (define/public (after-io-insertion) (void))
 
@@ -2620,26 +2667,49 @@
            (let loop (;; text-to-insert : (queue (cons (union snip bytes) style))
                       [text-to-insert (empty-at-queue)]
                       [last-flush (current-inexact-milliseconds)])
-             
              (sync
               (if (at-queue-empty? text-to-insert)
                   never-evt
                   (handle-evt
                    (alarm-evt (+ last-flush msec-timeout))
                    (λ (_)
-                     (define-values (viable-bytes remaining-queue)
+                     (define-values (viable-bytes remaining-queue flush-keep-trying?)
                        (split-queue converter text-to-insert))
                      ;; we always queue the work here since the 
                      ;; always event means no one waits for the callback
                      (queue-insertion viable-bytes always-evt)
                      (loop remaining-queue (current-inexact-milliseconds)))))
               (handle-evt
-               flush-chan
+               flush-chan/diy
                (λ (return-evt/to-insert-chan)
-                 (define-values (viable-bytes remaining-queue) (split-queue converter text-to-insert))
-                 (if (channel? return-evt/to-insert-chan)
-                     (channel-put return-evt/to-insert-chan viable-bytes) 
-                     (queue-insertion viable-bytes return-evt/to-insert-chan))
+                 (define remaining-queue #f)
+                 (define viable-bytess
+                   (let loop ([q text-to-insert])
+                     (define-values (viable-bytes next-remaining-queue flush-keep-trying?)
+                       (split-queue converter q))
+                     (cond
+                       [flush-keep-trying?
+                        (cons viable-bytes (loop next-remaining-queue))]
+                       [else
+                        (set! remaining-queue next-remaining-queue)
+                        (list viable-bytes)])))
+                 (channel-put return-evt/to-insert-chan viable-bytess)
+                 (loop remaining-queue (current-inexact-milliseconds))))
+              (handle-evt
+               flush-chan/queue
+               (λ (return-evt/to-insert-chan)
+                 (define remaining-queue #f)
+                 (let loop ([q text-to-insert])
+                   (define-values (viable-bytes next-remaining-queue flush-keep-trying?)
+                     (split-queue converter q))
+                   (cond
+                     [flush-keep-trying?
+                      (queue-insertion viable-bytes always-evt)
+                      (loop next-remaining-queue)]
+                     [else
+                      (set! remaining-queue next-remaining-queue)
+                      (queue-insertion viable-bytes return-evt/to-insert-chan)
+                      #f]))
                  (loop remaining-queue (current-inexact-milliseconds))))
               (handle-evt
                clear-output-chan
@@ -2661,7 +2731,7 @@
                                 last-flush))]
                      [else
                       (let ([chan (make-channel)])
-                        (let-values ([(viable-bytes remaining-queue) 
+                        (let-values ([(viable-bytes remaining-queue flush-keep-trying?)
                                       (split-queue converter new-text-to-insert)])
                           (if return-chan
                               (channel-put return-chan viable-bytes)
@@ -2700,8 +2770,9 @@
         (cond
           [(eq? (current-thread) (eventspace-handler-thread eventspace))
            (define to-insert-channel (make-channel))
-           (thread (λ () (channel-put flush-chan to-insert-channel)))
-           (do-insertion (channel-get to-insert-channel) #f)]
+           (thread (λ () (channel-put flush-chan/diy to-insert-channel)))
+           (for ([ele (in-list (channel-get to-insert-channel))])
+             (do-insertion ele #f))]
           [else
            (sync
             (nack-guard-evt
@@ -2711,7 +2782,7 @@
                        (choice-evt
                         fail-channel
                         (channel-put-evt return-channel (void)))])
-                 (channel-put flush-chan return-evt)
+                 (channel-put flush-chan/queue return-evt)
                  return-channel))))]))
       
       (define (out-close-proc)
@@ -2721,6 +2792,7 @@
         (λ (special can-buffer? enable-breaks?)
           (define str/snp (cond
                             [(string? special) special]
+                            [(snip-special? special) special]
                             [(is-a? special snip%) special]
                             [else (format "~s" special)]))
           (define to-send (cons str/snp style))
@@ -2821,41 +2893,57 @@
     
     
     ;; split-queue : converter (queue (cons (union snip bytes) style) 
-    ;;            -> (values (listof (queue (cons (union snip bytes) style)) queue)
+    ;;            -> (values (listof (queue (cons (union snip bytes) style))
+    ;;                       queue
+    ;;                       boolean)
     ;; this function must only be called on the output-buffer-thread
     ;; extracts the viable bytes (and other stuff) from the front of the queue
     ;; and returns them as strings (and other stuff).
+    ;; the boolean result is #t when a flush should try to get more stuff out of the
+    ;;   queue for a second GUI callback
     (define/private (split-queue converter q)
-      (define lst (at-queue->list q))
-      (let loop ([lst lst] [acc null])
+      
+      ;; this number based on testing in drracket's REPL
+      ;; the number can be 10x bigger if you use a vanilla
+      ;; text, but something about something in how DrRacket's
+      ;; styles or something else is set up makes this number
+      ;; take more like 20-60 msec per event (on my laptop)
+      ;; for a bytes containing all (char->integer #\a)s. Random
+      ;; bytes are slower, but probably that's not the common case.
+      (define bytes-limit-for-a-single-go 1000)
+      
+      (let loop ([lst (at-queue->list q)] [acc null])
         (cond
           [(null? lst)
            (values (reverse acc)
-                   (empty-at-queue))]
+                   (empty-at-queue)
+                   #f)]
           [else
            (define-values (front rest) (peel lst))
            (cond
              [(not front) (values (reverse acc)
-                                  (empty-at-queue))]
+                                  (empty-at-queue)
+                                  #f)]
              [(bytes? (car front))
               (define the-bytes (car front))
               (define key (cdr front))
+              (define too-many-bytes? (>= (bytes-length the-bytes) bytes-limit-for-a-single-go))
               (cond
-                [(null? rest)
-                 (define-values (converted-bytes src-read-k termination)
-                   (bytes-convert converter the-bytes))
-                 (cond
-                   [(eq? termination 'aborts)
-                    (values (reverse (cons (cons (bytes->string/utf-8 converted-bytes) key) acc))
-                            (at-enqueue 
-                             (cons (subbytes the-bytes
-                                             src-read-k
-                                             (bytes-length the-bytes))
-                                   key)
-                             (empty-at-queue)))]
-                   [else
-                    (values (reverse (cons (cons (bytes->string/utf-8 converted-bytes) key) acc))
-                            (empty-at-queue))])]
+                [(or (null? rest) too-many-bytes?)
+                 (define-values (converted-bytes src-read-amt termination)
+                   (bytes-convert converter the-bytes 0 (min (bytes-length the-bytes)
+                                                             bytes-limit-for-a-single-go)))
+                 (define new-at-queue 
+                   (cond
+                     [(= src-read-amt (bytes-length the-bytes))
+                      (list->at-queue rest)]
+                     [else
+                      (define leftovers (subbytes the-bytes src-read-amt (bytes-length the-bytes)))
+                      (list->at-queue (cons (cons leftovers key) rest))]))
+                 (define converted-str (bytes->string/utf-8 converted-bytes))
+                 (values (reverse (cons (cons converted-str key) acc))
+                         new-at-queue
+                         too-many-bytes?)]
                 [else
                  (define-values (converted-bytes src-read-k termination)
                    (bytes-convert converter the-bytes))
@@ -2867,13 +2955,18 @@
              [else (loop rest
                          (cons front acc))])])))
     
+    (define/override (after-set-port-unsaved-name)
+      (set! in-port (make-in-port-with-a-name (get-port-name)))
+      (set! in-box-port (make-in-box-port-with-a-name (get-port-name))))
     
     (super-new)
     (init-output-ports)
-    (define-values (in-port read-chan clear-input-chan)
-      (start-text-input-port (get-port-name) #f))
-    (define-values (in-box-port box-read-chan box-clear-input-chan) 
-      (start-text-input-port (get-port-name) (lambda () (on-box-peek))))))
+    (define-values (make-in-port-with-a-name read-chan clear-input-chan)
+      (start-text-input-port #f))
+    (define-values (make-in-box-port-with-a-name box-read-chan box-clear-input-chan)
+      (start-text-input-port (lambda () (on-box-peek))))
+    (define in-port (make-in-port-with-a-name (get-port-name)))
+    (define in-box-port (make-in-box-port-with-a-name (get-port-name)))))
 
 (define input-box<%>
   (interface ((class->interface text%))
@@ -2901,7 +2994,7 @@
     
     (super-new)))
 
-(define (start-text-input-port source on-peek)
+(define (start-text-input-port on-peek)
   
   ;; eventspace at the time this function was called. used for peek callbacks
   (define eventspace (current-eventspace))
@@ -3219,86 +3312,18 @@
          (λ (fail)
            (channel-put position-chan (cons fail chan))
            chan))))))
-  (let ([p (make-input-port source
-                            read-bytes-proc
-                            peek-proc
-                            close-proc
-                            progress-evt-proc
-                            commit-proc
-                            position-proc)])
+  (define (make-the-port source)
+    (define p (make-input-port source
+                               read-bytes-proc
+                               peek-proc
+                               close-proc
+                               progress-evt-proc
+                               commit-proc
+                               position-proc))
     (port-count-lines! p)
-    (values p read-chan clear-input-chan)))
+    p)
+  (values make-the-port read-chan clear-input-chan))
 
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;
-;; queues
-;;
-(define-struct at-queue (front back count) #:mutable)
-(define (empty-at-queue) (make-at-queue '() '() 0))
-(define (at-enqueue e q) (make-at-queue 
-                          (cons e (at-queue-front q))
-                          (at-queue-back q)
-                          (+ (at-queue-count q) 1)))
-(define (at-queue-first q)
-  (at-flip-around q)
-  (let ([back (at-queue-back q)])
-    (if (null? back)
-        (error 'at-queue-first "empty queue")
-        (car back))))
-(define (at-queue-rest q)
-  (at-flip-around q)
-  (let ([back (at-queue-back q)])
-    (if (null? back)
-        (error 'queue-rest "empty queue")
-        (make-at-queue (at-queue-front q)
-                       (cdr back)
-                       (- (at-queue-count q) 1)))))
-(define (at-flip-around q)
-  (when (null? (at-queue-back q))
-    (set-at-queue-back! q (reverse (at-queue-front q)))
-    (set-at-queue-front! q '())))
-
-(define (at-queue-empty? q) (zero? (at-queue-count q)))
-(define (at-queue-size q) (at-queue-count q))
-
-;; queue->list : (queue x) -> (listof x)
-;; returns the elements in the order that successive deq's would have
-(define (at-queue->list q) 
-  (let ([ans (append (at-queue-back q) (reverse (at-queue-front q)))])
-    (set-at-queue-back! q ans)
-    (set-at-queue-front! q '())
-    ans))
-
-;; dequeue-n : queue number -> queue
-(define (at-dequeue-n queue n)
-  (let loop ([q queue]
-             [n n])
-    (cond
-      [(zero? n) q]
-      [(at-queue-empty? q) (error 'dequeue-n "not enough!")]
-      [else (loop (at-queue-rest q) (- n 1))])))
-
-;; peek-n : queue number -> queue
-(define (at-peek-n queue init-n)
-  (let loop ([q queue]
-             [n init-n])
-    (cond
-      [(zero? n) 
-       (when (at-queue-empty? q)
-         (error 'peek-n "not enough; asked for ~a but only ~a available" 
-                init-n 
-                (at-queue-size queue)))
-       (at-queue-first q)]
-      [else 
-       (when (at-queue-empty? q)
-         (error 'dequeue-n "not enough!"))
-       (loop (at-queue-rest q) (- n 1))])))
-
-;;
-;;  end queue abstraction
-;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 #| 
 === AUTOCOMPLETE ===
@@ -3431,12 +3456,14 @@ designates the character that triggers autocompletion
 
 (define selected-color (make-object color% 204 153 255))
 
+;GF
+(define punctuation-del? #f)
+
 (define autocomplete-mixin
   (mixin ((class->interface text%)) (autocomplete<%>)
     
     (inherit invalidate-bitmap-cache get-dc get-start-position get-end-position
-             find-wordbreak get-text position-location insert dc-location-to-editor-location
-             end-edit-sequence)
+             find-wordbreak get-text position-location insert dc-location-to-editor-location)
     
     ; get-autocomplete-border-color : -> string
     ; the color of text in the autocomplete menu
@@ -3459,7 +3486,7 @@ designates the character that triggers autocompletion
         [else
          #f]))
     
-    (define/public (get-all-words) (get-completions/test) #;(get-completions/manuals #f))
+    (define/public (get-all-words) (get-completions/manuals #f))
     
     (define completions-box #f) ; completions-box% or #f if no completions box is active right now
     (define word-start-pos #f)  ; start pos of that word, or #f if no autocompletion
@@ -3471,9 +3498,10 @@ designates the character that triggers autocompletion
     ; returns all strings from the get-all-words method (below)
     ; that have the given string as a prefix; it performs a 
     ; linear-search at every narrow/widen.
-    (define/private (get-completions word)
+    (define/private (get-completions word) 
       (new autocompletion-cursor% 
-           [word word] 
+           [word word]
+           ;GF: changed
            [all-words (get-completions/test) #;(get-all-words)]))
     
     (define/override (on-paint before? dc left top right bottom dx dy draw-caret)
@@ -3498,6 +3526,14 @@ designates the character that triggers autocompletion
     (define/public (get-word-at current-pos)
       (let ([start-pos (box current-pos)]) 
         (find-wordbreak start-pos #f 'caret)
+        (get-text (unbox start-pos) current-pos)))
+
+    ;; GF modified
+    ;; Number -> String
+    ;; The word that ends at the current position of the editor
+    (define/public (get-word current-pos)
+      (let ([start-pos (box current-pos)]) 
+        (find-wordbreak #f start-pos 'selection)
         (get-text (unbox start-pos) current-pos)))
     
     ;; String Number Number scrolling-cursor<%> -> void
@@ -3526,50 +3562,67 @@ designates the character that triggers autocompletion
     ;; on-char must handle inputs for two modes: normal text mode and in-the-middle-of-autocompleting
     ;; mode perhaps it would be better to handle this using the state machine pattern
     (define/override (on-char key-event)
-      ;code added
+      ;added: if condition
       (define code (send key-event get-key-code))
-      (complete-parentheses code)
-      (cond
-        [completions-box
-         (let ([code (send key-event get-key-code)]
-               [full? (not (send completions-box empty?))])
-           (cond
-             [(and full? (memq code '(up wheel-up)))
-              (send completions-box prev-item)]
-             [(and full? 
-                   (or (memq code '(down whteel-down))
-                       (completion-mode-key-event? key-event)))
-              (send completions-box next-item)]
-             [(and full? (eq? code 'prior)) (send completions-box scroll-display-up)]
-             [(and full? (eq? code 'next))  (send completions-box scroll-display-down)]
-             [(eq? code 'release)
-              (void)]
-             [(eq? code #\backspace)
-              (widen-possible-completions)
-              (super on-char key-event)]
-             [(eq? code #\return)
-              (when full?
-                (insert-currently-selected-string))
-              (destroy-completions-box)]
-             [(and (char? code) (char-graphic? code))
-              (super on-char key-event)
-              (constrict-possible-completions code)]
-             [else
-              (destroy-completions-box)
-              (super on-char key-event)]))]
-        [(completion-mode-key-event? key-event)
-         (auto-complete)]
-        ;condition added: for any char shows the completions
-        [(and (char? code) (char-graphic? code))
-         (super on-char key-event)
-         (auto-complete)]
-        [else
-         (super on-char key-event)]))
+      (when (or (eq? code #\rubout ) (eq? code #\backspace))
+        (remove-duplicates))
+      (if (and (char? code) (char-punctuation? code))
+          (begin
+            (super on-char key-event)
+            (complete-punctuation code))	
+          (cond
+            [completions-box
+             (let ([code (send key-event get-key-code)]
+                   [full? (not (send completions-box empty?))])
+               (cond
+                 [(and full? (memq code '(up wheel-up)))
+                  (send completions-box prev-item)]
+                 [(and full? 
+                       (or (memq code '(down wheel-down))
+                           (completion-mode-key-event? key-event)))
+                  (send completions-box next-item)]
+                 [(and full? (eq? code 'prior)) (send completions-box scroll-display-up)]
+                 [(and full? (eq? code 'next))  (send completions-box scroll-display-down)]
+                 [(eq? code 'release)
+                  (void)]
+                 [(eq? code #\backspace)
+                  (widen-possible-completions)
+                  (super on-char key-event)]
+                 [(eq? code #\return)
+                  (when full?
+                    (insert-currently-selected-string))
+                  (destroy-completions-box)]
+                 [(and (char? code) (char-graphic? code))
+                  (super on-char key-event)
+                  (constrict-possible-completions code)]
+                 [else
+                  (destroy-completions-box)
+                  (super on-char key-event)]))]
+            [(completion-mode-key-event? key-event)
+             (auto-complete)]
+            ;added: for any char shows the completions
+            [(and (char? code) (char-alphabetic? code))
+             (super on-char key-event)
+             (auto-complete)]
+            [else 
+             (super on-char key-event)])))
+    
+    (define (remove-duplicates)
+      (let* ((end-pos (get-end-position))
+             (char (send this get-character end-pos)))
+        (when (and punctuation-del? (char-punctuation? char))
+          (send this delete end-pos (+ end-pos 1)))))
     
     ;GF: just a prototype
-    (define (complete-parentheses word)
-      (let ((start (get-start-position)))
-        (cond ((eq? word #\()
+    (define (complete-punctuation word)
+      (let* ((start (get-start-position))
+             (current-char (send this get-character start))
+             (next-char (send this get-character (+ 1 start))))
+        (displayln next-char)
+        (cond ((or (char-alphabetic? current-char)
+                   (char-alphabetic? next-char))
+               (void))
+              ((eq? word #\()
                (insert #\) start))
               ((eq? word #\[)
                (insert #\] start))
@@ -3578,18 +3631,20 @@ designates the character that triggers autocompletion
               ((eq? word #\")
                (insert #\" start)))   
         (send this set-position start)))
+
+    (define/augment (on-delete start len)
+      (define char (send this get-character start))
+      (if (char-punctuation? char)
+          (set! punctuation-del? #t)
+          (set! punctuation-del? #f))
+      (inner (void) on-delete start len))
     
-     #;(define/augment (after-insert start len)
-            #;(display "after-insert: ")
-            #;(displayln (get-text 0 (+ start len)))
-            (end-edit-sequence))
-    
-    (define/augment (after-delete start len)
-      (display start)
-      (display " ")
-      (displayln len)
-      (inner (void) after-delete start len)
-      #;(end-edit-sequence))
+    #;(define/augment (after-delete start len)
+        (define char (send this get-character start))
+        (when (char-punctuation? char)
+          (send this delete start (+ start 1)))
+        (displayln (get-word start))
+        (inner (void) after-delete start len))
     
     ;; on-event controls what happens with the mouse
     (define/override (on-event mouse-event)
@@ -4081,7 +4136,7 @@ designates the character that triggers autocompletion
       (sort (hash-map ht (λ (x y) x)) string<?))))
 
 ;; ============================================================
-;; GF: hash-map for testing
+;; GF: words for testing
   (define rosetta-grammar '("add1" "sub1" "abs" "sin" "cos" "atan" "sqr" 
                                    "sqrt" "exp" "expt" "log" "floor"
                                    "and" "not" "zero?" "number?" "string?"
@@ -4097,11 +4152,7 @@ designates the character that triggers autocompletion
                                    "map-division")) 
   
   (define (get-completions/test)
-    #;(let ([ht (make-hash)])
-        (hash-set! ht "define" #t)
-        (hash-set! ht "lambda" #t)
-        (hash-set! ht "apply" #t)
-        (sort (hash-map ht (λ (x y) x)) string<?))
+
     (sort rosetta-grammar string<?))
 
 ;; ============================================================
@@ -4223,14 +4274,16 @@ designates the character that triggers autocompletion
                       (send dc get-pen)
                       (send dc get-brush)
                       (send dc get-font)
-                      (send dc get-text-foreground)))
+                      (send dc get-text-foreground)
+                      (send dc get-text-mode)))
 
     (define/private (restore-dc-state dc dc-state)
       (send dc set-smoothing (saved-dc-state-smoothing dc-state))
       (send dc set-pen (saved-dc-state-pen dc-state))
       (send dc set-brush (saved-dc-state-brush dc-state))
       (send dc set-font (saved-dc-state-font dc-state))
-      (send dc set-text-foreground (saved-dc-state-foreground-color dc-state)))
+      (send dc set-text-foreground (saved-dc-state-text-foreground-color dc-state))
+      (send dc set-text-mode (saved-dc-state-text-mode dc-state)))
 
     (define/private (get-foreground)
       (if line-numbers-color
@@ -4240,6 +4293,7 @@ designates the character that triggers autocompletion
     ;; set the dc stuff to values we want
     (define/private (setup-dc dc)
       (send dc set-smoothing 'aligned)
+      (send dc set-text-mode 'transparent)
       (send dc set-font (get-style-font))
       (send dc set-text-foreground (get-foreground)))
 
@@ -4520,9 +4574,83 @@ designates the character that triggers autocompletion
     (super-new)
     (setup-padding)))
 
-(define-struct saved-dc-state (smoothing pen brush font foreground-color))
+(define-struct saved-dc-state (smoothing pen brush font text-foreground-color text-mode))
 (define padding-dc (new bitmap-dc% [bitmap (make-screen-bitmap 1 1)]))
 
+(define all-string-snips<%>
+  (interface ()
+    all-string-snips?))
+  
+(define all-string-snips-mixin
+  (mixin ((class->interface text%)) (all-string-snips<%>)
+    (inherit find-first-snip find-snip)
+    
+    (define/private (all-string-snips?/slow)
+      (let loop ([s (find-first-snip)])
+        (cond
+          [(not s) #t]
+          [(is-a? s string-snip%) (loop (send s next))]
+          [else #f])))
+
+    (define/augment (after-insert start end)
+      (inner (void) after-insert start end)
+      
+      (when (equal? all-string-snips-state #t)
+        (let loop ([s (find-snip start 'after-or-none)]
+                   [i start])
+          (cond
+            [(not s) (void)]
+            [(not (< i end)) (void)]
+            [(is-a? s string-snip%)
+             (define size (send s get-count))
+             (loop (send s next) (+ i size))]
+            [else (set! all-string-snips-state #f)]))))
+    
+    (define/augment (on-delete start end)
+      (inner (void) on-delete start end)
+      (when (equal? all-string-snips-state #f)
+        (let loop ([s (find-snip start 'after-or-none)]
+                   [i start])
+          (cond
+            [(not s) (void)]
+            [(not (< i end)) (void)]
+            [(is-a? s string-snip%)
+             (define size (send s get-count))
+             (loop (send s next) (+ i size))]
+            [else (set! all-string-snips-state 'dont-know)]))))
+
+    
+    ;; (or/c #t #f 'dont-know)
+    (define all-string-snips-state #t)
+    (define/public (all-string-snips?)
+      (cond
+        [(boolean? all-string-snips-state)
+         all-string-snips-state]
+        [else
+         (define all-string-snips? (all-string-snips?/slow))
+         (set! all-string-snips-state all-string-snips?)
+         all-string-snips?]))
+    
+    (super-new)))
+
+(define overwrite-disable<%> (interface ()))
+(define overwrite-disable-mixin
+  (mixin ((class->interface text%)) (overwrite-disable<%>)
+    (inherit set-overwrite-mode)
+    
+    ;; private field held onto by the object
+    ;; because of the weak callback below
+    (define (overwrite-changed-callback p v)
+      (unless v
+        (set-overwrite-mode #f)))
+
+    (preferences:add-callback
+     'framework:overwrite-mode-keybindings
+     overwrite-changed-callback
+     #t)
+     
+    (super-new)))
+  
 (define basic% (basic-mixin (editor:basic-mixin text%)))
 (define line-spacing% (line-spacing-mixin basic%))
 (define hide-caret/selection% (hide-caret/selection-mixin line-spacing%))
@@ -4532,7 +4660,7 @@ designates the character that triggers autocompletion
 (define wide-snip% (wide-snip-mixin line-spacing%))
 (define standard-style-list% (editor:standard-style-list-mixin wide-snip%))
 (define input-box% (input-box-mixin standard-style-list%))
-(define -keymap% (editor:keymap-mixin standard-style-list%))
+(define -keymap% (overwrite-disable-mixin (editor:keymap-mixin standard-style-list%)))
 (define return% (return-mixin -keymap%))
 (define autowrap% (editor:autowrap-mixin -keymap%))
 (define file% (file-mixin (editor:file-mixin autowrap%)))
@@ -4595,3 +4723,93 @@ designates the character that triggers autocompletion
                 (list '(#"x" . one) '((#"y" . two))))
   (check-equal? (peek-lst (list (cons #"x" 'one) (cons #"y" 'one) (cons #"z" 'two)))
                 (list '(#"xy" . one) '((#"z" . two)))))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;; queues
+;;
+(define-struct at-queue (front back count) #:mutable)
+(define (empty-at-queue) (make-at-queue '() '() 0))
+(define (at-enqueue e q) (make-at-queue
+                          (cons e (at-queue-front q))
+                          (at-queue-back q)
+                          (+ (at-queue-count q) 1)))
+(define (at-queue-first q)
+  (at-flip-around q)
+  (let ([back (at-queue-back q)])
+    (if (null? back)
+        (error 'at-queue-first "empty queue")
+        (car back))))
+(define (at-queue-rest q)
+  (at-flip-around q)
+  (let ([back (at-queue-back q)])
+    (if (null? back)
+        (error 'queue-rest "empty queue")
+        (make-at-queue (at-queue-front q)
+                       (cdr back)
+                       (- (at-queue-count q) 1)))))
+(define (at-flip-around q)
+  (when (null? (at-queue-back q))
+    (set-at-queue-back! q (reverse (at-queue-front q)))
+    (set-at-queue-front! q '())))
+
+(define (at-queue-empty? q) (zero? (at-queue-count q)))
+(define (at-queue-size q) (at-queue-count q))
+
+;; queue->list : (queue x) -> (listof x)
+;; returns the elements in the order that successive deq's would have
+(define (at-queue->list q) 
+  (let ([ans (append (at-queue-back q) (reverse (at-queue-front q)))])
+    (set-at-queue-back! q ans)
+    (set-at-queue-front! q '())
+    ans))
+
+(define (list->at-queue l) (make-at-queue '() l (length l)))
+
+;; dequeue-n : queue number -> queue
+(define (at-dequeue-n queue n)
+  (let loop ([q queue]
+             [n n])
+    (cond
+      [(zero? n) q]
+      [(at-queue-empty? q) (error 'dequeue-n "not enough!")]
+      [else (loop (at-queue-rest q) (- n 1))])))
+
+;; peek-n : queue number -> queue
+(define (at-peek-n queue init-n)
+  (let loop ([q queue]
+             [n init-n])
+    (cond
+      [(zero? n) 
+       (when (at-queue-empty? q)
+         (error 'peek-n "not enough; asked for ~a but only ~a available" 
+                init-n 
+                (at-queue-size queue)))
+       (at-queue-first q)]
+      [else 
+       (when (at-queue-empty? q)
+         (error 'dequeue-n "not enough!"))
+       (loop (at-queue-rest q) (- n 1))])))
+
+;;
+;;  end queue abstraction
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(module+ test
+  (check-equal? (let* ([q1 (empty-at-queue)]
+                       [q2 (at-enqueue 1 q1)])
+                  (at-queue-first q2))
+                1)
+  (check-equal? (let* ([q1 (empty-at-queue)]
+                       [q2 (at-enqueue 1 q1)])
+                  (list (at-queue-size q1)
+                        (at-queue-size q2)))
+                (list 0 1))
+  (check-equal? (let* ([q1 (empty-at-queue)]
+                       [q2 (at-enqueue 1 q1)]
+                       [q3 (at-enqueue 2 q2)]
+                       [q4 (at-enqueue 3 q3)])
+                  (at-queue->list q4))
+                '(1 2 3))
+  (check-equal? (at-queue->list (list->at-queue '(1 2 3)))
+                '(1 2 3)))
