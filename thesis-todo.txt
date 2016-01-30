@@ -1,0 +1,11 @@
+thesis-todo
+======================
+
+
+- medir tempos de execucao do programa utilizando os sliders
+
+- defeder abordagem de reexecucao do programa todo dado
+que (1) o utilizador pode alterar o codigo em qualquer lugar do programa
+(2) constant fold faz com que constantes sejam replicadas no codigo todo.
+
+- implementar metodos de adicao de cordenadas automatica

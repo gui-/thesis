@@ -283,3 +283,20 @@ Limitations: -mainly visual programming
 ---------------------
 SmallTalk
 
+
+Introducao
+Explicar o problema
+Related work
+
+-------
+
+oque é preciso para ilustrar os programas
+-um editor que suporte imagens
+- ...
+
+distanciar do drracket para aumentar a aplicabilidade da tese
+levantamentos de requisitos para a execucao automatica de codigo
+
+
+-- trabalho futuro
+
