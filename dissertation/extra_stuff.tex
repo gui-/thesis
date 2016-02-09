@@ -1,0 +1,33 @@
+% Extra stuff file
+% This file is included before begin{document} environment
+% Use this to include extra packages and define your own commands
+% This way, you can easily grab a most recent version
+% of dissertation.tex file from the original repo
+\usepackage[explicit]{titlesec}
+\usepackage[svgnames]{xcolor}
+\usepackage{calc}
+\definecolor{ChapNumColor}{gray}{0.90}
+\definecolor{gainsboro}{rgb}{0.86, 0.86, 0.86}
+\definecolor{lavender}{rgb}{0.9, 0.9, 0.98}
+\definecolor{lavendergray}{rgb}{0.77, 0.76, 0.82}
+\colorlet{chapnumcolor}{lavendergray}
+\newcommand*{\chapnumfont}{%
+  \usefont{T1}{jkp}{l}{l}%
+  \fontsize{160}{180}%
+  \selectfont%
+}
+\newcommand*{\chaptitlefont}{%
+  \usefont{T1}{phv}{l}{l}%
+  \fontsize{24}{24}%
+  \selectfont%
+}
+
+\titleformat{name=\chapter}
+{\normalfont\huge\bfseries}
+{\filleft\parbox{0.12\textwidth}{\filleft\chapnumfont\color{chapnumcolor} \vspace{-0.7ex}\thechapter}\qquad}
+{0pt}
+{\filleft\llap{\parbox{\textwidth}{\filleft\chaptitlefont #1}}}
+
+%\titlespacing*{\chapter}{0pt}{0pt}{0pt}
+
+\newcommand*{\myfont}{\fontfamily{put}\selectfont}
