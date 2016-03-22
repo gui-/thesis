@@ -6,27 +6,31 @@
 \usepackage[explicit]{titlesec}
 \usepackage[svgnames]{xcolor}
 \usepackage{calc}
+
+\usepackage{setspace}
+
 \definecolor{ChapNumColor}{gray}{0.90}
 \definecolor{gainsboro}{rgb}{0.86, 0.86, 0.86}
 \definecolor{lavender}{rgb}{0.9, 0.9, 0.98}
 \definecolor{lavendergray}{rgb}{0.77, 0.76, 0.82}
 \colorlet{chapnumcolor}{lavendergray}
 \newcommand*{\chapnumfont}{%
-  \usefont{T1}{jkp}{l}{l}%
+  \usefont{T1}{jkp}{m}{n}%
   \fontsize{160}{180}%
   \selectfont%
 }
 \newcommand*{\chaptitlefont}{%
-  \usefont{T1}{phv}{l}{l}%
+  \singlespacing
+  \usefont{T1}{phv}{m}{n}%
   \fontsize{24}{24}%
   \selectfont%
 }
 
 \titleformat{name=\chapter}
 {\normalfont\huge\bfseries}
-{\filleft\parbox{0.10\textwidth}{\filleft\chapnumfont\color{chapnumcolor} \vspace{-0.7ex}\thechapter}\qquad}
+{\filleft\parbox{0.10\textwidth}{\filleft\chapnumfont\color{chapnumcolor} \vspace{-0.3ex}\thechapter}\qquad}
 {0pt}
 {\filleft\llap{\parbox{\textwidth}{\filleft\chaptitlefont #1}}}
 
-%\titlespacing*{\chapter}{10pt}{10pt}{10pt}
-\newcommand*{\myfont}{\fontfamily{put}\selectfont}
+\titlespacing*{\chapter}{30pt}{30pt}{30pt}
+%\newcommand*{\myfont}{\fontfamily{put}\selectfont}

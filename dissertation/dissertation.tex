@@ -8,10 +8,28 @@
 % ------------------------------------------
 \documentclass[10pt,twoside,openright,a4paper]{report}
 \usepackage[utf8]{inputenc}
+% to use Charter BT font
+\usepackage[bitstream-charter]{mathdesign}
 % Set document margins to 1in in all sides
 \usepackage[margin=2.5cm]{geometry}
 % Line spacing package
 \usepackage{graphicx, helvet, hyperref, setspace}
+
+\usepackage{subcaption}
+\captionsetup{compatibility=false}
+\usepackage{wrapfig}
+\usepackage{multirow}
+\usepackage{booktabs}
+\usepackage{listings}
+%\usepackage{fixltx2e}
+%\usepackage{mathtools}
+\usepackage{url}
+\usepackage[usenames,dvipsnames]{color}\tabularnewline
+% To use acronyms
+\usepackage[nolist,nohyperlinks,smaller]{acronym}
+% Maintain images and tables within their respective sections
+\usepackage[section]{placeins}
+
 \usepackage[portuguese,english]{babel}
 \usepackage[nomain, acronym, toc]{glossaries}
 \input{extra_stuff.tex}
@@ -19,7 +37,9 @@
 % Built the glossary when the main file is built.
 \makeglossaries
 % Set main font to Arial
-\renewcommand{\familydefault}{\sfdefault}
+%\renewcommand{\familydefault}{fvm}
+% Arial is a font to avoid in this type of document
+\fontfamily{fvm}\selectfont
 % Define keywords macro
 \providecommand{\keywords}[1]{\textbf{Keywords:} #1}
 % Define "palavras-chave" macro
@@ -49,31 +69,35 @@
 % ------------------------------------------
 
 \begin{document}
-\pagenumbering{gobble}% Remove page numbers (and reset to 1)
+\pagenumbering{roman}% Remove page numbers (and reset to 1)
 \clearpage
 \thispagestyle{empty}
 \input{variables.tex}
-	
 \include{cover}
 
 \NewPage
-
-\pagenumbering{roman}
-
-\if\includeAcknowledgments 1
-\input{acknowledgments/acknowledgments.tex}
+\input{acknowledgments/acknowledgments}
 \NewPage
-\fi
 
+%\if\includeAcknowledgments 1
+%\include{acknowledgments/acknowledgments}
+%\NewPage
+%\fi
+
+\input{acknowledgments/inspiration}
+\NewPage
+
+%\pagenumbering{gobble}% Remove page numbers (and reset to 1)
 \include{abstract/abstract-en}
 \NewPage
 \include{abstract/abstract-pt}
 \NewPage
 
+%\pagenumbering{roman}
 % Table of contents
 \tableofcontents
 % A new page is necessary only if table of contents has an odd number of pages
-\NewPage
+%\NewPage
 
 % List of tables
 \addcontentsline{toc}{chapter}{\listtablename}
@@ -90,13 +114,12 @@
 % List of acronyms
 \printglossary[type=\acronymtype]
 
-\pagenumbering{arabic}% Arabic page numbers (and reset to 1)
-
 \input{chapters/main.tex}
+
 
 \bibliographystyle{ieeetr}
 \addcontentsline{toc}{chapter}{Bibliography}
-\bibliography{bibliography/dissertation}
+\bibliography{bibliography/dissertation.bib}
 
 % Appendix
 \appendix
@@ -108,7 +131,7 @@
 \fi
 
 % Back Cover
-\pagenumbering{gobble}
+%\pagenumbering{gobble}
 \NewPage
 
 \end{document}

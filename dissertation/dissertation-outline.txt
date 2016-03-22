@@ -176,7 +176,7 @@ Effective Programming System for Generative Design
 
 How can I contribute to improve the programming methods in GD?
 
--Problem: How to get people to understanding programming?
+-Problem: How to get people understanding programming?
 	-program comprehension area proposed several theories
 	-e.g. to understand a program user must create a mental model of it
 	-before he can edit any line of code
@@ -226,6 +226,9 @@ Problem: The usability becomes a problem without adequate mechanisms to deal wit
 -Problem: Space spend with images in code
 -Solution: hide/show comments
 
+
+Idea: Creativity is a requirement for art.
+	-
 Problem: visual feed back is important because is a key factor for understanding what a program does
 	-current programming environments support it in several way
 	-none effective..

@@ -1,18 +1,39 @@
 %!TEX root = ../dissertation.tex
 
+\pagenumbering{arabic}% Arabic page numbers (and reset to 1)
+
 \chapter{Generative Design}
 \label{chapter:generativeDesign}
+
+\section{A Programming Framework}
+
+Programming used to be taught mainly in computer engineering courses. In recent years the demand for programmers and student interest in programming have grown rapidly, and programming have become a subject increasingly important in several areas of study. Learning to program is hard however. Novice programmers suffer from wide range of difficulties and deficits. It is generally accepted that it takes about 10 years of experience to turn a novice into an expert programmer (Winslow, 1996).
+
+Why programming is such a hard subject to learn? What resources and
+processes are involved in creating or understanding a program? Since the 1970s there has been an interest in questions such as these, and in programming as a cognitive process. The literature relating to such topics is extensive, and it is divided into two main categories: those with a software engineering perspective, and those with a psychological/educational perspective.
+
+Learning to program is usually addressed from a psychological/educational perspective, however our interest is in novices and in how the programming environment can provide adequate tools to support the initial development of individual programming skills. Early learning should of course include the basics of good software engineering practice such as comprehend the program structures, documenting the program, testing and debug among others.
+
+Before propose any kind of feature it is first necessary to research what are the main challenges in this area. In fact programming is beyond coding, it involves knowledge about computer, programming language, programming tools and resources, and ideally theory and formal methods. As important as knowledge is the way knowledge is used and applied, also known as strategy. Writing a program involves also maintaining many different kinds of ‘mental model’ which is the way programmers comprehend its programs.
+
+\begin{table}[]
+\centering
+\begin{tabular}{@{}lllll@{}}
+\cmidrule(r){1-4}
+ & \textbf{Design} & \textbf{Generation} & \textbf{Evaluation} &  \\ \cmidrule(r){1-4}
+\textbf{Knowledge of} & \begin{tabular}[c]{@{}l@{}}planning methods,\\ algorithm design,\\ formal methods\end{tabular} & \begin{tabular}[c]{@{}l@{}}language, libraries,\\ environment / tools\end{tabular} & \begin{tabular}[c]{@{}l@{}}debugging tools\\ and methods\end{tabular} &  \\ \cmidrule(r){1-4}
+\textbf{Strategies for} & \begin{tabular}[c]{@{}l@{}}planning,\\ problem solving,\\ designing algorithms\end{tabular} & \begin{tabular}[c]{@{}l@{}}implementing\\ algorithms, coding,\\ accessing knowledge\end{tabular} & \begin{tabular}[c]{@{}l@{}}testing, debugging,\\ tracking / tracing,\\ repair\end{tabular} &  \\ \cmidrule(r){1-4}
+\textbf{Models of} & \begin{tabular}[c]{@{}l@{}}problem domain,\\ notional machine\end{tabular} & desired program & actual program &  \\ \cmidrule(r){1-4}
+\end{tabular}
+\caption{My caption}
+\label{tab:framework}
+\end{table}
+
+
+The Table~\ref{tab:framework} (adapted from~\cite{robins2003learning}) proposes a programming framework that makes explicit the implied relationships between many of the issues found by novice programming. It highlights the relationship between the individual attributes (discussed above) with the program phases namely design, generation and evaluation. Undoubtedly the three phases are important, however the design phase is the most important because it is the basis of program understanding
+
+Rist notes: There is considerable evidence in the empirical study of programming that the plan is the basic cognitive chunk used in program design and understanding.
 
 \section{Coding in Architecture}
 
 \section{Programming Languages \& Programming Environments}
-
-A demonstration of how to use acronyms and glossary:
-
-A \gls{MSc} entry.
-
-Second use: \gls{IST}.
-
-Plurals: \glspl{MSc}.
-
-A citation example \cite{nobody}
