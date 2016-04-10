@@ -15,6 +15,9 @@
 % Line spacing package
 \usepackage{graphicx, helvet, hyperref, setspace}
 
+\usepackage[round, sort, compress, authoryear]{natbib} 
+\usepackage[autostyle,threshold=1]{csquotes} 
+
 \usepackage{subcaption}
 \captionsetup{compatibility=false}
 \usepackage{wrapfig}
@@ -64,10 +67,21 @@
 % Acronym-File
 \input{acronyms/acronyms.tex}
 
+\usepackage{breakcites}
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd{\@citex}{,}{;}{}{}
+\newenvironment{chapquote}[2][2em]
+  {\setlength{\@tempdima}{#1}%
+   \def\chapquote@author{#2}%
+   \parshape 1 \@tempdima \dimexpr\textwidth-2\@tempdima\relax%
+   \itshape}
+  {\par\Large\hfill--\ \chapquote@author\hspace*{\@tempdima}\par\bigskip}
+\makeatother
+
 % ------------------------------------------
 % MASTER THESIS DISSERTATION
 % ------------------------------------------
-
 \begin{document}
 \pagenumbering{roman}% Remove page numbers (and reset to 1)
 \clearpage
@@ -117,7 +131,7 @@
 \input{chapters/main.tex}
 
 
-\bibliographystyle{ieeetr}
+\bibliographystyle{apalike}
 \addcontentsline{toc}{chapter}{Bibliography}
 \bibliography{bibliography/dissertation.bib}
 

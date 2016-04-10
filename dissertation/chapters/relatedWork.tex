@@ -1,49 +1,67 @@
 %TEX root = ../dissertation.tex
 
+\iffalse \bibliography{bibliography/dissertation} \fi
+
+
 \chapter{Related Work}
 \label{chapter:relatedWork}
 
+In this chapter, I summarize related research on development environments and programming languages. Work presented here focuses on the programming tools used in different contexts and environments, whereas technical aspects and software architecture are separately discussed in Chapter x. Also, this chapter includes work on improvements to code intelligence features such as representation of code.
+
+My work lies at the intersection of two main research areas: \gls{se} and \gls{gd}, consequently the related work present the recent advances in both of these areas.
+
 \section{Programming System}
 \label{sec:ps}
-A \textit{programming system} has two fundamental parts: the \textit{programming language} that users should know, and the \textit{programming environment} that is used to write and test programs. Undoubtedly, both parts are equally important to build a program and understand it.
+A \textit{programming system} has two fundamental parts: the \textit{programming language} that users should know in order to create a program, and the \textit{programming environment} that is used to write and test programs. Undoubtedly, both parts are equally important to build a program and understand it. However the boundaries between these parts can be blurred, for this reason the related work goes beyond programming environments including also programming languages and their design aspects. 
 
-In the following sections we divide the programming systems in three categories: (\ref{sec:gs}) general-purpose systems; proposed for building complex software, (\ref{sec:ts}) teaching systems; proposed to teach programming, and (\ref{sec:es}) empowering systems; proposed to build programs tailored to specific needs. In each category, we focus on the tools provided by the programming environment.
+Based on prior surveys of novice programming environments~\citep{kelleher2005lowering}, in the following sections I divide the programming systems in three categories: (\ref{sec:gs}) general-purpose systems; proposed for building complex software, (\ref{sec:ts}) teaching systems; proposed to teach programming, and (\ref{sec:es}) empowering systems; proposed to build programs tailored to specific needs. In each category, we focus on the tools provided by the programming environment.
 %%%
 \section{General-purpose systems}
 \label{sec:gs}
 
-The systems in this category are built to support all, or at least a substantial part, of the software development process. To this end, these systems suggest an \gls{ide} that aims to support the entire development process by grouping in a single environment all necessary tools. 
+The systems in this category are built to support all, or at least a substantial part, of the software development process. To this end, these systems suggest an \gls{ide} that aims to support the entire development process by grouping in a single environment all necessary tools.
 
-In this section we describe, in detail, two relevant \glspl{ide}: Eclipse~\cite{carlson2005eclipse} and LightTable\footnote{\label{fnote:lt}\texttt{http://lighttable.com/}}. For the sake of comparison, we include other \glspl{ide} which provide similar features to Eclipse (e.g. NetBeans~\cite{boudreau2002netbeans}, IntelliJ~\cite{intellij2001intellij}, and Microsoft Visual Studio (MVS)~\cite{guckenheimer2006software}), and similar features to LighTable (e.g. Xcode\footnote{\texttt{https://developer.apple.com/xcode/}}).
+In this section we describe, in detail, two relevant \glspl{ide}: Eclipse~(open-source)~\citep{carlson2005eclipse} and LightTable (open-source)\footnote{\label{fnote:lt}\texttt{http://lighttable.com/}}. Other popular \glspl{ide} include NetBeans~(open-source)~\citep{boudreau2002netbeans}, Microsoft's Visual Studio~(commercial)~\citep{guckenheimer2006software}, or Apple's Xcode~(free but closed-source)\footnote{\texttt{https://developer.apple.com/xcode/}}. Some \glspl{ide} (eg., Visual Studio or Xcode) primarily target the environment and ecosystem of the manufacturer's own programming languages.  The following study use those \glspl{ide} for the sake of comparison, because they provide similar features to Eclipse or LightTable.
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Eclipse} 
 \label{subsec:eclipse}
-Eclipse~\cite{carlson2005eclipse} is a popular \gls{ide} used mainly by Java developers, although it supports other programming languages such as C, C++ and JavaScript. As showed in~\cite{murphy2006java}, the commonly cited reasons for using Eclipse include rich Java development tools support and a \textit{plugin} architecture, the Eclipse Platform~\cite{DesRivieres2004}, that allows tight integration of third-party functionality.
+Eclipse~(Figure \ref{fig:eclipse}), a project initiated in 2001 and promoted by a consortium of industry leaders~\citep{carlson2005eclipse}, is a widely used open-source \gls{ide}. It is used mainly by Java developers, although it supports other programming languages such as C, C++ and JavaScript. As showed in~\citep{murphy2006java}, the commonly cited reasons for using Eclipse include rich Java development tools support and a \textit{plugin} architecture, the Eclipse Platform~\citep{DesRivieres2004}, that allows tight integration of third-party functionality.
 
-The Eclipse platform~\cite{DesRivieres2004} has a common architecture among the \glspl{ide} presented in this report. This architecture is characterized by two main components, the \textit{plugin} which is the smallest unit of functionality that can be developed and delivered separately, and the platform runtime which will discover and connect the \textit{plugins} to the platform itself. As a result, the platform integrates several tools that are used in distinct phases of the software development process. Figure~\ref{fig:eclipse} shows how the \gls{ide} looks like when the user is writing a Java program. 
+The Eclipse platform~\citep{DesRivieres2004} has a common architecture among the \glspl{ide} presented in this category. This architecture is characterized by two main components, the \textit{plugin} which is the smallest unit of functionality that can be developed and delivered separately, and the platform runtime which will discover and connect the \textit{plugins} to the platform itself. As a result, the platform integrates several tools that are used in distinct phases of the software development process. Figure~\ref{fig:eclipse} shows the \gls{ide} opened in the Java perspective, suggesting a quick fix for the error.
 
 \begin{figure}[!htbp]
 %\vspace{-5pt}
   \centering
-  \includegraphics[width=1.0\textwidth]{images/eclipse}
+  \includegraphics[width=1.0\textwidth]{images/eclipse-2}
     %\vspace{-15pt}
     \caption{Eclipse Integrated Development Environment showing Java perspective}
     %\vspace{-5pt}  
   \label{fig:eclipse}
 \end{figure} 
 
-Eclipse has many features that provide feedback to the programmers about what they are constructing, such as syntax highlighting, code completion suggestions, and indications of problems associated with various locations in a source file. In the literature, this concept is also known as \textit{liveness}~\cite{alpern1985defining}. It generally refers to the ability to modify a running program, however, as show in recent studies~\cite{tanimoto2013perspective}, there are several levels of liveness and these tools represent the first ones. While the tools in the first levels respond after a programmer action, the tools in the last levels not only run the program and respond immediately, but also predict the next programmer action. The modern \glspl{ide} tools, such as the Eclipse tools, are far from achieving the last liveness levels.
+Programming is a laborious task, even worse with verbose programming language such as Java. For example, while the developer is writing code he usually makes some errors, from lexical errors to semantic errors, that he will only detect after compiling the code. So, he needs to stop his main task to compile the code, and eventually debug it. This edit-compile-debug cycle is extremely unproductive and naturally undesired in an industry environment. 
 
-Moreover, both Eclipse and the other similar \glspl{ide} also share the following drawbacks:
+To prevent this problem a common feature among \glspl{ide} is the instant feedback. This feature aims to anticipate the state of the current program by indicating eventual errors or mistakes made during development. To provide instant feedback Eclipse is constantly compiling the code in background, and giving immediate feedback for the developer in form of syntax highlighting, code completion suggestions, and indications of problems associated with various locations in a source file. 
+
+In the literature a similar concept, known as \textit{liveness}~\citep{alpern1985defining}, referring to the ability to modify a running program. There are several levels of liveness and this kind of tool represent the first level~\citep{tanimoto2013perspective}. The tools in the first levels respond after a programmer action, while the tools at the last level not only run the program and respond immediately, but also predict the next programmer action. Having those tools in a \gls{ide} would be the ideal, however it is far from the reality of nowadays \glspl{ide} tools. 
+
+Before to idealize any new features is important to highlight the drawbacks of the existent ones. Eclipse as the other similar \glspl{ide} share some problems, as for instance:
+
 \begin{itemize}
 	\item They are incidentally complex. There is an immense amount of work to be done in those \glspl{ide} that is indirectly related to the real problem itself. For example, until the programmer gets a simple program to run, he needs to install and configure a set of necessary software, and he needs also to configure the development environment. This is a tiresome and time consuming task that adds an extra complexity into programming which is already a complex subject.
 
 	\item Program execution is difficult to observe, such that the only way to see how the program executes is by a stepwise debugger. This forces the programmer to stop the program and look at a line in a single instant of time. Consequently, the programmer cannot see how his program is executing, nor how his changes affect its execution.
 \end{itemize}
+
+The complexity of install and configure an \gls{ide} negatively affects the programming language itself, because users are more interested in the capabilities of the language than the \gls{ide}. To overcome this problem, recent programming languages, such as Rust~\citep{matsakis2014rust}, propose an \gls{ide} on the web browser\footnote{\texttt{https://play.rust-lang.org/}}. So users can write programs and use the language without any previous configuration. However this web environment is suitable only for tutorials and small examples, otherwise to have full access to the language users must pay the price to install and configure the language and the \gls{ide}.
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{LightTable}
 \label{subsec:lighttable}
-LightTable$^{\ref{fnote:lt}}$ is a programming environment which aims to turn programming in an observable task. Bret Victor, in his influential work~\cite{inventingPrin,learnableProg}, pointed out serious problems with the current environments and showed, using prototypes, how the environment can help to address those problems. LighTable is implemented base on those ideas, and it is designed to build web applications. To support this process, LightTable provides, at least, two useful features: (1) live execution feedback, that executes the program on every change showing the program flow, and (2) the organization of code in tables, enabling quick access to the program documentation.
+LightTable$^{\ref{fnote:lt}}$ is a successfully crowd-funded project that indicates that instant feedback attracts wide interest beyond the research community. This is further supported by Apple, who have recently integrated a feature called Playgrounds into the Xcode \gls{ide}. Playgrounds are enabled by Apple's new programming language Swift\footnote{\texttt{https://developer.apple.com/swift/}} and allow developers to edit code and immediately see the results of execution.
+
+LightTable is based on Bret Victor ideas which in his influential work~\citep{inventingPrin,learnableProg} pointed out serious problems with the current environments and showed, using prototypes, how the environment can help to address those problems. LighTable is proposed to build web application and to support this process, it provides, at least, two useful features: (1) live execution feedback, that executes the program on every change showing the program flow, and (2) the organization of code in tables, enabling quick access to the program documentation.
 
 \begin{figure}[!htbp]
 %\vspace{-10pt}
@@ -55,7 +73,7 @@ LightTable$^{\ref{fnote:lt}}$ is a programming environment which aims to turn pr
   \label{fig:lt}
 \end{figure} 
 
-LightTable is implemented in ClojureScript\footnote{\texttt{http://clojure.org/clojurescript}} (a Clojure compiler that targets JavaScript). Due to this implementation, in LightTable adding a new \gls{ui} element into the programming environment or changing an existing one is doable in a short amount of time, contrary to other \glspl{ide}, such as Eclipse~\cite{carlson2005eclipse}, where an equivalent change requires considerable amounts of time. 
+LightTable was initially implemented in Clojure\footnote{\texttt{https://clojure.org/}} a general-purpose programming language dialect of Lisp that runs on top of \gls{jvm}. Progressively the code initially written in Clojure was rewritten in ClojureScript\footnote{\texttt{http://clojure.org/clojurescript}}, a script language that uses Clojure compiler which targets JavaScript. Due to its implementation, in LightTable adding a new \gls{ui} element into the programming environment or changing an existing one is doable in a short amount of time, contrary to other \glspl{ide}, such as Eclipse~\citep{carlson2005eclipse}, where an equivalent change requires considerable amounts of time. 
 
 The program documentation in LightTable is quickly accessed by a lateral tab, where primitive functions of Clojure and ClojureScript can be consulted. This documentation is a textual description of the function parameters, the type of return, and some usage suggestions. While looking at a program, it is helpful to have the documentation of strange primitives, such as the \texttt{keyword} function shown in Figure~\ref{fig:lt}, however non-primitive functions are still undocumented. 
 
@@ -83,7 +101,7 @@ Unlike the previous systems, teaching systems are designed with the goal of help
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{LOGO} 
 \label{subsec:logo}
-LOGO~\cite{papert1980mindstorms} is a programming language and environment intended to allow children to explore a wide variety of topics such as physics and mathematics. The programming language is a dialect of Lisp, with much of the punctuation removed to make the syntax accessible to children, it uses a helpful metaphor which facilitates the introduction of programming concepts.
+LOGO~\citep{papert1980mindstorms} is a programming language and environment intended to allow children to explore a wide variety of topics such as physics and mathematics. The programming language is a dialect of Lisp, with much of the punctuation removed to make the syntax accessible to children, it uses a helpful metaphor which facilitates the introduction of programming concepts.
 
 In Logo, the programmer draws pictures by directing the ``turtle'', an onscreen character which leaves a trail as it moves (see Figure~\ref{fig:turtle}). The turtle is a metaphor that helps learners to translate their experiences as a person into programming knowledge. That means, to figure out how to make the turtle perform an action, the programmer can ask how he would perform that action himself, as if he were the turtle.
 
@@ -104,7 +122,7 @@ LOGO has influenced several systems, and its principles show how a system can be
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{SmallTalk}
 \label{subsec:smalltalk}
-SmallTalk~\cite{Kay1993} is a programming language and environment to support children in the world of information. The designers of this system, wanted to create a programming language that had a simple model of execution and a programming methodology that could accommodate a wide variety of programming styles. SmallTalk was based around three ideas: (1) everything is an object, (2) objects have memory in the form of other objects, (3) and objects can communicate with each other through messages.
+SmallTalk~\citep{Kay1993} is a programming language and environment to support children in the world of information. The designers of this system, wanted to create a programming language that had a simple model of execution and a programming methodology that could accommodate a wide variety of programming styles. SmallTalk was based around three ideas: (1) everything is an object, (2) objects have memory in the form of other objects, (3) and objects can communicate with each other through messages.
 
 \begin{wrapfigure}{r}{0.5\textwidth}
 %\vspace{-20pt}
@@ -112,11 +130,11 @@ SmallTalk~\cite{Kay1993} is a programming language and environment to support ch
   \includegraphics[width=0.5\textwidth]{images/smalltalk}
     %\vspace{-15pt}
     \caption{Smalltalk user interface.}
-    %\vspace{-20pt}  
+    \vspace{-20pt}  
   \label{fig:smalltalk}
 \end{wrapfigure} 
 
-Smalltalk programming environment was a successful achievement with relevant improvements on its successors. The system consisted of about 50 classes described in about 180 pages of source code~\cite{Kay1993}. This included all of the OS functions, files, printing and other Ethernet services, the window interface, editors, graphics and painting systems, as shown in Figure~\ref{fig:smalltalk}. 
+Smalltalk programming environment was a successful achievement with relevant improvements on its successors. The system consisted of about 50 classes described in about 180 pages of source code~\citep{Kay1993}. This included all of the OS functions, files, printing and other Ethernet services, the window interface, editors, graphics and painting systems, as shown in Figure~\ref{fig:smalltalk}. 
 
 In the Smalltalk programming language, the communication through messages has a strong resonant metaphor. To specify the behavior of an object, the programmer casts himself into the role of that object (to the extent of referring to the object as ``self'') and thinks of himself as carrying on a conversation with other objects. This is a strong metaphor, because role-playing and conversing are innate human facilities. 
 
@@ -124,7 +142,7 @@ In fact, SmallTalk features are, nowadays, a consistent reference for any progra
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Processing}
 \label{subsec:processing}
-Processing~\cite{Reas2006} is a programming language and environment designed to teach programming in a visual context. Processing has become popular among students, artists, designers, and architects, because it acts as a tool to get non-programmers started with programming through instant visual feedback.
+Processing~\citep{Reas2006} is a programming language and environment designed to teach programming in a visual context. Processing has become popular among students, artists, designers, and architects, because it acts as a tool to get non-programmers started with programming through instant visual feedback.
 
 The Processing programming language is built on top of Java, but it removes much of the verbosity of Java to make the syntax accessible to novices. The language provides simple access to external libraries, such as OpenGL, through single entry points, such as \texttt{setup} and \texttt{draw}. This allows novices to quickly prototype, learn fundamental concepts of programming, and, eventually, gain the basis to learn other programming languages.
 
@@ -155,17 +173,26 @@ Fluxus is mainly written in C++ and it is statically linked to several shared li
 
 Like Processing, Fluxus provides simple access to those libraries through single entry points, for instance \texttt{start-audio} connects an input audio to the application, \texttt{every-frame} registers a function called once per frame, and so on. However, as stated above, it is a barrier for decomposition since the behavior of submodules must be tangled across these global functions.
 
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=.8\textwidth]{images/fluxus}
+    \caption{Fluxus engine being used as DrRacket module}
+  \label{fig:fluxus}
+\end{figure} 
+
 Fluxus has its own environment specifically tailored for \textit{livecoding}. It is composed by a OpenGL graphical window with a simple text editor. The programmer types his code in the editor and presses a shortcut key each time he wants to run the code. Fluxus evaluates the code through Racket run-time system and shows its result in the same graphical window that the code was written. This mechanism is valuable in an \textit{livecoding} environment, because the performer can be editing the code while the result of the previous computation is maintained in background. However, if the code has any error and the performer execute it, the previous computation disappears and the environment will not help to find it. This is a serious problem, specially for the Racket syntax.
 
-Moreover, Fluxus shares with Processing similar drawbacks to those previously stated. However Fluxus can be used as a module of DrRacket~\cite{findler2002drscheme} programming environment and, fortunately, in DrRacket the above problem and many others are solved.
+Moreover, Fluxus shares with Processing similar drawbacks to those previously stated. However Fluxus can be used as a module of DrRacket (Figure~\ref{fig:fluxus})~\citep{findler2002drscheme} programming environment and, fortunately, in DrRacket the above problem and many others are solved.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{DrRacket}
 \label{subsec:drracket}
-DrRacket~\cite{findler2002drscheme} is a programming environment designed to support the Racket language. DrRacket is one of few programming environments which supports gradual learning in a more general language from the start. Consequently, it has been widely used in introductory programming courses in several universities around the world.
+DrRacket~\citep{findler2002drscheme} is a programming environment designed to support the Racket language. DrRacket is one of few programming environments which supports gradual learning in a more general language from the start. Consequently, it has been widely used in introductory programming courses in several universities around the world.
 
 The usual scenario where DrRacket is used is to teach functional programming using Racket. To facilitate this process, DrRacket provides three tools. The first is a symbolic stepper. It models the execution of Racket programs as algebraic reductions, since Racket is implemented on top of lambda calculus. The second tool is a syntax checker. It annotates programs with font and color changes based on the syntactic structure of the program. It also permits students to explore the lexical structure of their programs graphically and to $\alpha$-rename identifiers. The third tool is a static debugger that infers which set of values an expression may produce and how values flow from place to place in the source text, and, upon demand, it explains the reason of errors by drawing value flow graphs over the program text.
 
 Similar to Lisp environments, DrRacket provides a read-eval-print loop (\gls{repl}). This is a command prompt intended to quickly evaluate expressions and print their results. Especially in a learning environment, this feature makes an important connection between program execution and algebraic expression evaluation. However, the Lisp-style syntax obscures the effect of this feature. To overcome this limitation, DrRacket provides a \texttt{pretty-printer}. A module capable of printing algebraic expressions in a meaningful way, as well as other graphics elements supported by the text editor, such as images, snips, XML boxes, and so on.
+
+More recently, DrRacket has included picture boxes for \gls{wysiwyg} layout of slide content that is otherwise created programmatically~\citep{findler2004slideshow}. This kind of presentation extensibility is in addition to recognizing standard Racket hygienic macros. There are several problems with this approach. First, there is no documented protocol for creating new kinds of boxes. Second, any program that uses boxes is stored as ascii-encoded binary and is difficult to edit outside of DrRacket. Last, the semantics of the boxes is driven off of the display itself, rather than the persistent store; therefore, in order to compile, interpret, or edit the program, a box-aware editor is required.
 
 From the perspective of professional programmers DrRacket can be a potential target. It is useful for developing complex applications, including DrRacket itself. Moreover it is extensible by the same \gls{api} which the above tools implement. Through this \gls{api} it is also possible to extend the \gls{repl}, as in Pict3D\footnote{\texttt{https://github.com/ntoronto/pict3d}} (a 3D engine that integrates new graphical elements in the DrRacket environment). On the other hand, for supporting extensions, DrRacket's architecture has become increasingly complex. For instance, to make a simple change in an editor's element the programmer should be able to understand several modules, unrelated with the problem itself. This extra complexity is a negative impact when DrRacket is chosen as basis for new development tools.
 
@@ -173,7 +200,7 @@ Despite of the identified advantages, DrRacket has some barriers that may discou
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{PythonTutor}
 \label{subsec:pythontutor}
-PythonTutor~\cite{GuoSIGCSE2013} is a web-based program visualization tool, designed to explain how a piece of Python code executes. It has become popular among students from introductory Computer Science courses. Using this tool, teachers and students can write Python programs directly in the web browser and navigate step by step throughout its execution, seeing the run-time state of data structures.
+PythonTutor~\citep{GuoSIGCSE2013} is a web-based program visualization tool, designed to explain how a piece of Python code executes. It has become popular among students from introductory Computer Science courses. Using this tool, teachers and students can write Python programs directly in the web browser and navigate step by step throughout its execution, seeing the run-time state of data structures.
 
 PyhtonTutor has two main modules: the \textit{backend} which implements the tool core functionality, and the \textit{frontend} which presents the visualization of program's data structures. The \textit{backend} executes the input program under supervision of the standard Python debugger module (\texttt{bdb}) which stops execution after every executed line and records the program's run-time state. After execution terminates, the \textit{backend} encodes the program state in JSON format, serializing Python data types into native JSON types with extra \textit{metadata} tags and sends it to the \textit{frontend}. The frontend renders the objects using standard web technologies: HTML, CSS, and JavaScript. In this way, users can use the tool without installing any extensions or plugins.
 
@@ -183,7 +210,7 @@ The PythonTutor tool allows the programmer to follow the program execution over 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{YinYang}
 \label{subsec:yinyang}
-YinYang~\cite{mcdirmid2013usable} is a prototype of a programming language and environment whose main feature is the live execution feedback. That means it combines editing and debugging, where updated debug results are conveniently visible while editing. YingYang addresses the above issue in two ways. First, just like the previous system, it allows programmers to see single points of execution directly within the code editor (probe; precede expressions with \texttt{@} operator). Second, it has a pane aside the editor which traces execution with entries that are navigable (trace; print-like statements). Basically, the trace is an enhanced display function which, combined with ``probes'', allows the state of previous executions to be restored. So, programmers can take in the entire program flow at a glance and navigate trough it using probes.
+YinYang~\citep{mcdirmid2013usable} is a prototype of a programming language and environment whose main feature is the live execution feedback. That means it combines editing and debugging, where updated debug results are conveniently visible while editing. YingYang addresses the above issue in two ways. First, just like the previous system, it allows programmers to see single points of execution directly within the code editor (probe; precede expressions with \texttt{@} operator). Second, it has a pane aside the editor which traces execution with entries that are navigable (trace; print-like statements). Basically, the trace is an enhanced display function which, combined with ``probes'', allows the state of previous executions to be restored. So, programmers can take in the entire program flow at a glance and navigate trough it using probes.
 
 YingYang uses an incremental framework as basis of its programming model. This framework decomposes the program execution into a tree of nodes that can be re-executed independently on a code or input change. However, this decomposition cannot be performed transparently. It requires programmers to specify how the program will be decomposed. To perform this task one must deeply understand the granularity and modularity characteristics of the computations being performed by the program. Otherwise changes can sometimes have a huge impact on program re-execution time ($\sim$50ms). Consequently, live programming would actually reduce programmer productivity as programmers wait for slow feedback.
 
@@ -192,16 +219,16 @@ Although YinYang provides usable features for a learning environment, such as th
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Empowering Systems}
 \label{sec:es}
-In this category of systems, the most important aspect is to allow people to build programs tailored to their own needs. In this section, we describe how systems from two distinct areas are tailored to achieve their user's needs. 
+In this category of systems the most important aspect is to allow people to build programs tailored to their own needs. In this section, I describe how systems from two distinct areas are tailored to achieve their user's needs. 
 
-First, we consider Architecture, where new programming languages and environments are being proposed to support the increasing use of \gls{gd}~\cite{mccormack2004generative}. \gls{gd} is a design method that uses algorithms to generate architectural models. Usually these models are rendered using a \gls{cad} tool. 
+First, I consider Architecture, where new programming languages and environments are being proposed to support the increasing use of \gls{gd}~\citep{mccormack2004generative}. \gls{gd} is a design method that uses algorithms to generate architectural models. Usually these models are rendered using a \gls{cad} tool. 
 
-Second, we consider Mathematics, where advanced technologies are used to approximate as much as possible the mathematical models to the ones that we can see and understand.
+Second, I consider Mathematics, where advanced technologies are used to approximate as much as possible the mathematical models to the ones that we can see and understand.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{DesignScript}
 \label{subsec:designscript}
-DesignScript~\cite{aish2012designscript} is a programming language and environment designed to support \gls{gd} with textual methods. It is mainly used by architects and designers to generate geometric models using a script. When the script is executed it generates new models in a \gls{cad} tool. DesignScript is a AutoDesk\footnote{\texttt{http://www.autodesk.com/products}} product initially proposed to be used within AutoCAD (as shown in Figure~\ref{fig:ds}), nowadays it provides the same functionality on top of Revit, another AutoDesk product used for \gls{bim}. In short, a \gls{bim} model is similar to a \gls{cad} model but it covers more than just geometry. It also covers spatial relationships, properties of building components, such as manufacturers' details.
+DesignScript~\citep{aish2012designscript} is a programming language and environment designed to support \gls{gd} with textual methods. It is mainly used by architects and designers to generate geometric models using a script. When the script is executed it generates new models in a \gls{cad} tool. DesignScript is a AutoDesk\footnote{\texttt{http://www.autodesk.com/products}} product initially proposed to be used within AutoCAD (as shown in Figure~\ref{fig:ds}), nowadays it provides the same functionality on top of Revit, another AutoDesk product used for \gls{bim}. In short, a \gls{bim} model is similar to a \gls{cad} model but it covers more than just geometry. It also covers spatial relationships, properties of building components, such as manufacturers' details.
 
 \begin{figure}[!htbp]
 %\vspace{-5pt}
@@ -213,6 +240,8 @@ DesignScript~\cite{aish2012designscript} is a programming language and environme
   \label{fig:ds}
 \end{figure} 
 
+The programming language is presented as an associative language. The variables are abstract types that can represent numeric values or geometric entities. These variables are maintained in a graph of dependencies. When a change in a variable occurs it forces the re-evaluation of the graph, as shown in Figure~\ref{fig:designscript}, consequently variables has always updated values. This feature is useful, specially in a modeling environment, because it provides continuous feedback to the designer as the model is being modified.
+
 \begin{wrapfigure}{r}{0.45\textwidth}
   %\vspace{-5pt}
   \begin{center}
@@ -223,8 +252,6 @@ DesignScript~\cite{aish2012designscript} is a programming language and environme
   %\vspace{-20pt}
     \label{fig:designscript}
 \end{wrapfigure}
-
-The programming language is presented as an associative language. The variables are abstract types that can represent numeric values or geometric entities. These variables are maintained in a graph of dependencies. When a change in a variable occurs it forces the re-evaluation of the graph, as shown in Figure~\ref{fig:designscript}, consequently variables has always updated values. This feature is useful, specially in a modeling environment, because it provides continuous feedback to the designer as the model is being modified.
 
 The DesignScript's programming environment provides a text editor, an interpreter, and a simple debugger. The language interpreter is invoked each time that the designer clicks on the run button. Then all the script is interpreted and its result produces geometric entities rendered in the \gls{cad}. The continuous feedback feature works only in debug mode, because in this mode the script is interpreted line by line. Thus, each update to a variable will change its dependencies and will recompute the model. However, in debug mode the code cannot be edited, so this feature is worthless during code editing.
 
@@ -244,7 +271,7 @@ Monkey is based on general-purpose programming environments. It provides typical
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Rosetta}
 \label{subsec:rosetta}
-Rosetta~\cite{lopes2011portable} is a programming environment designed to support \gls{gd} that is based on DrRacket~\cite{findler2002drscheme}. Like Monkey, Rosetta provides its own environment detached from the \gls{cad}. Rosetta is a step forward from the previous systems, because it solves the portability problem among \gls{cad} tools. In Rosetta a \gls{gd} program can be written in various programming languages (frontends) and the geometric models can be rendered by various \glspl{cad} (backends). As a result, designers are free to write their programs in their preferred frontend which, upon execution, will generate the same geometry for the various backends. In Figure~\ref{fig:rosetta}, a program is written in Racket and its execution produces geometry for AutoCAD.
+Rosetta~\citep{lopes2011portable} is a programming environment designed to support \gls{gd} that is based on DrRacket~\citep{findler2002drscheme}. Like Monkey, Rosetta provides its own environment detached from the \gls{cad}. Rosetta is a step forward from the previous systems, because it solves the portability problem among \gls{cad} tools. In Rosetta a \gls{gd} program can be written in various programming languages (frontends) and the geometric models can be rendered by various \glspl{cad} (backends). As a result, designers are free to write their programs in their preferred frontend which, upon execution, will generate the same geometry for the various backends. In Figure~\ref{fig:rosetta}, a program is written in Racket and its execution produces geometry for AutoCAD.
 
 \begin{figure}[!htbp]
 %\vspace{-5pt}
@@ -266,7 +293,7 @@ Undoubtedly Rosetta's environment goes further than the textual environments for
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Grasshopper}
 \label{subsec:grasshopper}
-Grasshopper\footnote{\texttt{http://www.grasshopper3d.com/}} is a programming language and environment designed to support \gls{gd} using a visual language. Grasshopper provides an alternative way to programming. By definition, it is a bi-dimensional representation consisting of iconic components that can be interactively manipulated by the user according to some spatial grammar~\cite{myers1990taxonomies}. For example, the boxes in Figure~\ref{fig:grass} are components which receive the input (left ports) perform some operations and return the output (right port). The components are linked to other components establishing a \textit{dataflow} paradigm where the input of a component is the output of another.
+Grasshopper\footnote{\texttt{http://www.grasshopper3d.com/}} is a programming language and environment designed to support \gls{gd} using a visual language. Grasshopper provides an alternative way to programming. By definition, it is a bi-dimensional representation consisting of iconic components that can be interactively manipulated by the user according to some spatial grammar~\citep{myers1990taxonomies}. For example, the boxes in Figure~\ref{fig:grass} are components which receive the input (left ports) perform some operations and return the output (right port). The components are linked to other components establishing a \textit{dataflow} paradigm where the input of a component is the output of another.
 
 \begin{figure}[!htbp]
 %\vspace{-5pt}
@@ -308,24 +335,23 @@ Dynamo\footnote{\texttt{http://dynamobim.com/}} is a programming language and en
 
 Dynamo provides a set of tools similar to Grasshopper, particularly a searching table, as shown in Figure~\ref{fig:dynam}, which provides quick access to the primitives of the language, such as the components and widgets. This feature encourages designers to explore the available components and try new components.
 
-In general, Dynamo and Grasshopper are programming environments and visual languages popular among novices in programming. The smooth learning curve and perhaps the style of the \gls{ui} elements are attractive for beginners. However as the visual programs become large and complex it requires more time to understand, maintain, and adapt to new requirements, than the textual programs as showed in~\cite{leitao2011programming}. Despite spending more time and effort to learn a textual programming language, the learners have their time quickly recovered once the complexity of the design task becomes sufficiently large.
+In general, Dynamo and Grasshopper are programming environments and visual languages popular among novices in programming. The smooth learning curve and perhaps the style of the \gls{ui} elements are attractive for beginners. However as the visual programs become large and complex it requires more time to understand, maintain, and adapt to new requirements, than the textual programs as showed in~\citep{leitao2011programming}. Despite spending more time and effort to learn a textual programming language, the learners have their time quickly recovered once the complexity of the design task becomes sufficiently large.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Mathematica}
 \label{subsec:mathematica}
-Mathematica~\cite{wolfram1991mathematica} is a language and environment built to support scientific calculation. It is widely used in the scientific community, specially by students, because it represents programs using a short and clear artificial language. This language supports not just linear textual input, but also two-dimensional input, like traditional mathematical notation.
+Mathematica~\citep{wolfram1991mathematica} is a language and environment built to support scientific calculation. It is widely used in the scientific community, specially by students, because it represents programs using a short and clear artificial language. This language supports not just linear textual input, but also two-dimensional input, like traditional mathematical notation.
 
-\begin{wrapfigure}{r}{0.6\textwidth}
-  \vspace{-15pt}
-  \begin{center}
-    \includegraphics[width=0.6\textwidth]{images/mathematica}
-  \end{center}
-  \vspace{-10pt}
- \caption{Mathematica notebook.}  
+\begin{figure}[!htbp]
+%\vspace{-5pt}
+  \centering
+  \includegraphics[width=.7\textwidth]{images/mathematica}
   %\vspace{-20pt}
-    \label{fig:math}
-\end{wrapfigure}
+    \caption{Mathematica notebook}  
+  \label{fig:math}
+  %\vspace{-10pt}
+\end{figure} 
 
-The core concepts of Mathematica are based in the paradigm initiated by Turing's work~\cite{wolfram2003wolfram}. In this paradigm mathematical processes are systematized as computations. For example, in a typical interaction, the user types a mathematical expression in the Mathematica environment (i.e. notebook), then this expression is evaluated, as shown in Figure~\ref{fig:math}.  
+The core concepts of Mathematica are based in the paradigm initiated by Turing's work~\citep{wolfram2003wolfram}. In this paradigm mathematical processes are systematized as computations. For example, in a typical interaction, the user types a mathematical expression in the Mathematica environment (i.e. notebook), then this expression is evaluated, as shown in Figure~\ref{fig:math}.  
 
 A relevant aspect of Mathematica's notebook is the immediacy that users get a response. Unlike a typical program that must be executed explicitly to get a feedback of an action, in this notebook expressions are evaluated as soon as they are typed. It works like a read-eval-print loop, however it has enhanced mechanisms to present data meaningfully.
 
@@ -333,19 +359,17 @@ The Mathematica features are well designed to present data in a human readable f
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{IPython}
 \label{subsec:ipython}
-\begin{wrapfigure}{r}{0.6\textwidth}
-  \vspace{-40pt}
-  \begin{center}
-    \includegraphics[width=0.6\textwidth]{images/ipython-zoom}
-  \end{center}
-  \vspace{-25pt}
- \caption{IPython browser-based notebook.}  
-    \vspace{-15pt}
-    \label{fig:ipython}
-\end{wrapfigure}
-IPython~\cite{PER-GRA:2007} is a programming environment built to support scientific calculation. Unlike Mathematica~\cite{wolfram1991mathematica},  IPython is an open platform for extensions, it allows external programming languages (frontends) to use its features which includes an interactive shell, and a browser-based notebook with support for code, text, mathematical expressions, plots, and other rich media. 
+
+IPython~\citep{PER-GRA:2007} is a programming environment built to support scientific calculation. Unlike Mathematica~\citep{wolfram1991mathematica},  IPython is an open platform for extensions, it allows external programming languages (frontends) to use its features which includes an interactive shell, and a browser-based notebook with support for code, text, mathematical expressions, plots, and other rich media. 
 
 Like Mathematica, IPython has a notebook where users can try out expressions and immediately see its result, as shown in Figure~\ref{fig:ipython}, however this notebook is in a web format. IPython's architecture is a typical client-server, where the frontend is the client (i.e. the notebook), and the server is a language kernel (i.e. the programming language which users interact with). The communication between client and server, is through a strict protocol that the language kernel must implement. 
+
+\begin{figure}[!htbp]
+  \centering
+    \includegraphics[width=0.7\textwidth]{images/ipython}
+ \caption{IPython browser-based notebook}
+    \label{fig:ipython}
+\end{figure}
 
 IPython provides a base layer for new programming environments, by exposing the major components of its architecture, consequently its features are available from other systems. For example, IJulia uses IPython interface with Julia language. 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -391,7 +415,7 @@ Table~\ref{tab:sum} shows the presented systems based on their major design infl
 \end{tabular}
 }
 %\vspace{1pt}
-\caption{System attributes.}
+\caption{System attributes}
 %\vspace{-20pt}
 \label{tab:sum}
 \end{table}

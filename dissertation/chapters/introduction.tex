@@ -1,0 +1,62 @@
+%TEX root = ../dissertation.tex
+
+\pagenumbering{arabic}% Arabic page numbers (and reset to 1)
+
+\chapter{Introduction}
+\label{chapter:introduction}
+
+In this chapter, I introduce the problem statement and the objectives of my work. Furthermore, I describe the research approach, outline the structure of this thesis, and define basic terms.
+
+\section{Problem Statement}
+
+Challenges in understanding programs are all too familiar since the early days of computing. At that time we wrote programs in \textit{absolute binary}~\citep{hamming2003art}. It is a numeric representation typically expressed by a sequence of zeros and ones, meaning that the programs were represented as a sequence of instructions and addresses both written in binary. To understand a program in this form is almost impossible.
+
+Since early days, as Fred Brooks pointed out in his influential essay~\citep{bullet1987essence}, we have come to accept that \textit{there is no silver bullet} to understand a program. Fortunately, in recent years, the field of \textit{program comprehension}~\citep{rugaber1995program} has evolved considerably, because a program that is not comprehended cannot be changed, shared and communicated.
+
+The area of program comprehension has shown that to understand a program, a \textit{silver bullet} may not be required. This field came up with several theories that provide rich explanations of how people understand programs. For instance, the \textit{top-down} theory~\citep{brooks1977towards} says that to comprehend a program, the programmer must create a mental model of the program's structure and behavior. This model is a set of hypothesis which the programmer confirms or rejects based on evidence found in the code.
+
+In response to these theories or in parallel with them, many environments and innovative tools were created or updated. Some of the examples are: sophisticated frameworks to support rapid construction and integration of tools~\citep{DesRivieres2004}, advanced programming environments with intelligent user interface~\citep{carlson2005eclipse,boudreau2002netbeans,intellij2001intellij,guckenheimer2006software}, and simple tools designed for learning environments~\citep{papert1980mindstorms,Kay1993,Reas2006,findler2002drscheme,GuoSIGCSE2013,mcdirmid2013usable}. In parallel to these advances, there are other fields interested in program comprehension. For example, in the Architecture field, new tools~\citep{aish2012designscript,lopes2011portable} are being proposed to support \textit{generative design}: a procedural method for generating architectural models~\citep{mccormack2004generative}, that also suffers from program understanding problems.
+
+\begin{wrapfigure}{r}{0.4\textwidth}
+  \vspace{-20pt}
+  \begin{center}
+    \includegraphics[width=0.4\textwidth]{images/cube-sketch}
+  \end{center}
+  \vspace{-15pt}
+ \caption{An architectural sketch.}  
+  \vspace{-20pt}
+    \label{fig:sketch}
+\end{wrapfigure}
+
+Regardless the area, people follow two basic steps to build a program: first imagining its details, then implementing them. This is a natural process for programmers that is commonly performed in their heads. Architects, by contrast, prefer another medium to express their ideas: diagrams/sketches~\citep{do2001thinking}, because it is a compact medium to convey complex ideas. For example, Figure~\ref{fig:sketch} shows a sketch of a geometric model which would be more complex, if it were described in text. These drawings are also helpful in the end of design conception, because they clearly document the design decisions, the relationship between different parts of the design, and the impact of external factors in the final shape.
+
+The generative design programs, by definition, can itself be considered a description of a design, as it formally specifies the modeling process of the design. However, this formal specification can only be easily understood for simple design problems. Consequently, the situation becomes the same of any sufficiently complex program, then it is helpful to have \textit{program documentation}.
+
+Many problems related with program comprehension could be mitigated, if the programs were properly documented. Source code comments is the most important artifact to understand a system and to maintain, as showed in~\citep{de2005study}. Unfortunately, writing documentation is perceived as a tiresome task and, thus, is frequently avoided~\citep{sousa1998survey}, which negatively affects software development. A result of the lack of program documentation is that programmers must spend a significant amount of time separating relevant ideas from the irrelevant ones.
+
+We think that, by creating well designed tools, it is possible to improve \textit{program comprehension} and \textit{program documentation}. We plan to address this problem in two ways: (1) minimizing the lack of documentation in the programs, by turning program documentation in a less tiresome task, and (2) creating a new medium to help people design programs, by anticipating the effect of their actions in the program output.
+
+\section{Objectives}
+
+This work addresses two challenges:
+
+\begin{itemize}
+\item minimize the lack of documentation in the programs.
+\item improve the program comprehension process.
+\end{itemize}
+
+To overcome these challenges, we will investigate better ways to help programmers in their conceptual tasks. The goal is to design and implement innovative tools which support and encourage new ways of thinking, and therefore, enabling programmers to more easily see and understand their programs.
+
+Our approach to achieve this objective is to, at first, analyze how programming tools can improve program comprehension. The \textit{Learnable~Programming}~\citep{learnableProg,inventingPrin} approach has shown interesting insights in this direction. Secondly, based on this analysis, and in order to prove our ideas, we will implement two interactive tools tailored for generative design programs: 
+
+\begin{enumerate}
+\item \textit{Sketch-program correlation tool,} which will encourage architects and designers to reuse their conceptual sketches, such as that shown in Figure~\ref{fig:sketch}, to visually document their programs. These sketches will be correlated with the program source code in a way that significantly reduces the effort to read the code. Therefore, it allows users to acquire a better mental model.
+
+\item \textit{Immediate feedback tool,} which will give a new medium for architects and designers to create new ideas by continuously reacting with changes in their models. This tool will minimize the latency between writing the code and executing it, consequently this will encourage users to experiment ideas quickly, augmenting their comprehension about the program.
+\end{enumerate}
+
+This thesis will produce the following expected results: \textit{i)} a specification of each tool, its purpose and how this tool is designed to support its purpose, \textit{ii)} an implementation of a prototype, and \textit{iii)} an experimental evaluation with a comparison to other similar tools.
+
+\section{Research Approach}
+
+\section{Structure}
