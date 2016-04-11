@@ -148,28 +148,64 @@ Figure~\ref{fig:victor-ex} shows a prototype, presented with this work, that dem
   \centering
   \includegraphics[width=.7\textwidth]{images/victor-example}
     %\vspace{-15pt}
-    \caption{Example}
+    \caption{A programming environment that helps in the program readability. On the right, is a sample of code, written in Processing language, that creates a green circle and rectangle. On the right, is the produced result of this code. Each element of this program, including the functions and its arguments, are labeled so when user point the mouse over an element its label appears on the editor.}
     %\vspace{-5pt}  
   \label{fig:victor-ex}
 \end{figure}
 
-Labeling the program elements on mouse-over indeed make the meaning of the program more explicit, but this technique does not replace the need of a proper documentation. The main problem with this approach is that these labeled functions already exist in Processing, so it is intended to avoid users to search in the Processing manual for those functions. For any user defined function this feature will not work, consequently the programmer must take considerable amount of time and effort to create the program documentation.
+Labeling the program elements on mouse-over indeed make the program meaning more explicit, but this technique does not replace the need of a proper documentation. The main problem with this approach is that these labeled functions already exist in Processing, so this feature is more intended to avoid unnecessary searches on the Processing manual, than alternatively provides a way to document the program. For any user defined function this feature will not work, consequently the programmer must take considerable amount of time and effort to create its own documentation.
 
 The reality in architecture is quite different form that in software engineering: it is part of the design process to produce documentation in the form of sketches. This means that it is not necessary to write huge amounts of textual documentation to explain a \gls{gd} program. We only need to annotate the already existing sketches and combine them with the program, thus providing visual explanations of what the program is supposed to do.
 
-In Figure~\ref{fig:sc-tool} I propose the \textit{sketch-program correlation tool} that shows how sketches and code can be combined to provide useful documentation for the programmer, improving in the program readability. This example illustrates a function that draws an arrow giving the base point $P$, the direction $\alpha$, the height $\rho$, and the width $\beta$ and size $\sigma$ of the arrow tip. This information is all condensed in the sketch, maybe even more precise. So the idea of this tools is to take advantage of this fact by pointing out what is the meaning of each function parameter, found in the code, in the context of the sketch (and vice versa). In this way when the user has the mouse over a function parameter he immediately sees what that parameter correspond in the sketch, and  the inverse is also valid: when he moves the mouse over a symbol in the image he immediately see its meaning in the code. That helps him to create a mental model of the program even before to change it.
+In Figure~\ref{fig:sc-tool} I propose the \textit{sketch-program correlation tool} that shows how sketches and code can be combined to provide useful documentation for the programmer by using the sketches made in a early phase of program design. This example illustrates a function that draws an arrow giving the base point $P$, the direction $\alpha$, the height $\rho$, and the width $\beta$ and size $\sigma$ of the arrow tip. This information is all condensed in the sketch, maybe even more precise. So the idea of this tools is to take advantage of this fact by pointing out what is the meaning of each function parameter, found in the code, in the context of the sketch (and vice versa). In this way, when the user has the mouse over a function parameter he immediately sees what that parameter correspond in the sketch, and  the inverse is also valid: when he moves the mouse over a symbol in the image he immediately see its meaning in the code. That helps him to create a mental model of the program even before to change it.
 
 \begin{figure}[!htbp]
 %\vspace{-5pt}
   \centering
   \includegraphics[width=0.5\textwidth]{images/proposed-sc-tool}
     %\vspace{-15pt}
-    \caption{\textit{Sketch-program correlation tool} showing how to combine fragments of the program with sketches. In this example all the function parameters has a correspondent symbol in the sketch that illustrate its meaning.}
+    \caption{\textit{Sketch-program correlation tool} showing how to combine fragments of the program with sketches. In this example all the function parameters has a correspondent symbol in the sketch that illustrate its meaning}
     %\vspace{-5pt}  
   \label{fig:sc-tool}
 \end{figure}
 
-As demonstrated in early works, the underline principle behind this tool can in fact help in the program readability, consequently in the overall program comprehensibility. However the main challenge that this tool brings is in how to implement it in the current  environments for \gls{gd}. 
+As demonstrated in early works, the underline principle behind this tool can in fact helps in the program readability, consequently helping in the overall process of program comprehensibility. However implement this tool in the current environments for \gls{gd} is undoubtedly a hard  challenge, due the absence of certain capabilities required for implementing this kind of tool considering the current state of \gls{gd} environments.
+
+Perhaps the first challenge imposed by this tool, is in how to include images in the code editor. It seems a trivial problem, however the possibility to insert a simple image in the code editor is unsupportable for at least the majority of code editors. Specially in \gls{gd} where the environments used for textual languages generally only support rows of plain text. Until the time we are not aware of any other code editors that provide such a capability, in exception of Rosetta tool~\citep{lopes2011portable} that provides an enhanced code editor that supports images and other media-rich elements, by using DrRacket~\citep{findler2002drscheme} as its code editor.
+
+A inherent concern in the fact of supporting images in the code editor is on how to store it. The strategy used by DrRacket, is to serialize the image and store it in ascii-encoded binary format. The problem of this strategy is that once the programmer inserts an image in his code and save it, he will not be able to change its code again using other text editor. So this method does not provide any backwards-compatibility with other text editors potentially useful to write programs. As a result, it makes difficult, or even impossible, the portability of the program among those different text editors.
+
+I propose another approach to this problem that assures backwards-compatability. The first step is to define a standard annotation that will be used to include the image, similarly to the Java doc annotation. Then requires the use of that annotation upon an event of image insertion. Thus to include an image the programmer should quote the image with that annotation, as the example depicted in Figure~\ref{fig:inline-image}. As a result, it will be possible for the program environment to distinguish images from source code and proceed to an adequate treatment for those images. 
+
+\begin{figure}[!htbp]
+%\vspace{-5pt}
+  \centering
+  \includegraphics[width=.25\textwidth]{images/inline-image-example}
+    %\vspace{-15pt}
+    \caption{Example of inline-image annotation.}
+    %\vspace{-5pt}  
+  \label{fig:inline-image}
+\end{figure}
+
+By using this convention, when the programmer save his code all images under that annotation can be stored as a simple source code comment. For example considering the annotation showed in Figure~\ref{fig:inline-image}, the following string would be generated by parsing that annotation:
+
+\begin{center}
+\begin{minipage}[c]{.6\textwidth}
+\texttt{// \%\%image \$\{USER\_HOME\}/project/sketch1.jpg \%\%}
+\end{minipage} \\
+\end{center}
+
+The above text is a convection that represents the relative path from where the code editor loaded the image. In this way if the code editor cannot resolve this path and find the image, the code could be showed anyway by displaying just that comment, thus the code can be opened in any text editor. Of course to be able to see the images, programmers must open the code in the text editor capable to interpret that annotations and display the images. 
+
+Other systems, to avoid the problem of incompatibility among editors convert the code into a textual format, for example Barista~\citep{ko2006barista} saves the code in XML. However the presented approach goes further, because it does not impose any language specific requirement, the code is stored as it is (ordinary plain text). So it is up to the code editor to implement suitable methods to show the images.
+
+Nevertheless, an interesting challenge imposed by the sketch-program correlation tool is the automatic recognition of text and symbols in images. Fortunately, this is an old problem which is part of the ancient dream of replicating the human functions by machines, making the machine able to perform tasks like reading. To concertize this dream was realized that information should be readable both to humans and to machine and alternative inputs can not be predefined. As consequence of this probably inputs, an \gls{ocr} system would be necessary for dealing with the problem of recognizing optically processed characters. Optical recognition is performed after the writing or printing has been completed. Therefore the idea of this system is avoiding the traditional way of entering data into a computer through the keyboard by providing a more efficient way for it.
+
+The \gls{ocr} systems rapidly became a prominent field of study that gave substantial incentives for making pattern recognition and image analysis matured fields of science. The very first attempts can actually be found back in 1870~\citep{eikvil1993optical} with the retina scanner which was an image transmission system using a mosaic of photocells. From then, consecutive attempts were made to improve the methods of \gls{ocr} systems, specially by sophisticating the retina scanner and creating OCR machines that became commercially available in the 1950's. Posteriorly, HP as a possible software and/or hardware add-on for HP's line of flatbed scanners, proposed a novel open-source project: Tesseract~\citep{smith2007overview} OCR engine. This project was then sponsored by Google and nowadays is one of the most accurate OCR engine on the market used widely in several web applications.
+
+Clearly the subject of character recognition is extremely extensive and its details are beyond the scope of this dissertation. However, to propose my solution of recognizing automatically text in image, I based on the functionality of the \gls{ocr} engine, namely the Tesseract~\citep{smith2007overview}, that accepts an image file and returns a file with the recognized characters and their respective coordinates on the image. However, the Tesseract is a local application that needs to be installed in the user's computer, or be included as external libraries on the program, which may affect the portability of the application and its use.
+
+To solve this problem I propose the use of \gls{ocr} Web Service, such as\footnote{\texttt{http://www.onlineocr.net/}},\footnote{\texttt{http://www.free-ocr.com/}} that provides the same functionality, because they are build on top of Tesseract, but it defines a more standardized way for integrating the applications using the SOAP or REST. Figure~\ref{fig:sc-tool-arch} shows the architecture of this tool. 
 
 
 \begin{figure}[!htbp]
