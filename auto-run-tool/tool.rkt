@@ -135,8 +135,8 @@
           
           (define/override (on-new-image-snip filename kind relative-path? inline?)
             (displayln "@on-new-image-snip")
-            (super on-new-image-snip filename kind relative-path? inline?)
-            #;(make-object circle-snip% (make-hash) filename kind relative-path? inline?))
+            #;(super on-new-image-snip filename kind relative-path? inline?)
+            (make-object image-data-snip% filename kind relative-path? inline?))
           
           (define/override (on-char event)
             (when (and (eq? (send event get-key-code) 'f4) x y)

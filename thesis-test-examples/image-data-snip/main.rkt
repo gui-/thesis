@@ -1,9 +1,9 @@
 #lang racket/gui
-(require (prefix-in - racket/base)
-         syntax/quote
-         wxme)
+(require "sketch-correlation.rkt"
+         (prefix-in - racket/base))
 
-(provide (rename-out [image-data-snip-class snip-class])
+(provide (rename-out [image-data-snip-class snip-class]
+                     [define/img define])
          image-data-snip%)
 
 (define image-data-snip%
