@@ -20,6 +20,7 @@
     (define arg-field #f)
     (define x-field #f)
     (define y-field #f)
+    (define h-orig #f)
     
     (define (setup-main-frame at-x at-y)
       (set! frame (new frame%
@@ -123,32 +124,38 @@
       (define py (string->number (car (cdr (cdr input)))))
       (send this set-arg-pos sym (list px py)))    
     
-    (inherit get-admin)
+    (inherit get-admin resize)
     (define/override (on-event dc x y editorx editory e)
-      (when (and (send e button-down? 'left)
-                 (send e get-control-down))
-        (define admin (get-admin))
-        (when admin
-          (let* ((x-display (send e get-x))
-                 (y-display (send e get-y))
-                 (x-coord (- x-display x))
-                 (y-coord (- y-display y))
-                 (btm (get-bitmap))
-                 (btm-w (send btm get-width))
-                 (btm-h (send btm get-height))
-                 (px (real->decimal-string (/ x-coord btm-w) 2))
-                 (py (real->decimal-string (/ y-coord btm-h) 2)))
-            
-            
+      (let* ((admin (get-admin))
+             (x-display (send e get-x))
+             (y-display (send e get-y))
+             (x-coord (- x-display x))
+             (y-coord (- y-display y))
+             (btm (get-bitmap))
+             (btm-w (send btm get-width))
+             (btm-h (send btm get-height))
+             (px (real->decimal-string (/ x-coord btm-w) 2))
+             (py (real->decimal-string (/ y-coord btm-h) 2)))
+        (when (and (send e button-down? 'left)
+                   (send e get-control-down))
+          (when admin         
             (setup-main-frame (+ x-display (inexact->exact editorx))
                               (+ y-display (inexact->exact editory)))
             (setup-arg-field)
             (setup-x-field px)
             (setup-y-field py)
-            (setup-btn)     
-            
+            (setup-btn)
             (unless (send frame is-shown?)
-              (send frame show #t))))))
+              (send frame show #t))))
+        (when (and (send e button-down? 'left)
+                   (send e get-shift-down))
+          (when admin
+            (set! h-orig btm-h)
+            (resize btm-w 10)))
+        (when (and (send e button-down? 'right)
+                   (send e get-shift-down))
+          (when admin
+            (resize btm-w h-orig)))))
     
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     ;;Operations on the metadata ;;;
