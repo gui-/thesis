@@ -1,0 +1,54 @@
+% ------------------------------------------
+%  IEEE ARTICLE TEMPLATE
+% ------------------------------------------
+% Author(s):
+% Institution(s):
+% ------------------------------------------
+\documentclass[journal,twocolumn,letterpaper,10pt]{ieee-sty/IEEEtran}
+\usepackage[acronym]{glossaries}
+%\usepackage[margin=2.5cm]{geometry}
+% Line spacing package
+\usepackage{graphicx, helvet, hyperref, setspace}
+\usepackage{listings}
+% Generates the acronyms list
+\makeglossaries
+
+% Acronyms list
+\input{acronyms/acronyms.tex}
+
+% ------------------------------------------
+%  MAIN DOCUMENT
+% ------------------------------------------
+\begin{document}
+
+% Variables file
+\input{variables.tex}
+
+% Article title
+\title{\Title}
+
+% Author(s) Name
+\author{\Authors\\
+        \Institutions}
+
+\maketitle
+
+% Abstract
+\input{abstract/abstract.tex}
+
+% Keywords
+\input{keywords/keywords.tex}
+
+% Sections
+\input{sections/main.tex}
+
+%\if\hasBibliography 1
+% Bibliography
+\bibliographystyle{IEEEtran}
+% Bibliography file
+\bibliography{bibliography/article}
+%\fi
+
+
+
+\end{document}

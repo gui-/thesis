@@ -1,0 +1,264 @@
+%!TEX root = ../article.tex
+
+\section{Implementing the proposed tools}
+
+The problem addressed in this thesis is to design and implement an interactive programming environment for generative design that covers the needs of \gls{gd} community. The approach followed, suggests two interactive tools: (1) \textit{program-sketch correlation tool}, which correlates sketches with code, as a result, it significantly reduces the effort to read the code, and (2) \textit{immediate feedback tool}, which executes the program upon changes, thereby creating an interactive environment to users quickly test their ideas and, eventually, improve their program comprehension.
+
+\subsection{Program-sketch correlation tool}
+\label{sec:psct}
+
+There are two ways to correlate a generative design program with its produced model. The first is using a sketch in the program that illustrates the intended model. The second is using the generated model, correlating the elements of the shape with fragments of the code. The first type of correlation did not exist in Rosetta, consequently this is a contribution of this thesis.
+
+The \textbf{program-sketch correlation tool} was implemented using the power of DrRacket syntax check to bind annotated identifiers. In this way, the images resources, already supported in the text editor, now becomes a new category of rich-media expressions included in the syntax check annotated types. As a result, programmers can add in their functions, images that illustrate the purpose of that function. Therefore, this is perfectly suitable for functions used in \gls{gd} programs, because usually the output of these functions can be visually represented by a sketch.
+
+For example, Figure~\ref{fig:rmeaning} shows a typical example where the architect defines a function that creates a cube with spheres in its vertices. In this example, the architect can start by searching for each function argument, moving the mouse over them, to find the meaning of these arguments in code. Inversely, he can start from the image by moving the mouse over it, to find the meaning of these arguments in code. Furthermore, programmers can use images in their programs, and the image inserted in the function body acts as if it was part of the program. However, internally it continues to be a mere code comment that does not affect the correct operation of the function.    
+
+\begin{figure}[!h]
+  \centering
+  \includegraphics[width=.4\textwidth]{images/img-code}
+  \caption{Relating function arguments with image. The highlighted argument (under the cursor, in green) is illustrated in the image (on the \texttt{R} symbol, using blue arrows).}
+  \label{fig:rmeaning}
+\end{figure}
+
+Although images are a suitable media to represent geometric objects, textual information can also be appropriate in some cases. For example, 
+during the development of the program, usually, several functions are created. Consequently, the architect may not have a sketch to document them. Furthermore, the process to draw a new sketch, import it to the computer, and insert it in the code, is clearly more laborious than writing a simple piece of text that describes the function. Using this method he can later complete his code with a proper sketch, but until then the function is still documented, and he can share his code without any trouble.
+
+Thinking about this situation, I extended the program-sketch correlation tool to support also source code comments. Similarly to the correlation with images, users can insert a string that explains the method. This string can be annotated with special characters to correlate its characters graphically to the function identifiers. For example, Figure~\ref{fig:ortocone1} portrays a typical situation where the architect is reading the function comment and moves the mouse over an annotated identifier (\texttt{@orthogonal-cones}). Thus, immediately, some arrows are displayed that point to the definition of that function, and also to its use in the program context.
+
+\begin{figure}[!h]
+  \centering
+  \includegraphics[width=.4\textwidth]{images/orto-cone-1}
+  \caption{Relating code comments with function arguments. The highlighted function name (under the cursor, in green) is linked to its definition and utilization in the source code (in green, using blue arrows).}
+  \label{fig:ortocone1}
+\end{figure}
+
+Regarding the usability of this tool, an inherent concern already noted is related to the use of images in the text editor. Images may have arbitrary dimensions and may occupy large areas of the text editor, which may cause bad experiences in the utilization of this tool, affecting the readability of the code, and, even worse, disturbing the user in his primary task: programming.
+
+To avoid this problem, I propose a straightforward mechanism that allows collapsing the images. As a result, images are reduced to the height of a character sentence, using considerably less space than before (e.g. see Figure~\ref{fig:collapsed}). Once the picture is collapsed the programmer can easily navigate through the code, improving his awareness of the surrounding context in a file. Furthermore, this feature can be enhanced by DrRacket collapse \textit{S-expressions tool} to elide code. However, differently from moderns code editors that collapse the code in blocks, when the architect wants to view part of the surrounding context, he either have to over the collapsed code to show a tool tip, possibly occluding relevant code, or expand the collapsed code possibly moving relevant code off-screen. DrRacket omits code by replacing it with "\texttt{(...)}", this way the surrounding context is still legible but uses less space. Inversely, users can expand their code as well as their images by a simple click. Note that all information placed in the picture, i.e. the annotated positions where the arrows will point, continue as before. However, when an image is collapsed this change is not persisted in the stored file, it just sets the dimensions ports of the window visualization. Consequently, the programmer needs to perform this operation every time he starts a new session. 
+
+\begin{figure}[!h]
+\centering
+  \includegraphics[width=0.4\textwidth]{images/atomium-collapsed}
+  \caption{Collapsing the image and some s-expressions. The code is collapsed, tidy, and the surrounding context is still legible.}
+  \label{fig:collapsed}
+\end{figure}
+
+In order to automatically recognize symbols in images and binding them with code identifiers, the presented architecture suggested the use of an \gls{ocr} engine. Thus, the \gls{ocr} engine is intended to receive the images, process their optical characters, and return the characters found with their respective coordinates on the picture. The first approach taken followed this description, sending the sketches, to the \gls{ocr}. Unfortunately, this process was unfruitful, mainly because the technologies used in the current \gls{ocr} engines have several problems to identify handwritten symbols (especially in the case of mathematical annotations) and they fail to recognize correctly the symbols used in the sketches in (almost) 100\% of the times.
+
+However, to finish the implementation of this tool without depending on the correct functioning of the \gls{ocr} engine, I implemented a \textit{fallback} mechanism that allows users to perform the \gls{ocr} work. This way, when the first image of a function body is inserted in the code editor, it is blindly annotated with the same position for all function parameters. As a result, DrRacket check syntax will draw binding arrows, from the center of the image, to the function arguments, and vice-versa. For example, after the picture is inserted user can set its parameters. At this point, it is up to the programmer to change the bind position of each parameter to the correct position; the tool does not require this action. 
+
+\begin{figure}[!h]
+\centering
+  \includegraphics[width=0.4\textwidth]{images/2}
+  \caption{Choosing the correct position for the function parameter \texttt{p}. The coordinates of the point \texttt{p} (illustrated in the image) as well as its correspondent function parameter is shown in the \gls{gui}.}
+\label{fig:gui-set-param}
+\end{figure}
+
+\begin{figure}[!h]
+  \centering
+  \includegraphics[width=0.4\textwidth]{images/4}
+  \caption{Finishing the process setting all the image symbols in their proper place.}
+  \label{fig:alright}
+\end{figure}
+
+Further, to finalize this process and have the right associations between image symbols and function identifiers, an alternative method was implemented. So, if the programmer clicks in any space of the picture, a \gls{gui} will appear showing three fields: (1) the \texttt{parameter} field, that is empty by default, and it is intended to specify the name of the clicked symbol, which, of course, must match with the function parameter name; (2) the \texttt{x}; and (3) the \texttt{y} fields, that defines the width and height of the coordinate respectively (as shown in Figure~\ref{fig:gui-set-param}). These areas are filled by default with the clicked position got from the image space. However if the user wants to specify another value, it is also possible.
+
+To correct the others associations the programmer must repeat this process for each parameter. For example, Figure~\ref{fig:alright} shows the final result where all parameter is correctly identified. As a result, DrRacket can draw arrows directly to each one of them. Note that; this process is only performed once because the information associated with the image is stored with the source code file.
+
+\subsection{Immediate feedback tool}
+
+As discussed previously, despite the apparent advantages of using a \gls{gd} approach to model geometric objects, this method presents, at least, one important drawback that affects the design process. Architects cannot interact with their models as they build it. Any change in the model must be performed first in the code, and only after the program is compiled and executed the alterations will be available on the model. This process apparently takes more time than the traditional approach of manually building the model in the \gls{cad} tool. Besides, it discourages the artistic work because the changes are more costly than just manipulating a \gls{gui} element.
+
+\textbf{Immediate feedback tool} aims to overcome this limitation, trying to promote the creative work in the design phase. This tool seeks to reduce as much as possible the time between a change in the code and its visualization in the model. Several techniques were suggested particularly considering the current state of \gls{gd} environments.
+
+Regarding some of these proposed methods, and trying to put them in practice, I implemented the immediate feedback tool on top of DrRacket. Once DrRacket is the programming environment used by Rosetta, any improvement achieved in this programming environment will be useful for both systems. So, I started by extending the current DrRacket environment developing an external tool, i.e. a \textit{\textit{plugin}}. The \textit{\textit{plugin}} was used to access the DrRacket \gls{api} without having to modify it.
+
+Therefore, to use this tool users can install it separately, and uninstall it at any time. Once the tool is installed, a new icon will appear on the top of DrRacket Tool Bar. This icon has a symbol (similar to the DrRacket Run icon) and a description. However it has a responsive behavior: if the DrRacket window is too small the description will be omitted to save space and maintain the interface cohesive. When the user clicks on it, its color changes meaning that it is in action. Immediately after clicking, apparently nothing will occur until an expression is ready for evaluation.
+
+\begin{figure}[!h]
+  \centering
+  \includegraphics[width=0.4\textwidth]{images/fact-eval}
+  \caption{Immediately after closing the right bracket of the highlighted expression. The Interactions Window is shown with the function result.}
+  \label{fig:fact-complete}
+\end{figure}
+
+For example, Figure~\ref{fig:fact-complete} shows an example where the \textit{Auto Run tool} is activated and the programmer is writing the factorial function. At each character insertion, this tools is desperately trying to execute the code. However, to perform this action, the code needs to be syntactically correct. On the other hand, the Check Syntax is validating the code, catching any syntax error and showing them at the bottom bar. Furthermore, when Check Syntax finishes its validation, and the code is syntactically correct, the AutoRun tool can operate. So it gets all the code validated previously, creates a callback, and sends it to the DrRacket evaluator. As a result, the code is immediately executed, as shown in Figure~\ref{fig:fact-complete}.
+
+Unlike the factorial function that returns a numeric output, the functions in \gls{gd} return a visual object. In this context, this tool is even more useful, because the changes made in the code causes a visual effect in the geometric object. The combination of this technique with the generated objects can provide an interactive environment, to experiment new ideas and test parametric models quickly.
+
+However, the experimentation of program inputs relies heavily on the keyboard, breaking the fluidity of this process. For this, I used the DrRacet a widget mechanism to provide sliders at the program input. Thus, users can drag the slider to change the program input, rather than delete and insert a new character. Each shift in the slider causes an execution of the program with the new slider value. In \gls{gd} programs this will generate a new geometric model. As a result, users can check if that value created the desired shape. 
+
+\begin{figure}[!h]
+  \centering
+  \includegraphics[width=0.5\textwidth]{images/orto-cones-run}
+    \caption{Using the slider widget with \textit{Auto Run tool} active, to experiment some input values. The highlighted function call (at line 13, on the left) is being changed by the slider (over the pointer). On the right, are the generated shapes rendered by AutoCAD.}
+  \label{fig:orto-cone-run}
+\end{figure}
+
+Figure~\ref{fig:orto-cone-run}, shows the use of this tool to generate some geometric shapes. Despite the notable difference among the created forms, the function used to produce them is the same (this function is also shown in Figure~\ref{fig:ortocone1}). Therefore, the programmer can experiment several input values by just dragging the slider, once he achieved an intended design he can copy that line of execution (as a code comment for instance) and continue to experiment other values. The slider appears on top of a selected input number, to facilitate this process. It has a compressed window without any extra buttons, as a way to be integrated with the text editor. Thus, users only need to click back into the text editor to close this window and be back to edit code.
+
+Regarding the usability of this tool, the faster will be the backend response as better will be the user's experience. For example, consider the function \texttt{orthogonal-cones} (shown in Figure~\ref{fig:ortocone1}), its execution time is relatively straightforward (e.g. in AutoCAD backend it takes approx. 1  second). This is a tolerable delay between a model update, however using a more compounded geometry, such as the Möbius Truss, or even a complex geometry, such as a building, the execution time can grow considerably, and the immediate feedback becomes almost impossible. 
+
+\section{Implementation Details}
+
+\subsection{General architecture}
+
+Figure~\ref{fig:solution} presents the general architecture of the solution, in a publish-subscribe view. There are two different interactions in this architecture, the first presented by a publish-subscribe, and the second by a client-server.
+
+\begin{enumerate}
+    \item The main functionality of the proposed environment is made through a publish-subscribe interaction. The \texttt{DrRacket \gls{ui} event manager} acts as an event bus for user-interface events (such as button clicks, character insertion, etc.). From this event bus, I subscribe only the \gls{ui} events which are relevant to the system, defining which components will handle them. It is done at load time when the event manager reads the \textit{\textit{plugin}} configuration file (i.e. \texttt{info} file). When users are working on the editor, an \gls{ui} event is generated and dispatched via implicit invocation to the action handler objects that subscribe to that event.
+
+    \item Despite the presented solution does not include the automatic character recognition, this module is part of the planned architecture, and can be considered, for a future integration. Thus, a client-server interaction will be needed to automatically recognize the manuscript symbols present in the image, using to this end an external \gls{ocr} engine. Thereby in the suggested architecture the \texttt{symbol identifier} component calls this service to handle the recognition of symbols in the image. However, in the implemented architecture this component generates by itself the \gls{ocr} data and all other modules continue to work as before.  
+\end{enumerate}
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics[scale=0.15]{images/solution}
+    \caption{Diagram for a publish subscribe view of the proposed architecture. The arrow, in red, on top of the \texttt{symbol identifier} module shows the implemented architecture.}
+    \label{fig:solution}
+\end{figure}
+
+The \texttt{tool core} component, in Figure~\ref{fig:solution}, receives, three relevant kinds of DrRacket events. For each of these events, the programming environment is changed executing the following actions:
+
+\begin{itemize}
+    \item \texttt{on-change:} when DrRacket detects that the editor has been modified, it sends the contents of the editor over to action handlers.    In this case, it sends this information to the \texttt{online expansion handler} where the code is expanded. \textit{Executed action}: sends a \texttt{execute} event to the editor frame, if the action handler expanded the code successfully. 
+
+    \item \texttt{on-paint:} this event is sent just before and just after every element is displayed in the editor. Handling this event provides a way to add arbitrary graphics to the editor screen. \textit{Executed action}: sends a \texttt{show} event to the editor frame, to display a slider widget when the user presses the mouse over a literal.
+
+    \item \texttt{on-new-image-snip:} this event is sent when an image is inserted in the editor. The default implementation creates an image snip which is an object with the image information, such as path and format. \textit{Executed action}:  returns a subclass of image snip, containing an extra meta-data associated with the symbols in the sketch.
+\end{itemize}
+
+\subsection{Binding association}
+
+One of the first problems addressed in this thesis, and perhaps the most challenging one is finding an adequate framework that facilitates the correlation between image resources and code. When we consider DrRacket environment, this problem seems to have a straightforward resolution: DrRacket already provides support for media-rich data, and also a syntax check mechanism that graphically shows arrows from binding variables to their bound occurrences. Thus, the initial idea was to use the power of Syntax Check mechanism to bind variables to image as well. However, implementing this plan was harder than expected.
+
+Following the initial idea, the first step was finding out the internal mechanism used by DrRacket to graphically show the arrows on mouse over. So, on each event, in the text editor, Check Syntax tool expands the program, annotating each identifier with syntax properties. Thereafter, to draw the arrows, it will look at a particular property added previously, named \texttt{'sub-range-binders}, which contains the necessary information to draw the arrows, such as the source and target location. This property is added only to syntax identifiers that exist in the program context. Therefore, any literal, comment, image or any other category are ignored.
+
+To overcome this problem the decision made was to assume that the image will be inserted in the function body immediately after its definition. In this way, a syntactic transformer, i.e. macro, was created to handle the image, creating empty identifiers to bind its lexical context. For example, the Listing~\ref{lst:initial-sol-1} shows a macro that matches the pattern of line 3, i.e. it assumes that the syntax object \texttt{img} is inside the function body, then it calls \texttt{lambda/point} to create binding associations between the image and the parameters. At line 5, the two constants 0.5, defines the center position of the arrow in the picture space. The possibility of varying the source position of the arrow indicators was not initially part of DrRacket \gls{api}. Therefore, an additional implementation was requested to DrRacket authors.
+
+\begin{lstlisting}[
+language={[Auto]Lisp},
+basicstyle=\ttm,
+numbers=left,
+stepnumber=1,
+numbersep=5pt,                   
+numberstyle=\scriptsize, 
+caption={Showing the initial solution. The macro define/img receives a syntax and returns a modified syntax, where the img is treated as an identifier associated to each function param.},
+label={lst:initial-sol-1},
+captionpos=b, 
+otherkeywords={point},       % Add keywords here
+emph={define-syntax},       % Custom highlighting
+frame=tb,                         % Any extra options here
+showstringspaces=false,
+]
+(lambda/point 
+ #,(map (lambda(x) `(,x 0.5 0.5)) 
+         (syntax-e #'(param ...)))
+   img
+   body ...)
+\end{lstlisting}
+
+
+Unfortunately, using the previous solution users cannot change the position of the arrows to different zones of the image. For example, the function \texttt{(define/img (func foo bar baz) ...)} will expand to the code shown in Listing~\ref{lst:expand}. As we can see, in line 1, each parameter is wrapped in a list with two values that define a coordinate point (0.5, 0.5). This point represents the center of the image, where all parameters are statically associated. Therefore, the parameters of function \texttt{func} will point to the center of the image, being impossible to change them. \\
+
+\begin{lstlisting}[
+language={[Auto]Lisp},
+basicstyle=\ttm,
+numbers=left,
+stepnumber=1,
+numbersep=5pt,                   
+numberstyle=\scriptsize, 
+caption={Showing the exapansion of the macro lambda/point.},
+label={lst:expand},
+captionpos=b, 
+otherkeywords={point,define},       % Add keywords here
+emph={define-syntax},       % Custom highlighting
+stringstyle=\color{deepgreen},
+frame=tb,                         % Any extra options here
+showstringspaces=false,
+]
+(define func 
+        (lambda/point ((foo 0.5 0.5) 
+                       (bar 0.5 0.5)
+                       (baz 0.5 0.5)) 
+        img 
+        body ... ))
+\end{lstlisting}
+
+To solve this problem, the parameter coordinates previously passed as a constant were obtained during the macro expansion. The main challenge of this solution was finding out a way to access this information in the macro context, because the syntactic object,  received in the macro, which represents the image, i.e. \texttt{img}, does not exist yet. The syntax transformation is done in compile time, and this object is only completely available at run time. Therefore, any attempt to make a function call using this syntactic object will fail. Once the traditional methods used to access an object field does not work, other strategies were considered. 
+
+\begin{lstlisting}[
+language={[Auto]Lisp},
+basicstyle=\ttm,
+numbers=left,
+stepnumber=1,
+numbersep=5pt,                   
+numberstyle=\scriptsize, 
+caption={Showing the exapansion of the macro lambda/point.},
+label={lst:metadata},
+captionpos=b, 
+otherkeywords={point,define},       % Add keywords here
+emph={define-syntax},       % Custom highlighting
+stringstyle=\color{deepgreen},
+frame=tb,                         % Any extra options here
+showstringspaces=false,
+]
+(let ((metadata 
+       (syntax-property #'img 
+                        'args)))
+\end{lstlisting}
+
+
+After several attempts to add extra information in a image, such as use an external tool to write in the bitmap fields, up to use libraries that allow rewrite image metadata, the final solution was extend an existing DrRacket class. In this way, the information required to bind code with the picture was stored in a field of this new class. Using this class, it was possible to have control over the syntax reader process, annotating the image with the information required by the macro at compile time. Thus, to access the picture metadata during the macro expansion, a single line of code, as shown in Listing~\ref{lst:metadata}, was added between the line 3 and 4 of Listing~\ref{lst:initial-sol-1}. Moreover, this class implements several other facilities which are described in the next section.
+
+\subsection{Image-data-snip}
+
+The \texttt{image-data-snip\%} class, shown in Figure~\ref{fig:img-data-snip}, has a fundamental role in the correlation between image and code. This class provides facilities such as create, read, store and access the coordinates associated to each function parameter. Therefore, the original class used in DrRacket to display images, i.e. \texttt{image-snip\%}, was extended with a hash table field which contains the parameter identifiers, as a key, and their coordinates, in the image space, as a value. Moreover, this class implements its syntax read method to provide the picture metadata through the macro expansion.
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics[scale=0.25]{images/img-data-snip}
+    \caption{The UML diagram of the implemented class, \texttt{image-data-snip\%}. This class extends the original DrRacket snip class, and implements its own read syntax method.}
+    \label{fig:img-data-snip}
+\end{figure}
+
+Because \texttt{image-data-snip\%} is a subclass of \texttt{image-snip\%}, it saves code and its associated metadata in ASCII-encoded binary format. This class uses the superclass method to store the image, but the methods for copying, reading, and storing the metadata field, were implemented from scratch. Unfortunately, the final serialized file does not provide backwards-compatibility among other text editors.
+
+Despite the beginning effort spent to implement this class, other features can benefit from this work. For example, the feature for expanding/collapsing images was applied on top of this class using only a few lines of code. Once the subclass already provides a method for resizing snips, this feature does a simple, super class call to change the size of the snip window. Moreover, this class defines a basis for other features that manipulates, or even edits, the image inserted in the text editor. 
+
+\subsection{Auto Run}
+
+The core of AutoRun \textit{plugin} is based on the snip of code shown in Listing~\ref{lst:callback}. This sample of code registers a pair of procedures with DrRacket’s online expansion machinery. The first two arguments name a method in a module that is loaded by dynamic-require. When DrRacket detects that the editor has been modified, it sends the contents of the editor to that separate place, expands the program there, and then supplies the fully expanded object. Then, this procedure (defined at line 4-10) gets the DrRacket editor frame (at line 6) and executes the code in that frame using the \texttt{execute-callback} function (at line 9-10). Therefore, upon a change in the text editor, DrRacket will execute the code immediately. 
+
+\begin{lstlisting}[
+language={[Auto]Lisp},
+basicstyle=\ttm,
+numbers=left,
+stepnumber=1,
+numbersep=5pt,                   
+numberstyle=\scriptsize, 
+caption={Executing the program through DrRacket execute-callback.},
+label={lst:callback},
+captionpos=b, 
+otherkeywords={point,define,send},       % Add keywords here
+emph={define-syntax},       % Custom highlighting
+frame=tb,                         % Any extra options here
+showstringspaces=false,
+]
+(drracket:expansion-handler
+  online-comp.rkt
+  'go
+  (lambda ()
+    (...) ;collapsed code
+    (define drr-frame 
+      (send (send defs-text get-tab) 
+            get-frame))
+    (send drr-frame 
+      execute-callback)))
+\end{lstlisting}
+
+When this \textit{plugin} is installed, it can become quite evasive once it is running code without the user permission. To avoid this situation, the \textit{plugin} is installed as a button in DrRacket's toolbar, having two operating modes. First, it is in disabled mode, which means that users can edit the code as before, and this \textit{plugin} will have no effect in DrRacket. Second, when it is on enable mode, it tries to execute the code at each change. However, to change the \textit{plugin} methods, users must authorize it, by clicking in the \textit{plugin} button.
+
+Finally, to improve this tool an interactive mechanism to give inputs to the program was implemented, using the DrRacket slider widget. In this way, when a program literal is selected, and a keybinding is pressed, a slider appears on top of that literal. So, when the slider is dragged, the editor changes, which causes the AutoRun \textit{plugin} to execute the code. 
+
+Unfortunately, adapting the range of values in the slider, interactively as users drag it, becomes difficult or even impossible to implement, using the DrRacket slider. To create a new slider is necessary to define the range and the initial value of that slider. However, to update these initial values, after the slider window is shown, the frame must be closed and opened again, which goes against the purpose of this tool.
