@@ -3,18 +3,17 @@
 \chapter{Background}
 \label{chapter:background}
 
-In this chapter, I introduce the context and background for subsequent chapters. The first part addresses fundamentals concerning on teaching programming to novice students, and the relationship between programming and the related issues. The second part describes the typical components of software development environments used in Architecture, highlights the different types of available tools, and introduces the challenges of enabling programming on these environments.
+In this chapter, I introduce the context and background for subsequent chapters. The first part addresses fundamentals concerning on teaching programming to novice students, and the relationship between programming and the related issues. The second part introduces the generative design area focusing on its concerns.
 
 \section{A Programming Framework}
 
 Programming used to be taught mainly in computer engineering courses. In recent years the demand for programmers and student interest in programming have grown rapidly, and programming have become a subject increasingly important in several areas of study. Learning to program is hard however. Novice programmers suffer from wide range of difficulties and deficits. It is generally accepted that it takes about 10 years of experience to turn a novice into an expert programmer (Winslow, 1996).
 
-Why programming is such a hard subject to learn? What resources and
-processes are involved in creating or understanding a program? Since the 1970s there has been an interest in questions such as these, and in programming as a cognitive process. The literature relating to such topics is extensive, and it is divided into two main categories: those with a software engineering perspective, and those with a psychological/educational perspective.
+Why is programming such a hard subject to learn? What resources and processes are involved in creating or understanding a program? Since the 1970s, there has been an interest in questions such as these, and in programming as a cognitive process. The literature relating to such topics is extensive, and it divides into two broad categories: those with a software engineering perspective, and those with a psychological/educational perspective.
 
-Learning to program is usually addressed from a psychological/educational perspective, however our interest is in novices and in how the programming environment can provide adequate tools to support the initial development of individual programming skills. Early learning should of course include the basics of good software engineering practice such as comprehend the program structures, documenting the program, testing and debug among others.
+Learning to program is usually addressed from a psychological/educational perspective. However, our interest is in novices and in how the programming environment can provide adequate tools to support the initial development of individual programming skills. Early learning should, of course, include the basics of good software engineering practice such as comprehend the program structures, documenting the program, testing and debug among others.
 
-Before propose any kind of feature it is first necessary to research what are the main challenges in this area. In fact programming is beyond coding, it involves knowledge about computer, programming language, programming tools and resources, and ideally theory and formal methods. As important as knowledge is the way knowledge is used and applied, also known as strategy. Writing a program involves also maintaining many different kinds of ‘mental model’ which is the way programmers comprehend its programs.
+Before proposing any feature, it is first necessary to research what are the main challenges in this area. In fact, programming is beyond coding; it involves knowledge about computer, programming language, programming tools and resources, and ideally theory and formal methods. As important as knowledge is the way knowledge is used and applied, also known as strategy. Writing a program involves also maintaining many different kinds of ‘mental model’ which is the way programmers comprehend its programs.
 
 \begin{table}[!htbp]
 \centering
@@ -25,15 +24,17 @@ Before propose any kind of feature it is first necessary to research what are th
 \textbf{Strategies for} & \begin{tabular}[c]{@{}l@{}}planning,\\ problem solving,\\ designing algorithms\end{tabular} & \begin{tabular}[c]{@{}l@{}}implementing\\ algorithms, coding,\\ accessing knowledge\end{tabular} & \begin{tabular}[c]{@{}l@{}}testing, debugging,\\ tracking / tracing,\\ repair\end{tabular} &  \\ \cmidrule(r){1-4}
 \textbf{Models of} & \begin{tabular}[c]{@{}l@{}}problem domain,\\ notional machine\end{tabular} & desired program & actual program &  \\ \cmidrule(r){1-4}
 \end{tabular}
-\caption{My caption}
+\caption{A programming framework. This framework summarizes the relationships between some issues relating to programming. It should be read mainly by rows, that is, knowledge of planning methods (required to design a program).}
 \label{tab:framework}
 \end{table}
 
 
-The Table~\ref{tab:framework} (adapted from~\cite{robins2003learning}) proposes a programming framework that makes explicit the implied relationships between many of the issues found by novice programming. It highlights the relationship between the individual attributes (discussed above) with the program phases namely design, generation and evaluation. Undoubtedly the three phases are important, however the design phase is the most important because it is the basis of program understanding
-
-Rist notes: There is considerable evidence in the empirical study of programming that the plan is the basic cognitive chunk used in program design and understanding.
+Table~\ref{tab:framework} (adapted from~\cite{robins2003learning}) proposes a programming framework that makes explicit the implied relationships between many of the issues found by novice programming. It highlights the relationship between the individual attributes with the program phases namely design, generation, and evaluation. Undoubtedly the three stages are critical. However, is in the generation phase where the novice is starting programming and eventually usitn programming tools. This thesis will focus particularly on practical aspects of programming environments that can introduce novices good practices of software engineering.
 
 \section{Coding in Architecture}
 
-\section{Programming Languages \& Programming Environments}
+In the architecture history, coding has been a means of expressing rules, constraints, and systems, which are relevant for the architectural design process. In architectural design, code can be understood as the representation of algorithmic processes that express architectural concepts or solve structural problems. Even before the invention of digital computers, algorithms were applied and incorporated in the design process, as documented in (Krüger, Duarte, \& Coutinho, 2011).
+
+Computers popularized and extended the notion of coding in architecture (Rocker, 2006) simplifying the implementation and computation of algorithmic processes. Increasingly more architects and designers are aware of digital applications and programming techniques and are adopting these methods as generative tools for the derivation of form (Kolarevic, 2000). Even though the improvements of direct manipulation in CAD applications led many to believe that programming was unnecessary, the work of Maeda shows the exact opposite (Maeda, 1996).
+
+CAD software shifts from a representation tool to a medium for algorithmic computation (Terzidis, 2003). Although the computational approach is transcending CAD limitations (Killian, 2006), for traditional users the transition from CAD applications to generative design methods can be significant. Therefore, is important that the generative design systems were prepared to encourage users to learn, giving support for them to evolve their knowledge and strategies.
